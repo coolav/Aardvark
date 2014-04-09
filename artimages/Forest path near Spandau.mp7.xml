@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Mpeg7 xmlns="urn:mpeg:mpeg7:schema:2001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <DescriptionMetadata>
+        <Version>5.0</Version>
+        <Comment>
+            <FreeTextAnnotation />
+        </Comment>
+        <Creator>
+            <Role href="creatorCS">
+                <Name>Creator</Name>
+            </Role>
+            <Agent xsi:type="PersonType">
+                <Name>
+                    <FamilyName>Olav</FamilyName>
+                    <GivenName>Løne</GivenName> 
+                </Name>
+            </Agent>
+        </Creator>
+        <CreationTime>2012-04-19T17:13</CreationTime>
+        <Instrument>
+            <Tool>
+                <Name>Aardvark v0.56</Name>
+            </Tool>
+        </Instrument>
+    </DescriptionMetadata>
+    <Description xsi:type="ContentEntityType">
+        <MultimediaContent xsi:type="ImageType">
+            <Image>
+                <MediaInformation>
+                    <MediaProfile master="true">
+                        <MediaFormat>
+                            <Content href="image" />
+                            <FileFormat href="urn:mpeg:MPEG7FileFormatCS:1">
+                                <Name>JPEG</Name>
+                            </FileFormat>
+                            <VisualCoding>
+                                <Format href="urn:mpeg:MPEG7FileFormatCS:1" colorDomain="color">
+                                    <Name>JPEG</Name>
+                                </Format>
+                                <Pixel bitsPer="24" />
+                                <Frame width="2592" height="1944" />
+                            </VisualCoding>
+                        </MediaFormat>
+                        <MediaInstance>
+                            <InstanceIdentifier />
+                            <MediaLocator>
+                                <MediaUri>C:\Users\Olav\Documents\Oppgaave\Forest path near Spandau.jpg</MediaUri>
+                            </MediaLocator>
+                        </MediaInstance>
+                    </MediaProfile>
+                    <MediaProfile>
+                        <MediaFormat>
+                            <Content href="image" />
+                            <FileFormat href="urn:mpeg:MPEG7FileFormatCS:1">
+                                <Name>JPEG</Name>
+                            </FileFormat>
+                            <VisualCoding>
+                                <Format href="urn:mpeg:MPEG7FileFormatCS:1" colorDomain="color">
+                                    <Name>JPEG</Name>
+                                </Format>
+                                <Pixel bitsPer="24" />
+                                <Frame width="120" height="120" />
+                            </VisualCoding>
+                        </MediaFormat>
+                        <MediaInstance>
+                            <InstanceIdentifier />
+                            <MediaLocator>
+                                <MediaUri>C:\Users\Olav\Documents\Oppgaave\Bilete\Forest path near Spandau.jpg</MediaUri>
+                            </MediaLocator>
+                        </MediaInstance>
+                    </MediaProfile>
+                </MediaInformation>
+                <CreationInformation>
+                    <Creation>
+                        <Title>Creation information</Title>
+                        <Creator>
+                            <Role href="creatorCS">
+                                <Name>Creator</Name>
+                            </Role>
+                            <Agent xsi:type="PersonType">
+                                <Name>
+                                    <FamilyName>Blechen</FamilyName>
+                                    <GivenName>Carl </GivenName>
+                                </Name>
+                            </Agent>
+                        </Creator>
+                        <CreationCoordinates>
+                            <Date>
+                                <TimePoint>2008-05-28T22:02:13</TimePoint>
+                            </Date>
+                        </CreationCoordinates>
+                        </Creation>
+                    </CreationInformation>  
+                    <TextAnnotation>
+                        <FreeTextAnnotation>
+                            During his late period, Blechen painted a series of forest and swamp 
+                            landscapes in which he picked up the mysteriously dark, fantastic natural 
+                            scenery of his Romantic early work. Surrounded by the impenetrable density 
+                            of a forest, a young peasant woman carrying a bundle of hay stands on a 
+                            small wooden bridge. A storm has left behind numerous puddles and pools of 
+                            water on the muddy ground. Gloomy branches hang down from massive tall trees; 
+                            tree trunks against the light bend over a watercourse. The painting’s three 
+                            vanishing points make the forest interior look like the nave and two aisles 
+                            of a basilica. Only a few individual rays of light penetrate the cathedral-like 
+                            vault of dense foliage and scatter restlessly among the deep shadows of the forest. 
+                            Blechen used the tension of contrasts between light and dark to give this 
+                            picturesque scene dramatic highlights. As the central focus of the light, the 
+                            sunlit figure of the woman corresponds to the bright window formed by a clearing 
+                            that affords a view of a Gothic church surrounded by water.
+                        </FreeTextAnnotation>
+                        <StructuredAnnotation>
+                            <Name>	
+                                <Name>Forest path near Spandau</Name>
+                            </Name>
+                            <Creator>
+                                <Name>Carl Blechen</Name>	
+                            </Creator>
+                            <Period>
+                                <Name>Romanticism</Name>          						
+                            </Period>
+                            <Technique>
+                                <Name>Oil painting</Name>
+                            </Technique>
+                            <Materials>
+                                <Name>Oil on canvas</Name>
+                            </Materials>
+                            <Height>
+                                <Name></Name>
+                            </Height>
+                            <Width>
+                                <Name></Name>
+                            </Width>
+                            <Date>
+                                <Name>
+                                    1835
+                                </Name>
+                            </Date>
+                            <Actor>
+                                <Name>Girl</Name>          
+                            </Actor>
+                            <Location>
+                                <Name>Spandau, Berlin, Germany</Name> 
+                            </Location>
+                            <Activity>
+                                <Name>Viewing</Name>
+                            </Activity>
+                            <Theme>
+                                <Name>Romanticism, Trees, Summer, Light, Green, Gothic, Gloomy, Cathedral, </Name>
+                            </Theme>
+                            <Concept>
+                                <Name>Trees, Bridge, Girl, Church, Forrest, Sunset</Name>
+                            </Concept>															            
+                        </StructuredAnnotation>
+                    </TextAnnotation>
+                    <Semantic>
+                        <Label>
+                            <Name />
+                        </Label>
+                        <SemanticBase xsi:type="AgentObjectType" id="id_1">
+                            <Label>
+                                <Name></Name>
+                            </Label>
+                            <Agent xsi:type="PersonType">
+                                <Name>
+                                    <GivenName>Carl</GivenName>
+                                    <FamilyName>Blechen</FamilyName>
+                                </Name>
+                            </Agent>
+                        </SemanticBase>
+                        <SemanticBase xsi:type="SemanticTimeType" id="id_2">
+                            <Label>
+                                <Name>1882</Name>
+                            </Label>
+                            <Definition>
+                                <FreeTextAnnotation>This semantic time defines the period of 1835</FreeTextAnnotation>
+                            </Definition>
+                            <Time>
+                                <TimePoint>2004-07-01T12:00</TimePoint>
+                            </Time>
+                        </SemanticBase>
+                        <SemanticBase xsi:type="EventType" id="id_3">
+                            <Label>
+                                <Name>A nature scene depicting a young woman looking at the woods from a bridge</Name>
+                            </Label>
+                            <Definition>
+                                <FreeTextAnnotation></FreeTextAnnotation>
+                            </Definition>
+                            <Event>
+                                <Label>
+                                    <Name>Nature scene</Name>
+                                </Label>
+                                <SemanticPlace>
+                                    <Label>
+                                        <Name>
+                                            Spandau
+                                        </Name>
+                                    </Label>
+                                </SemanticPlace>
+                                <SemanticTime>
+                                    <Label>
+                                        <Name>Time of the event</Name>
+                                    </Label>
+                                    <Time>
+                                        <TimePoint>1835-10-08T10:50</TimePoint>
+                                    </Time>
+                                </SemanticTime>
+                            </Event>
+                        </SemanticBase>
+                        <SemanticBase xsi:type="EventType" id="id_4">
+                            <Label>
+                                <Name>Nature scene</Name>
+                            </Label>
+                            <Definition>
+                                <FreeTextAnnotation>Carl Blechen was a German landscape painter. After an apprenticeship 
+                                as a banker, Blechen started his art studies at the Academy of Arts in Berlin in 1822. 
+                                He made various study tours within Germany and spent some time in Italy before becoming a 
+                                professor at the Academy of Arts in Berlin in 1835. The well known architect Karl Friedrich 
+                                Schinkel appreciated his works and strongly recommended him for the post. Blechen repudiated 
+                                Romanticism and was an exponent of a new realism. Considered a pioneer for his brilliant effects 
+                                of light and colour, many of his paintings are distinguished by their brightness, rendered with 
+                                a lightness of touch. 'View of Assisi' (1832–35) and 'Palm House on the Pfaueninsel near Potsdam' 
+                                (1832–34) are among his most famous compositions.</FreeTextAnnotation>
+                            </Definition>
+                            </SemanticBase>
+                            <SemanticBase xsi:type="ConceptType" id="id_6">
+                                <Label>
+                                    <Name>Forrest, rural, summer</Name>
+                                </Label>
+                                <Agent xsi:type="AbstractType">
+                                    <Name>
+                                        <GivenName>Carl</GivenName>
+                                        <FamilyName>Blechen</FamilyName>
+                                    </Name>
+                                </Agent>
+                            </SemanticBase>
+                            <Graph>
+                                <Relation type="urn:mpeg:mpeg7:cs:SemanticRelationCS:2001:exemplifies" source="#id_3" target="#id_2" />
+                                <Relation type="urn:mpeg:mpeg7:cs:SemanticRelationCS:2001:appearsIn" source="#id_2" target="#id_1" />
+                            </Graph>
+                        </Semantic>        
+                    </Image>
+                </MultimediaContent>
+            </Description>
+        </Mpeg7>
+

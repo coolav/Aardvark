@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Mpeg7 xmlns="urn:mpeg:mpeg7:schema:2001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <DescriptionMetadata>
+        <Version>5.0</Version>
+        <Comment>
+            <FreeTextAnnotation />
+        </Comment>
+        <Creator>
+            <Role href="creatorCS">
+                <Name>Creator</Name>
+            </Role>
+            <Agent xsi:type="PersonType">
+                <Name>
+                    <FamilyName>Olav</FamilyName>
+                    <GivenName>Løne</GivenName> 
+                </Name>
+            </Agent>
+        </Creator>
+        <CreationTime>2012-04-19T17:13</CreationTime>
+        <Instrument>
+            <Tool>
+                <Name>Aardvark v0.56</Name>
+            </Tool>
+        </Instrument>
+    </DescriptionMetadata>
+    <Description xsi:type="ContentEntityType">
+        <MultimediaContent xsi:type="ImageType">
+            <Image>
+                <MediaInformation>
+                    <MediaProfile master="true">
+                        <MediaFormat>
+                            <Content href="image" />
+                            <FileFormat href="urn:mpeg:MPEG7FileFormatCS:1">
+                                <Name>JPEG</Name>
+                            </FileFormat>
+                            <VisualCoding>
+                                <Format href="urn:mpeg:MPEG7FileFormatCS:1" colorDomain="color">
+                                    <Name>JPEG</Name>
+                                </Format>
+                                <Pixel bitsPer="24" />
+                                <Frame width="2592" height="1944" />
+                            </VisualCoding>
+                        </MediaFormat>
+                        <MediaInstance>
+                            <InstanceIdentifier />
+                            <MediaLocator>
+                                <MediaUri>C:\Users\Olav\Documents\Oppgaave\Bilete\Dance at Le Moulin de la Galette.jpg</MediaUri>
+                            </MediaLocator>
+                        </MediaInstance>
+                    </MediaProfile>
+                    <MediaProfile>
+                        <MediaFormat>
+                            <Content href="image" />
+                            <FileFormat href="urn:mpeg:MPEG7FileFormatCS:1">
+                                <Name>JPEG</Name>
+                            </FileFormat>
+                            <VisualCoding>
+                                <Format href="urn:mpeg:MPEG7FileFormatCS:1" colorDomain="color">
+                                    <Name>JPEG</Name>
+                                </Format>
+                                <Pixel bitsPer="24" />
+                                <Frame width="120" height="120" />
+                            </VisualCoding>
+                        </MediaFormat>
+                        <MediaInstance>
+                            <InstanceIdentifier />
+                            <MediaLocator>
+                                <MediaUri>C:\Users\Olav\Documents\Oppgaave\Bilete\Dance at Le Moulin de la Galette.jpg</MediaUri>
+                            </MediaLocator>
+                        </MediaInstance>
+                    </MediaProfile>
+                </MediaInformation>
+                <CreationInformation>
+                    <Creation>
+                        <Title>Creation information</Title>
+                        <Creator>
+                            <Role href="creatorCS">
+                                <Name>Creator</Name>
+                            </Role>
+                            <Agent xsi:type="PersonType">
+                                <Name>
+                                    <FamilyName>Renoir</FamilyName>
+                                    <GivenName>Auguste</GivenName>
+                                </Name>
+                            </Agent>
+                        </Creator>
+                        <CreationCoordinates>
+                            <Date>
+                                <TimePoint>2008-05-28T22:02:13</TimePoint>
+                            </Date>
+                        </CreationCoordinates>
+                        </Creation>
+                    </CreationInformation>  
+                    <TextAnnotation>
+                        <FreeTextAnnotation>
+                            This painting is doubtless Renoir's most important work of the mid 1870's 
+                            and was shown at the Impressionist exhibition in 1877. Though some of his 
+                            friends appear in the picture, Renoir's main aim was to convey the vivacious 
+                            and joyful atmosphere of this popular dance garden on the Butte Montmartre. 
+                            The study of the moving crowd, bathed in natural and artificial light, is 
+                            handled using vibrant, brightly coloured brushstrokes. The somewhat blurred 
+                            impression of the scene prompted negative reactions from contemporary critics.
+
+                            This portrayal of popular Parisian life, with its innovative style and imposing 
+                            format, a sign of Renoir's artistic ambition, is one of the masterpieces of early Impressionism.
+
+                        </FreeTextAnnotation>
+                        <StructuredAnnotation>
+                            <Name>	
+                                <Name>Dance at Le Moulin de la Galette</Name>
+                            </Name>
+                            <Creator>
+                                <Name>Auguste Renoir</Name>	
+                            </Creator>
+                            <Period>
+                                <Name>Impressionism</Name>          						
+                            </Period>
+                            <Technique>
+                                <Name>Oil painting</Name>
+                            </Technique>
+                            <Materials>
+                                <Name>Oil on canvas</Name>
+                            </Materials>
+                            <Height>
+                                <Name>45</Name>
+                            </Height>
+                            <Width>
+                                <Name>61</Name>
+                            </Width>
+                            <Date>
+                                <Name>
+                                    1928
+                                </Name>
+                            </Date>
+                            <Actor>
+                                <Name>None</Name>          
+                            </Actor>
+                            <Location>
+                                <Name>Estuary</Name> 
+                            </Location>
+                            <Activity>
+                                <Name>Nautic</Name>
+                            </Activity>
+                            <Theme>
+                                <Name>Impressionism, Boats, Nautic, Estuary, Colors</Name>
+                            </Theme>
+                            <Concept>
+                                <Name>boating and sailing, boats, estuaries, farmland, hills, landscapes, rivers, water</Name>
+                            </Concept>															            
+                        </StructuredAnnotation>
+                    </TextAnnotation>
+                    <Semantic>
+                        <Label>
+                            <Name />
+                        </Label>
+                        <SemanticBase xsi:type="AgentObjectType" id="id_1">
+                            <Label>
+                                <Name></Name>
+                            </Label>
+                            <Agent xsi:type="PersonType">
+                                <Name>
+                                    <GivenName></GivenName>
+                                    <FamilyName></FamilyName>
+                                </Name>
+                            </Agent>
+                        </SemanticBase>
+                        <SemanticBase xsi:type="SemanticTimeType" id="id_2">
+                            <Label>
+                                <Name>1894</Name>
+                            </Label>
+                            <Definition>
+                                <FreeTextAnnotation>This semantic time defines the period of 1928</FreeTextAnnotation>
+                            </Definition>
+                            <Time>
+                                <TimePoint>2004-07-01T12:00</TimePoint>
+                            </Time>
+                        </SemanticBase>
+                        <SemanticBase xsi:type="EventType" id="id_3">
+                            <Label>
+                                <Name>A nautic scene depicting a sailboat on an estuary</Name>
+                            </Label>
+                            <Definition>
+                                <FreeTextAnnotation></FreeTextAnnotation>
+                            </Definition>
+                            <Event>
+                                <Label>
+                                    <Name>Nautic scene</Name>
+                                </Label>
+                                <SemanticPlace>
+                                    <Label>
+                                        <Name>
+                                            Unknown
+                                        </Name>
+                                    </Label>
+                                </SemanticPlace>
+                                <SemanticTime>
+                                    <Label>
+                                        <Name>Time of the event</Name>
+                                    </Label>
+                                    <Time>
+                                        <TimePoint>1928-10-08T10:50</TimePoint>
+                                    </Time>
+                                </SemanticTime>
+                            </Event>
+                        </SemanticBase>
+                        <SemanticBase xsi:type="EventType" id="id_4">
+                            <Label>
+                                <Name>Nautic scene</Name>
+                            </Label>
+                            <Definition>
+                                <FreeTextAnnotation></FreeTextAnnotation>
+                            </Definition>
+                            </SemanticBase>
+                            <SemanticBase xsi:type="ConceptType" id="id_6">
+                                <Label>
+                                    <Name>Fishing, nature, sea, ocean</Name>
+                                </Label>
+                                <Agent xsi:type="AbstractType">
+                                    <Name>
+                                        <GivenName>Winifred</GivenName>
+                                        <FamilyName>Nicholson</FamilyName>
+                                    </Name>
+                                </Agent>
+                            </SemanticBase>
+                            <Graph>
+                                <Relation type="urn:mpeg:mpeg7:cs:SemanticRelationCS:2001:exemplifies" source="#id_3" target="#id_2" />
+                                <Relation type="urn:mpeg:mpeg7:cs:SemanticRelationCS:2001:appearsIn" source="#id_2" target="#id_1" />
+                            </Graph>
+                        </Semantic>        
+                    </Image>
+                </MultimediaContent>
+            </Description>
+        </Mpeg7>
+

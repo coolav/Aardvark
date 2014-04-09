@@ -1,0 +1,7 @@
+[paths]
+default-push = https://olavsol@code.google.com/p/aardvark-prototype/
+default = https://olavsol@code.google.com/p/aardvark-prototype/
+
+[ui]
+username = olavsol@gmail.com
+

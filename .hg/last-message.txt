@@ -1,0 +1,1 @@
+V0.60 - Added Wizard, QRels upload and downloading and indexing of images

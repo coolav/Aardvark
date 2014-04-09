@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Mpeg7 xmlns="urn:mpeg:mpeg7:schema:2001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <DescriptionMetadata>
+        <Version>5.0</Version>
+        <Comment>
+            <FreeTextAnnotation />
+        </Comment>
+        <Creator>
+            <Role href="creatorCS">
+                <Name>Creator</Name>
+            </Role>
+            <Agent xsi:type="PersonType">
+                <Name>
+                    <FamilyName>Olav</FamilyName>
+                    <GivenName>Løne</GivenName> 
+                </Name>
+            </Agent>
+        </Creator>
+        <CreationTime>2012-04-19T17:13</CreationTime>
+        <Instrument>
+            <Tool>
+                <Name>Aardvark v0.56</Name>
+            </Tool>
+        </Instrument>
+    </DescriptionMetadata>
+    <Description xsi:type="ContentEntityType">
+        <MultimediaContent xsi:type="ImageType">
+            <Image>
+                <MediaInformation>
+                    <MediaProfile master="true">
+                        <MediaFormat>
+                            <Content href="image" />
+                            <FileFormat href="urn:mpeg:MPEG7FileFormatCS:1">
+                                <Name>JPEG</Name>
+                            </FileFormat>
+                            <VisualCoding>
+                                <Format href="urn:mpeg:MPEG7FileFormatCS:1" colorDomain="color">
+                                    <Name>JPEG</Name>
+                                </Format>
+                                <Pixel bitsPer="24" />
+                                <Frame width="2592" height="1944" />
+                            </VisualCoding>
+                        </MediaFormat>
+                        <MediaInstance>
+                            <InstanceIdentifier />
+                            <MediaLocator>
+                                <MediaUri>C:\Users\Olav\Documents\Oppgaave\Bilete\Christ in the Wilderness.jpg</MediaUri>
+                            </MediaLocator>
+                        </MediaInstance>
+                    </MediaProfile>
+                    <MediaProfile>
+                        <MediaFormat>
+                            <Content href="image" />
+                            <FileFormat href="urn:mpeg:MPEG7FileFormatCS:1">
+                                <Name>JPEG</Name>
+                            </FileFormat>
+                            <VisualCoding>
+                                <Format href="urn:mpeg:MPEG7FileFormatCS:1" colorDomain="color">
+                                    <Name>JPEG</Name>
+                                </Format>
+                                <Pixel bitsPer="24" />
+                                <Frame width="120" height="120" />
+                            </VisualCoding>
+                        </MediaFormat>
+                        <MediaInstance>
+                            <InstanceIdentifier />
+                            <MediaLocator>
+                                <MediaUri>C:\Users\Olav\Documents\Oppgaave\Bilete\Christ in the Wilderness.jpg</MediaUri>
+                            </MediaLocator>
+                        </MediaInstance>
+                    </MediaProfile>
+                </MediaInformation>
+                <CreationInformation>
+                    <Creation>
+                        <Title>Creation information</Title>
+                        <Creator>
+                            <Role href="creatorCS">
+                                <Name>Creator</Name>
+                            </Role>
+                            <Agent xsi:type="PersonType">
+                                <Name>
+                                    <FamilyName>Kramskoy</FamilyName>
+                                    <GivenName>Ivan</GivenName>
+                                </Name>
+                            </Agent>
+                        </Creator>
+                        <CreationCoordinates>
+                            <Date>
+                                <TimePoint>2008-05-28T22:02:13</TimePoint>
+                            </Date>
+                        </CreationCoordinates>
+                        </Creation>
+                    </CreationInformation>  
+                    <TextAnnotation>
+                        <FreeTextAnnotation>
+                            The artist looks upon Sacred history in the context of the problems 
+                            of his day. The Gospel themes and images served at the time as a way 
+                            of expressing ideas of what was good and just. Christ's personality 
+                            was understood to be the embodiment of the "ideal man," and his life 
+                            was one of progressive adjustments of the individual reflecting his 
+                            earthly path. Kramskoi wrote: «…There is a moment in the life of every
+                            man who is however slightly or greatly created in the image of God,
+                            when he is in a quandary - whether to take a ruble and deny the Lord 
+                            or not to yield one step in the direction of evil." The painting took 
+                            on a topical nature thanks to the resemblance of Christ's pose on 
+                            Kramskoi's canvas to the pose of Fedor Dostoevsky in V.G. Perov's 
+                            famous portrait of the writer. Both paintings were made in 1872 and 
+                            were shown at the very same Itinerant (Peredvizhniki) exhibition. 
+                            Eternal and general humanistic problems are the central theme of the painting.
+                        </FreeTextAnnotation>
+                        <StructuredAnnotation>
+                            <Name>	
+                                <Name>Christ in the Wilderness</Name>
+                            </Name>
+                            <Creator>
+                                <Name>Ivan Kramskoy</Name>	
+                            </Creator>
+                            <Period>
+                                <Name>Realism</Name>          						
+                            </Period>
+                            <Technique>
+                                <Name>Oil Painting</Name>
+                            </Technique>
+                            <Materials>
+                                <Name>Oil on canvas</Name>
+                            </Materials>
+                            <Height>
+                                <Name>180</Name>
+                            </Height>
+                            <Width>
+                                <Name>290</Name>
+                            </Width>
+                            <Date>
+                                <Name>
+                                    1872
+                                </Name>
+                            </Date>
+                            <Actor>
+                                <Name>Christ, Jesus</Name>          
+                            </Actor>
+                            <Location>
+                                <Name>The Desert, Middle-East</Name> 
+                            </Location>
+                            <Activity>
+                                <Name>Driving out moneylenders from the temple</Name>
+                            </Activity>
+                            <Theme>
+                                <Name>Religious pondering, the human nature of Jesus, the temptation of Christ</Name>
+                            </Theme>
+                            <Concept>
+                                <Name>Gospel, desert, christ, Jesus, Rocks, wilderness, tempation, reflection, morning, dawn</Name>
+                            </Concept>															            
+                        </StructuredAnnotation>
+                    </TextAnnotation>
+                    <Semantic>
+                        <Label>
+                            <Name />
+                        </Label>
+                        <SemanticBase xsi:type="AgentObjectType" id="id_1">
+                            <Label>
+                                <Name>Christ</Name>
+                            </Label>
+                            <Agent xsi:type="PersonType">
+                                <Name>
+                                    <GivenName>Kramskoy</GivenName>
+                                    <FamilyName>Ivan</FamilyName>
+                                </Name>
+                            </Agent>
+                        </SemanticBase>
+                        <SemanticBase xsi:type="SemanticTimeType" id="id_2">
+                            <Label>
+                                <Name>1872</Name>
+                            </Label>
+                            <Definition>
+                                <FreeTextAnnotation>This semantic time defines the period of 1872</FreeTextAnnotation>
+                            </Definition>
+                            <Time>
+                                <TimePoint>2004-07-01T12:00</TimePoint>
+                            </Time>
+                        </SemanticBase>
+                        <SemanticBase xsi:type="EventType" id="id_3">
+                            <Label>
+                                <Name>Jesus refelction on temptation</Name>
+                            </Label>
+                            <Definition>
+                                <FreeTextAnnotation></FreeTextAnnotation>
+                            </Definition>
+                            <Event>
+                                <Label>
+                                    <Name>Religious scene</Name>
+                                </Label>
+                                <SemanticPlace>
+                                    <Label>
+                                        <Name>
+                                            The desert
+                                        </Name>
+                                    </Label>
+                                </SemanticPlace>
+                                <SemanticTime>
+                                    <Label>
+                                        <Name>Time of the event</Name>
+                                    </Label>
+                                    <Time>
+                                        <TimePoint>1872-10-08T10:50</TimePoint>
+                                    </Time>
+                                </SemanticTime>
+                            </Event>
+                        </SemanticBase>
+                        <SemanticBase xsi:type="EventType" id="id_4">
+                            <Label>
+                                <Name>Relirous scene</Name>
+                            </Label>
+                            <Definition>
+                                <FreeTextAnnotation></FreeTextAnnotation>
+                            </Definition> 
+                            </SemanticBase>
+                            <SemanticBase xsi:type="ConceptType" id="id_6">
+                                <Label>
+                                    <Name>Christ reflection</Name>
+                                </Label>
+                                <Agent xsi:type="AbstractType">
+                                    <Name>
+                                        <GivenName>Ivan</GivenName>
+                                        <FamilyName>Kramskoy</FamilyName>
+                                    </Name>
+                                </Agent>
+                            </SemanticBase>
+                            <Graph>
+                                <Relation type="urn:mpeg:mpeg7:cs:SemanticRelationCS:2001:exemplifies" source="#id_3" target="#id_2" />
+                                <Relation type="urn:mpeg:mpeg7:cs:SemanticRelationCS:2001:appearsIn" source="#id_2" target="#id_1" />
+                            </Graph>
+                        </Semantic>        
+                    </Image>
+                </MultimediaContent>
+            </Description>
+        </Mpeg7>
+

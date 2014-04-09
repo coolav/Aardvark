@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Mpeg7 xmlns="urn:mpeg:mpeg7:schema:2001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <DescriptionMetadata>
+        <Version>5.0</Version>
+        <Comment>
+            <FreeTextAnnotation />
+        </Comment>
+        <Creator>
+            <Role href="creatorCS">
+                <Name>Creator</Name>
+            </Role>
+            <Agent xsi:type="PersonType">
+                <Name>
+                    <FamilyName>Olav</FamilyName>
+                    <GivenName>Løne</GivenName> 
+                </Name>
+            </Agent>
+        </Creator>
+        <CreationTime>2012-04-19T17:13</CreationTime>
+        <Instrument>
+            <Tool>
+                <Name>Aardvark v0.56</Name>
+            </Tool>
+        </Instrument>
+    </DescriptionMetadata>
+    <Description xsi:type="ContentEntityType">
+        <MultimediaContent xsi:type="ImageType">
+            <Image>
+                <MediaInformation>
+                    <MediaProfile master="true">
+                        <MediaFormat>
+                            <Content href="image" />
+                            <FileFormat href="urn:mpeg:MPEG7FileFormatCS:1">
+                                <Name>JPEG</Name>
+                            </FileFormat>
+                            <VisualCoding>
+                                <Format href="urn:mpeg:MPEG7FileFormatCS:1" colorDomain="color">
+                                    <Name>JPEG</Name>
+                                </Format>
+                                <Pixel bitsPer="24" />
+                                <Frame width="2592" height="1944" />
+                            </VisualCoding>
+                        </MediaFormat>
+                        <MediaInstance>
+                            <InstanceIdentifier />
+                            <MediaLocator>
+                                <MediaUri>C:\Users\Olav\Documents\Oppgaave\Bilete\On Outpost Duty.jpg</MediaUri>
+                            </MediaLocator>
+                        </MediaInstance>
+                    </MediaProfile>
+                    <MediaProfile>
+                        <MediaFormat>
+                            <Content href="image" />
+                            <FileFormat href="urn:mpeg:MPEG7FileFormatCS:1">
+                                <Name>JPEG</Name>
+                            </FileFormat>
+                            <VisualCoding>
+                                <Format href="urn:mpeg:MPEG7FileFormatCS:1" colorDomain="color">
+                                    <Name>JPEG</Name>
+                                </Format>
+                                <Pixel bitsPer="24" />
+                                <Frame width="120" height="120" />
+                            </VisualCoding>
+                        </MediaFormat>
+                        <MediaInstance>
+                            <InstanceIdentifier />
+                            <MediaLocator>
+                                <MediaUri>C:\Users\Olav\Documents\Oppgaave\Bilete\On Outpost Duty.jpg</MediaUri>
+                            </MediaLocator>
+                        </MediaInstance>
+                    </MediaProfile>
+                </MediaInformation>
+                <CreationInformation>
+                    <Creation>
+                        <Title>Creation information</Title>
+                        <Creator>
+                            <Role href="creatorCS">
+                                <Name>Creator</Name>
+                            </Role>
+                            <Agent xsi:type="PersonType">
+                                <Name>
+                                    <FamilyName>Kersting</FamilyName>
+                                    <GivenName>Georg Friedrich</GivenName>
+                                </Name>
+                            </Agent>
+                        </Creator>
+                        <CreationCoordinates>
+                            <Date>
+                                <TimePoint>2008-05-28T22:02:13</TimePoint>
+                            </Date>
+                        </CreationCoordinates>
+                        </Creation>
+                    </CreationInformation>  
+                    <TextAnnotation>
+                        <FreeTextAnnotation>
+                            Kersting painted this picture as a memorial to three friends who had fallen 
+                            in the Napoleonic wars: Theodor Körner, Karl Friedrich Friesen, and Heinrich 
+                            Hartmann. Kersting had also followed Körner’s lead and joined the Lützower 
+                            Freikorps (volunteers) in 1813. As an unmounted marksman, “Jäger zu Fuß”, 
+                            Kersting had been given weapons and money by Kügelgen and Caspar David Friedrich. 
+                            Goethe had pronounced the blessing of the arms. The painting represents both 
+                            Kersting’s patriotismand his grief. The three friends have taken up their position 
+                            at the edge of an oak wood. They are wearing the Iron Cross medal, which was 
+                            designed by Schinkel in 1813. Oak trees, their hair styles, and their red, black, 
+                            and gold uniforms point towards a newly-awakened sense of being German. Silence 
+                            reigns. Each member of the group seems lost in his own thoughts as though he were 
+                            no longer of this world. Friesen leans against an oak tree with his rifle at the 
+                            ready. As a drill instructor he fought alongside Friedrich Ludwig Jahn and became 
+                            Lützow’s personal adjutant. On the left of the picture sits Hartmann, a nineteen-year-old 
+                            law student from Heidelberg who had fought with Friesen and Kersting in the battle at 
+                            Göhrde. Kersting was to see him die. The poet and dramatist Körner, sitting behind Hartmann, 
+                            recruited volunteers for the Freikorps in Dresden. In his works, he advocated that the 
+                            freedom of the fatherland should take precedence over the life of the individual.
+                         </FreeTextAnnotation>
+                        <StructuredAnnotation>
+                            <Name>	
+                                <Name>On Outpost Duty</Name>
+                            </Name>
+                            <Creator>
+                                <Name>Georg Friedrich Kersting</Name>	
+                            </Creator>
+                            <Period>
+                                <Name>Biedermeier, Romantcisism</Name>          						
+                            </Period>
+                            <Technique>
+                                <Name>Oil painting</Name>
+                            </Technique>
+                            <Materials>
+                                <Name>Oil on canvas</Name>
+                            </Materials>
+                            <Height>
+                                <Name>87</Name>
+                            </Height>
+                            <Width>
+                                <Name>1000</Name>
+                            </Width>
+                            <Date>
+                                <Name>
+                                    1829
+                                </Name>
+                            </Date>
+                            <Actor>
+                                <Name>Theodor Körner, Karl Friedrich Friesen, Heinrich Hartmann</Name>          
+                            </Actor>
+                            <Location>
+                                    <Name>Göhrde, Germany</Name> 
+                            </Location>
+                            <Activity>
+                                <Name>Outpost duty</Name>
+                            </Activity>
+                            <Theme>
+                                <Name>Romatisicm, Early 19th century, Biedermeier, Germany, Napoleonic Wars, Young men, Army, War, Forrest
+                                Memento, Memorial, Grief, Remenberance, Nationalism, Patriotism, Pan Germanism</Name>
+                            </Theme>
+                            <Concept>
+                                <Name>Soldiers, Weapons, Uniforms, Three, Forrest, Sunlight, Canteen, Bag</Name>
+                            </Concept>															            
+                        </StructuredAnnotation>
+                    </TextAnnotation>
+                    <Semantic>
+                        <Label>
+                            <Name />
+                        </Label>
+                        <SemanticBase xsi:type="AgentObjectType" id="id_1">
+                            <Label>
+                                <Name></Name>
+                            </Label>
+                            <Agent xsi:type="PersonType">
+                                <Name>
+                                    <GivenName>Georg Friedrich</GivenName>
+                                    <FamilyName>Kersting</FamilyName>
+                                </Name>
+                            </Agent>
+                        </SemanticBase>
+                        <SemanticBase xsi:type="SemanticTimeType" id="id_2">
+                            <Label>
+                                <Name>1823</Name>
+                            </Label>
+                            <Definition>
+                                <FreeTextAnnotation>This semantic time defines the period of 1829</FreeTextAnnotation>
+                            </Definition>
+                            <Time>
+                                <TimePoint>1829-07-01T12:00</TimePoint>
+                            </Time>
+                        </SemanticBase>
+                        <SemanticBase xsi:type="EventType" id="id_3">
+                            <Label>
+                                <Name>A nature scene depicting three soldiers on outpost duty during the Napoleonic Wars</Name>
+                            </Label>
+                            <Definition>
+                                <FreeTextAnnotation></FreeTextAnnotation>
+                            </Definition>
+                            <Event>
+                                <Label>
+                                    <Name>Nature scene</Name>
+                                </Label>
+                                <SemanticPlace>
+                                    <Label>
+                                        <Name>
+                                            Germany
+                                        </Name>
+                                    </Label>
+                                </SemanticPlace>
+                                <SemanticTime>
+                                    <Label>
+                                        <Name>Time of the event</Name>
+                                    </Label>
+                                    <Time>
+                                        <TimePoint>1829-10-08T10:50</TimePoint>
+                                    </Time>
+                                </SemanticTime>
+                            </Event>
+                        </SemanticBase>
+                        <SemanticBase xsi:type="EventType" id="id_4">
+                            <Label>
+                                <Name>Outdoor Scene</Name>
+                            </Label>
+                            <Definition>
+                                <FreeTextAnnotation>
+                                    Georg Friedrich Kersting was a German painter during the Biedermeier era. 
+                                    He received his artistic education at the Copenhagen Academy, where he 
+                                    studied from 1805 until 1808 and became deeply influenced by the contemporary 
+                                    Danish school, characterized by its visual clarity. After his studies he went to 
+                                    Dresden and voluntarily signed up with the Lützow Free Corps of the Prussian Army 
+                                    to fight in the Napoleonic Wars. After the campaigns he moved to Poland, starting 
+                                    work as a drawing master in 1814. Four years later he came back to Germany and 
+                                    stayed in Meißen. He became the chief artist at the local porcelain manufacturing 
+                                    works. Kersting’s artworks are characterized by Romanticism and were clearly greatly 
+                                    influenced by his friend Caspar David Friedrich. He later turned his hand to painting 
+                                    interior scenes as well as creating portraits, landscapes and history paintings. 
+                                    'Stickerin am Fenster' (ca. 1827) and 'Caspar David Friedrich in his Studio' (1819) 
+                                    are among his most famous compositions.
+                                </FreeTextAnnotation>
+                            </Definition>
+                            </SemanticBase>
+                            <SemanticBase xsi:type="ConceptType" id="id_6">
+                                <Label>
+                                    <Name>War, Napoleon, Germany, Memory, Grief, Youth</Name>
+                                </Label>
+                                <Agent xsi:type="AbstractType">
+                                    <Name>
+                                        <GivenName>Georg Friedrich</GivenName>
+                                        <FamilyName>Kersting</FamilyName>
+                                    </Name>
+                                </Agent>
+                            </SemanticBase>
+                            <Graph>
+                                <Relation type="urn:mpeg:mpeg7:cs:SemanticRelationCS:2001:exemplifies" source="#id_3" target="#id_2" />
+                                <Relation type="urn:mpeg:mpeg7:cs:SemanticRelationCS:2001:appearsIn" source="#id_2" target="#id_1" />
+                            </Graph>
+                        </Semantic>        
+                    </Image>
+                </MultimediaContent>
+            </Description>
+        </Mpeg7>
+

@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Mpeg7 xmlns="urn:mpeg:mpeg7:schema:2001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <DescriptionMetadata>
+        <Version>5.0</Version>
+        <Comment>
+            <FreeTextAnnotation />
+        </Comment>
+        <Creator>
+            <Role href="creatorCS">
+                <Name>Creator</Name>
+            </Role>
+            <Agent xsi:type="PersonType">
+                <Name>
+                    <FamilyName>Olav</FamilyName>
+                    <GivenName>Løne</GivenName> 
+                </Name>
+            </Agent>
+        </Creator>
+        <CreationTime>2012-04-19T17:13</CreationTime>
+        <Instrument>
+            <Tool>
+                <Name>Aardvark v0.56</Name>
+            </Tool>
+        </Instrument>
+    </DescriptionMetadata>
+    <Description xsi:type="ContentEntityType">
+        <MultimediaContent xsi:type="ImageType">
+            <Image>
+                <MediaInformation>
+                    <MediaProfile master="true">
+                        <MediaFormat>
+                            <Content href="image" />
+                            <FileFormat href="urn:mpeg:MPEG7FileFormatCS:1">
+                                <Name>JPEG</Name>
+                            </FileFormat>
+                            <VisualCoding>
+                                <Format href="urn:mpeg:MPEG7FileFormatCS:1" colorDomain="color">
+                                    <Name>JPEG</Name>
+                                </Format>
+                                <Pixel bitsPer="24" />
+                                <Frame width="2592" height="1944" />
+                            </VisualCoding>
+                        </MediaFormat>
+                        <MediaInstance>
+                            <InstanceIdentifier />
+                            <MediaLocator>
+                                <MediaUri>C:\Users\Olav\Documents\Oppgaave\Bilete\Mill on the Couleuvre at Pontoise.jpg</MediaUri>
+                            </MediaLocator>
+                        </MediaInstance>
+                    </MediaProfile>
+                    <MediaProfile>
+                        <MediaFormat>
+                            <Content href="image" />
+                            <FileFormat href="urn:mpeg:MPEG7FileFormatCS:1">
+                                <Name>JPEG</Name>
+                            </FileFormat>
+                            <VisualCoding>
+                                <Format href="urn:mpeg:MPEG7FileFormatCS:1" colorDomain="color">
+                                    <Name>JPEG</Name>
+                                </Format>
+                                <Pixel bitsPer="24" />
+                                <Frame width="120" height="120" />
+                            </VisualCoding>
+                        </MediaFormat>
+                        <MediaInstance>
+                            <InstanceIdentifier />
+                            <MediaLocator>
+                                <MediaUri>C:\Users\Olav\Documents\Oppgaave\Bilete\Mill on the Couleuvre at Pontoise.jpg</MediaUri>
+                            </MediaLocator>
+                        </MediaInstance>
+                    </MediaProfile>
+                </MediaInformation>
+                <CreationInformation>
+                    <Creation>
+                        <Title>Creation information</Title>
+                        <Creator>
+                            <Role href="creatorCS">
+                                <Name>Creator</Name>
+                            </Role>
+                            <Agent xsi:type="PersonType">
+                                <Name>
+                                    <FamilyName>vCézanne</FamilyName>
+                                    <GivenName>Paul</GivenName>
+                                </Name>
+                            </Agent>
+                        </Creator>
+                        <CreationCoordinates>
+                            <Date>
+                                <TimePoint>2008-05-28T22:02:13</TimePoint>
+                            </Date>
+                        </CreationCoordinates>
+                        </Creation>
+                    </CreationInformation>  
+                    <TextAnnotation>
+                        <FreeTextAnnotation>  
+                        Cézanne’s art was still highly controversial when the Nationalgalerie purchased 
+                        this painting: it was only two years previously that the French government had 
+                        accepted two of his works as part of the Caillebotte donation, but had rejected 
+                        another three. For a long time, Cézanne commuted between his place of birth, 
+                        Aix-en-Provence, and Paris, although he also stayed in various towns of the Ile-de-France. 
+                        Camille Pissarro lived in Pontoise northwest of Paris. Cézanne paid him several visits 
+                        there (the first in 1872, the last from May to October of 1881), and their work together 
+                        encouraged him in the direction of light, impressionistic colours: “We perhaps all go 
+                        back to Pissarro,” he later said. The older painter also led him to that clarity and 
+                        calm that pervade the painting of the mill, and which are achieved despite extraordinary 
+                        accuracy in his portrayal of the motif; this is clear from old pictures showing the 
+                        Moulin des Etannets on the rue des Deux Ponts, one of many mills in that area that 
+                        depended on the corn trade for its existence. The flat white houses in the background 
+                        create a sober effect. At the same time, there is a geometric order that takes in
+                        the whole picture plane. The composition is governed by strict horizontals and verticals 
+                        cutting across each other. Despite interruptions, these apparently run as parallels 
+                        throughout the whole picture; closer examination, however, shows that in the lower 
+                        half of the picture, that is to say in the foreground, they slope away increasingly 
+                        into diagonals. The colours range through shades of green to airy blue and ocher. 
+                        Since each brushstroke is independent — whether short and straight or curved or 
+                        even curled — the paint does not entirely cover the painting’s ground, thus incorporating 
+                        its pale, immaterial quality.
+                           </FreeTextAnnotation>
+                        <StructuredAnnotation>
+                            <Name>	
+                                <Name>Mill on the Couleuvre at Pontoise</Name>
+                            </Name>
+                            <Creator>
+                                <Name>Paul Cézanne</Name>	
+                            </Creator>
+                            <Period>
+                                <Name>Impressionism</Name>          						
+                            </Period>
+                            <Technique>
+                                <Name>Oil painting</Name>
+                            </Technique>
+                            <Materials>
+                                <Name>Oil on canvas</Name>
+                            </Materials>
+                            <Height>
+                                <Name>73</Name>
+                            </Height>
+                            <Width>
+                                <Name>91</Name>
+                            </Width>
+                            <Date>
+                                <Name>
+                                    1881
+                                </Name>
+                            </Date>
+                            <Actor>
+                                <Name>Mill</Name>          
+                            </Actor>
+                            <Location>
+                                    <Name>Pontoise, France </Name> 
+                            </Location>
+                            <Activity>
+                                <Name>Mill</Name>
+                            </Activity>
+                            <Theme>
+                                <Name>Impressionism, Mill, Light, clouds, cold light, Calm, Stillness, 
+                                Geometry, Strict, Calm, Composition, Late 19th century</Name>
+                            </Theme>
+                            <Concept>
+                                <Name>Outdoors</Name>
+                            </Concept>															            
+                        </StructuredAnnotation>
+                    </TextAnnotation>
+                    <Semantic>
+                        <Label>
+                            <Name />
+                        </Label>
+                        <SemanticBase xsi:type="AgentObjectType" id="id_1">
+                            <Label>
+                                <Name></Name>
+                            </Label>
+                            <Agent xsi:type="PersonType">
+                                <Name>
+                                    <GivenName>Paul</GivenName>
+                                    <FamilyName>Cézanne</FamilyName>
+                                </Name>
+                            </Agent>
+                        </SemanticBase>
+                        <SemanticBase xsi:type="SemanticTimeType" id="id_2">
+                            <Label>
+                                <Name>1774</Name>
+                            </Label>
+                            <Definition>
+                                <FreeTextAnnotation>This semantic time defines the period of 1881</FreeTextAnnotation>
+                            </Definition>
+                            <Time>
+                                <TimePoint>2004-07-01T12:00</TimePoint>
+                            </Time>
+                        </SemanticBase>
+                        <SemanticBase xsi:type="EventType" id="id_3">
+                            <Label>
+                                <Name>A outdoor landscape scene depicting an old mill ouside of Paris</Name>
+                            </Label>
+                            <Definition>
+                                <FreeTextAnnotation></FreeTextAnnotation>
+                            </Definition>
+                            <Event>
+                                <Label>
+                                    <Name>Landscape scene</Name>
+                                </Label>
+                                <SemanticPlace>
+                                    <Label>
+                                        <Name>
+                                            Pontoise, France
+                                        </Name>
+                                    </Label>
+                                </SemanticPlace>
+                                <SemanticTime>
+                                    <Label>
+                                        <Name>Time of the event</Name>
+                                    </Label>
+                                    <Time>
+                                        <TimePoint>1881-10-08T10:50</TimePoint>
+                                    </Time>
+                                </SemanticTime>
+                            </Event>
+                        </SemanticBase>
+                        <SemanticBase xsi:type="EventType" id="id_4">
+                            <Label>
+                                <Name>Landscape Scene</Name>
+                            </Label>
+                            <Definition>
+                                <FreeTextAnnotation> 
+                                Paul Cézanne was a French artist and Post-Impressionist painter. 
+                                Following the wish of his father, a banker, he began studying law in 1859, 
+                                while simultaneously taking evening classes at the local drawing school. 
+                                His teacher was the painter Jospeh Gibert. His early works demonstrate the 
+                                influence of Romanticism which was to disappear later on. In 1861 he moved 
+                                to Paris where he studied at the Académie Suisse, specializing mainly in 
+                                drawings of nudes. Parallel to this, he copied the works of old masters in 
+                                the Louvre such as those by Michelangelo, Rubens and Titian. In 1872 he 
+                                followed his friend Pissarro to Pontoise where he was taught by him. As a 
+                                result of his influence, Cézanne’s initial preference for dark colours ended 
+                                and his gaze turned towards finding new ways of depicting outdoor light, a 
+                                core interest of Impressionism. Two years later he took part in an exhibition 
+                                of young Parisian artists who felt disgruntled by the Salon de Paris and who 
+                                later became known as the Impressionists. From 1890 until his death he withdrew 
+                                into his painting, at times leading a recluse-like existence. During this time 
+                                however, his works became famous, gaining him respect from a new generation of 
+                                artists. Cézanne formed a bridge from the Impressionism of the late 19th century 
+                                to the Cubism of the early 20th century. He was a master of colour and composition 
+                                and a forerunner of abstraction. In contrast to most artists of his time, he was 
+                                deeply influenced by Gustave Courbet and Eugène Delacroix and their realistic 
+                                approach to the painted subject. He was the first artist to depict objects broken 
+                                down in their simple geometric forms. Cézanne is well known for compositions like 
+                                'Mill On The Couleuvre near Pontoise' (1881), 'The Card Players' (1892) and 
+                                'Still Life with a Curtain' (1895).
+                                </FreeTextAnnotation>
+                            </Definition>
+                            </SemanticBase>
+                            <SemanticBase xsi:type="ConceptType" id="id_6">
+                                <Label>
+                                    <Name>Light, Landscape, Buildings, Calm</Name>
+                                </Label>
+                                <Agent xsi:type="AbstractType">
+                                    <Name>
+                                        <GivenName>Paul</GivenName>
+                                        <FamilyName>Cézanne</FamilyName>
+                                    </Name>
+                                </Agent>
+                            </SemanticBase>
+                            <Graph>
+                                <Relation type="urn:mpeg:mpeg7:cs:SemanticRelationCS:2001:exemplifies" source="#id_3" target="#id_2" />
+                                <Relation type="urn:mpeg:mpeg7:cs:SemanticRelationCS:2001:appearsIn" source="#id_2" target="#id_1" />
+                            </Graph>
+                        </Semantic>        
+                    </Image>
+                </MultimediaContent>
+            </Description>
+        </Mpeg7>
+

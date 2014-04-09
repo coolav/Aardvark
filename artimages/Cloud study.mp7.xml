@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Mpeg7 xmlns="urn:mpeg:mpeg7:schema:2001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <DescriptionMetadata>
+        <Version>5.0</Version>
+        <Comment>
+            <FreeTextAnnotation />
+        </Comment>
+        <Creator>
+            <Role href="creatorCS">
+                <Name>Creator</Name>
+            </Role>
+            <Agent xsi:type="PersonType">
+                <Name>
+                    <FamilyName>Olav</FamilyName>
+                    <GivenName>Løne</GivenName> 
+                </Name>
+            </Agent>
+        </Creator>
+        <CreationTime>2012-04-19T17:13</CreationTime>
+        <Instrument>
+            <Tool>
+                <Name>Aardvark v0.56</Name>
+            </Tool>
+        </Instrument>
+    </DescriptionMetadata>
+    <Description xsi:type="ContentEntityType">
+        <MultimediaContent xsi:type="ImageType">
+            <Image>
+                <MediaInformation>
+                    <MediaProfile master="true">
+                        <MediaFormat>
+                            <Content href="image" />
+                            <FileFormat href="urn:mpeg:MPEG7FileFormatCS:1">
+                                <Name>JPEG</Name>
+                            </FileFormat>
+                            <VisualCoding>
+                                <Format href="urn:mpeg:MPEG7FileFormatCS:1" colorDomain="color">
+                                    <Name>JPEG</Name>
+                                </Format>
+                                <Pixel bitsPer="24" />
+                                <Frame width="2592" height="1944" />
+                            </VisualCoding>
+                        </MediaFormat>
+                        <MediaInstance>
+                            <InstanceIdentifier />
+                            <MediaLocator>
+                                <MediaUri>C:\Users\Olav\Documents\Oppgaave\Bilete\Cloud study.jpg</MediaUri>
+                            </MediaLocator>
+                        </MediaInstance>
+                    </MediaProfile>
+                    <MediaProfile>
+                        <MediaFormat>
+                            <Content href="image" />
+                            <FileFormat href="urn:mpeg:MPEG7FileFormatCS:1">
+                                <Name>JPEG</Name>
+                            </FileFormat>
+                            <VisualCoding>
+                                <Format href="urn:mpeg:MPEG7FileFormatCS:1" colorDomain="color">
+                                    <Name>JPEG</Name>
+                                </Format>
+                                <Pixel bitsPer="24" />
+                                <Frame width="120" height="120" />
+                            </VisualCoding>
+                        </MediaFormat>
+                        <MediaInstance>
+                            <InstanceIdentifier />
+                            <MediaLocator>
+                                <MediaUri>C:\Users\Olav\Documents\Oppgaave\Bilete\Cloud study.jpg</MediaUri>
+                            </MediaLocator>
+                        </MediaInstance>
+                    </MediaProfile>
+                </MediaInformation>
+                <CreationInformation>
+                    <Creation>
+                        <Title>Creation information</Title>
+                        <Creator>
+                            <Role href="creatorCS">
+                                <Name>Creator</Name>
+                            </Role>
+                            <Agent xsi:type="PersonType">
+                                <Name>
+                                    <FamilyName>Constable, </FamilyName>
+                                    <GivenName>John</GivenName>
+                                </Name>
+                            </Agent>
+                        </Creator>
+                        <CreationCoordinates>
+                            <Date>
+                                <TimePoint>2008-05-28T22:02:13</TimePoint>
+                            </Date>
+                        </CreationCoordinates>
+                        </Creation>
+                    </CreationInformation>  
+                    <TextAnnotation>
+                        <FreeTextAnnotation>
+                            It's a shape that looks designed, a kind of sky-writing. And given that these are clouds, 
+                            with their supernatural associations, this pattern may suggest, subliminally, a sign or a 
+                            message forming in the heavens. But then, the whole effect remains very subliminal. A shape 
+                            can be detected, but it's sufficiently diffuse, on the verge of unforming, to keep you uncertain
+                            about whether it's really there at all. Dabs of cloud build up, but where do they conclusively 
+                            group? At every point, what might be a co-ordinated design might equally be an unplanned gathering. 
+                            A deliberate scheme is possible, a pattern is never definite and decided enough to be certain.
+
+                            The structure is so elusive that it might have arrived with no deliberate shaping. Perhaps it appears 
+                            in the painting simply because it appeared in the sky, and Constable transcribed it with unblinking 
+                            from an ambiguous natural cloud formation. Or perhaps it materialised through an act of drifting 
+                            painting, the brush improvising.
+
+                            You can't be sure that the artist was doing any manipulation, or was even aware of the quasi-pattern 
+                            emerging. So Constable's own work ends up like nature itself – a phenomenon in which you can see shapes, 
+                            but where no conscious shape-making has taken place.
+
+                            Or, if it's impossible to believe Constable was really unaware of his sky-writing, you can see a more 
+                            complicated kind of intention: achieving this shapely effect, he managed to bring it off as if he wasn't 
+                            forcing it or noticing it, by keeping his handiwork always indeterminate and undirected.
+
+                            Five years before Constable painted this picture, Keats was writing, in praise of a rare creative faculty. 
+                            He called it "Negative Capability, that is, when man is capable of being in uncertainties, Mysteries, doubts 
+                            without any irritable reaching after fact and reason". It happens when artists know how to stay back, leaving 
+                            their work open, unsolved, holding unknowns. If you want to know what negative capability looks like in paint, 
+                            it looks like this
+                        </FreeTextAnnotation>
+                        <StructuredAnnotation>
+                            <Name>	
+                                <Name>Cloud Study</Name>
+                            </Name>
+                            <Creator>
+                                <Name>John Constable</Name>	
+                            </Creator>
+                            <Period>
+                                <Name>Romantisim</Name>          						
+                            </Period>
+                            <Technique>
+                                <Name>Oil Painting</Name>
+                            </Technique>
+                            <Materials>
+                                <Name>Oil on paper laid on panel</Name>
+                            </Materials>
+                            <Height>
+                                <Name>30</Name>
+                            </Height>
+                            <Width>
+                                <Name>49</Name>
+                            </Width>
+                            <Date>
+                                <Name>
+                                    1822
+                                </Name>
+                            </Date>
+                            <Actor>
+                                <Name>None</Name>          
+                            </Actor>
+                            <Location>
+                                <Name>Unknown</Name> 
+                            </Location>
+                            <Activity>
+                                <Name></Name>
+                            </Activity>
+                            <Theme>
+                                <Name>Sky, clouds, landskape</Name>
+                            </Theme>
+                            <Concept>
+                                <Name>Early 19th century, romanticism, clouds, texture, light, white (color), gray (color), blue, study (visual work), landscape, space</Name>
+                            </Concept>															            
+                        </StructuredAnnotation>
+                    </TextAnnotation>
+                    <Semantic>
+                        <Label>
+                            <Name />
+                        </Label>
+                        <SemanticBase xsi:type="AgentObjectType" id="id_1">
+                            <Label>
+                                <Name>Olav Løne</Name>
+                            </Label>
+                            <Agent xsi:type="PersonType">
+                                <Name>
+                                    <GivenName>John</GivenName>
+                                    <FamilyName>Constable</FamilyName>
+                                </Name>
+                            </Agent>
+                        </SemanticBase>
+                        <SemanticBase xsi:type="SemanticTimeType" id="id_2">
+                            <Label>
+                                <Name>1784</Name>
+                            </Label>
+                            <Definition>
+                                <FreeTextAnnotation>This semantic time defines the year of 1822</FreeTextAnnotation>
+                            </Definition>
+                            <Time>
+                                <TimePoint>2004-07-01T12:00</TimePoint>
+                            </Time>
+                        </SemanticBase>
+                        <SemanticBase xsi:type="EventType" id="id_3">
+                            <Label>
+                                <Name>Portrait</Name>
+                            </Label>
+                            <Definition>
+                                <FreeTextAnnotation></FreeTextAnnotation>
+                            </Definition>
+                            <Event>
+                                <Label>
+                                    <Name>Sky scene, clouds</Name>
+                                </Label>
+                                <SemanticPlace>
+                                    <Label>
+                                        <Name>
+                                            Unknown
+                                        </Name>
+                                    </Label>
+                                </SemanticPlace>
+                                <SemanticTime>
+                                    <Label>
+                                        <Name>Time of the event</Name>
+                                    </Label>
+                                    <Time>
+                                        <TimePoint>1822-10-08T10:50</TimePoint>
+                                    </Time>
+                                </SemanticTime>
+                            </Event>
+                        </SemanticBase>
+                        <SemanticBase xsi:type="EventType" id="id_4">
+                            <Label>
+                                <Name>Portrait</Name>
+                            </Label>
+                            <Definition>
+                                <FreeTextAnnotation>This painting describes a scene of clouds</FreeTextAnnotation>
+                            </Definition> 
+                            </SemanticBase>
+                            <SemanticBase xsi:type="ConceptType" id="id_6">
+                                <Label>
+                                    <Name>Clouds, landscape</Name>
+                                </Label>
+                                <Agent xsi:type="AbstractType">
+                                    <Name>
+                                        <GivenName>John</GivenName>
+                                        <FamilyName>Constable</FamilyName>
+                                    </Name>
+                                </Agent>
+                            </SemanticBase>
+                            <Graph>
+                                <Relation type="urn:mpeg:mpeg7:cs:SemanticRelationCS:2001:exemplifies" source="#id_3" target="#id_2" />
+                                <Relation type="urn:mpeg:mpeg7:cs:SemanticRelationCS:2001:appearsIn" source="#id_2" target="#id_1" />
+                            </Graph>
+                        </Semantic>        
+                    </Image>
+                </MultimediaContent>
+            </Description>
+        </Mpeg7>
+

@@ -1,0 +1,3140 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/*
+ * AarvarkGui.java
+ *
+ * Created on 24.mar.2011, 11:46:54
+ */
+package uib.gui;
+
+import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.dnd.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import net.semanticmetadata.lire.DocumentBuilder;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.index.CorruptIndexException;
+import org.apache.lucene.index.IndexReader;
+import uib.annotation.util.AnnotationToolkit;
+import uib.annotation.util.TextChangesListener;
+import uib.download.FlickrIndexingThread;
+import uib.download.ImageIndexingThread;
+import uib.gui.wizard.InitializeWizard;
+import uib.retrieval.IndexerThread;
+
+/**
+ *
+ * @author Olav
+ */
+public class AardvarkGui extends javax.swing.JFrame {
+
+    private DropTarget t;
+    public static Boolean DIRTY = false;
+    public ArrayList<JTextField> annotationFields = new ArrayList<JTextField>();
+    final protected SearchResultsTableModel tableModel =
+            new SearchResultsTableModel();
+    public IndexReader reader = null;
+    private final String[] searchModes = {"At least one (OR)", "All words (AND)", "Whole phrase"};
+    private final String[] searchModality = {"everywhere", "textAnnotation", "semanticDescriptions", "semanticLabels", "freeText", "metadataDesc"};
+    private GuiUtils guiUtil = new GuiUtils(this);
+    private PRChartCreation prChart = new PRChartCreation(this);
+    private String qrelsFile = null;
+    private String topicsFile = null;
+    private String indexPath = "index";
+    public static String BASE_DIRECTORY = ".";
+    public boolean DEBUG;
+    private boolean systemExitOnWindowClosing = true;
+    public File currentFile = null;
+    public int currentDocument = 0;
+    private SemanticAnnotation semanticAnnotation = new SemanticAnnotation(this);
+    private GarbageTracker garbageTracker = new GarbageTracker(this);
+    public static String TITLE_BAR = AnnotationToolkit.PROGRAM_NAME
+            + " " + AnnotationToolkit.PROGRAM_VERSION;
+
+    /**
+     * Creates new form AarvarkGui
+     */
+    public AardvarkGui() {
+
+        try {
+            Image icon = ImageIO.read(getClass().getResource("/uib/resource/aardvark_icon.png"));
+            if (icon != null) {
+                setIconImage(icon);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        initComponents();
+
+        tableModel.addTableModelListener(resultsTable);
+        TextChangesListener.createInstance(this);
+        selectboxDocumentBuilder.setSelectedIndex(0);
+        garbageTracker.start();
+        System.gc();
+        t = new DropTarget(searchPanel, new DropTargetListener() {
+
+            @Override
+            public void dragEnter(DropTargetDragEvent dtde) {
+            }
+
+            @Override
+            public void dragOver(DropTargetDragEvent dtde) {
+            }
+
+            @Override
+            public void dropActionChanged(DropTargetDragEvent dtde) {
+            }
+
+            public void dragExit(DropTargetEvent dte) {
+            }
+
+            public void drop(DropTargetDropEvent dtde) {
+                try {
+                    Transferable tr = dtde.getTransferable();
+                    DataFlavor[] flavors = tr.getTransferDataFlavors();
+                    for (int i = 0; i < flavors.length; i++) {
+                        System.out.println("Possible flavor: " + flavors[i].getMimeType());
+                        if (flavors[i].isFlavorJavaFileListType()) {
+                            dtde.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
+                            java.util.List list = (java.util.List) tr.getTransferData(flavors[i]);
+                            textfieldSearchImage.setText(list.get(0).toString());
+                            dtde.dropComplete(true);
+                            return;
+                        }
+                    }
+                } catch (Exception e) {
+                    System.err.println("An error occured in drag'n drop " + e);
+                }
+            }
+        });
+        browseContainerPanel.add(browseimagePanel, BorderLayout.CENTER);
+
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPopupMenuSemantic = new javax.swing.JPopupMenu();
+        removeObject = new javax.swing.JMenuItem();
+        selectAll = new javax.swing.JMenuItem();
+        browseimagePanel = new uib.gui.ImagePanel();
+        topPanel = new javax.swing.JPanel();
+        controlPane = new javax.swing.JPanel();
+        controlButtonsPane = new javax.swing.JPanel(){
+
+            protected void paintComponent( Graphics g )
+
+            {
+                if ( !isOpaque( ) )
+                {
+                    super.paintComponent( g );
+                    return;
+                }
+
+                int w = getWidth( );
+                int h = getHeight( );
+
+                Color color1 = getBackground( );
+                Color color2 = color1.darker( );
+                Graphics2D g2d = (Graphics2D)g;
+                // Paint a gradient from top to bottom
+                GradientPaint gp = new GradientPaint(
+                    0, 0, color2,
+                    0, h, color1 );
+
+                g2d.setPaint( gp );
+                g2d.fillRect( 0, 0, w, h );
+
+                setOpaque( false );
+                super.paintComponent( g );
+                setOpaque( true );
+            }
+        };
+        switchButtonSearch = new javax.swing.JButton();
+        switchButtonIndex = new javax.swing.JButton();
+        switchButtonOptions = new javax.swing.JButton();
+        switchButtonBrowse = new javax.swing.JButton();
+        switchButtonAnnotate = new javax.swing.JButton();
+        switchButtonExperiment = new javax.swing.JButton();
+        switchButtonGraph = new javax.swing.JButton();
+        buttonCreatePrecisionRecall = new javax.swing.JButton();
+        switchButtonAbout = new javax.swing.JButton();
+        cardPanel = new javax.swing.JPanel();
+        experimentPanel = new javax.swing.JPanel();
+        labelExperimentPanelToplabel = labelIndexingPanelToplabel = new JLabel(){
+
+            protected void paintComponent( Graphics g )
+
+            {
+                if ( !isOpaque( ) )
+                {
+                    super.paintComponent( g );
+                    return;
+                }
+
+                int w = getWidth( );
+                int h = getHeight( );
+
+                Color color1 = getBackground( );
+                Color color2 = color1.darker( );
+                Graphics2D g2d = (Graphics2D)g;
+                // Paint a gradient from top to bottom
+                GradientPaint gp = new GradientPaint(
+                    0, 0, color2,
+                    0, h, color1 );
+
+                g2d.setPaint( gp );
+                g2d.fillRect( 0, 0, w, h );
+
+                setOpaque( false );
+                super.paintComponent( g );
+                setOpaque( true );
+            }
+        };
+        jLabelExperimentHints = new javax.swing.JLabel();
+        progressBarDownloadImages = new javax.swing.JProgressBar();
+        jButtonDownloadImages = new javax.swing.JButton();
+        jLabelDownloadImages = new javax.swing.JLabel();
+        jButtonStartExperiment = new javax.swing.JButton();
+        jLabelStartExperiment = new javax.swing.JLabel();
+        IndexingPanel = new javax.swing.JPanel()
+        ;
+        labelIndexingPanelToplabel = labelIndexingPanelToplabel = new JLabel(){
+
+            protected void paintComponent( Graphics g )
+
+            {
+                if ( !isOpaque( ) )
+                {
+                    super.paintComponent( g );
+                    return;
+                }
+
+                int w = getWidth( );
+                int h = getHeight( );
+
+                Color color1 = getBackground( );
+                Color color2 = color1.darker( );
+                Graphics2D g2d = (Graphics2D)g;
+                // Paint a gradient from top to bottom
+                GradientPaint gp = new GradientPaint(
+                    0, 0, color2,
+                    0, h, color1 );
+
+                g2d.setPaint( gp );
+                g2d.fillRect( 0, 0, w, h );
+
+                setOpaque( false );
+                super.paintComponent( g );
+                setOpaque( true );
+            }
+        };
+        textfieldIndexDir = new javax.swing.JTextField();
+        buttonOpenDir = new javax.swing.JButton();
+        progressBarIndexing = new javax.swing.JProgressBar();
+        checkBoxAddToExistingIndex = new javax.swing.JCheckBox();
+        buttonStartIndexing = new javax.swing.JButton();
+        labelIndexHint = new javax.swing.JLabel();
+        jButtonLuceneIndex = new javax.swing.JButton();
+        searchPanel = new javax.swing.JPanel();
+        labelSearchPanelToplabel = labelSearchPanelToplabel = new JLabel(){
+
+            protected void paintComponent( Graphics g )
+
+            {
+                if ( !isOpaque( ) )
+                {
+                    super.paintComponent( g );
+                    return;
+                }
+
+                int w = getWidth( );
+                int h = getHeight( );
+
+                Color color1 = getBackground( );
+                Color color2 = color1.darker( );
+                Graphics2D g2d = (Graphics2D)g;
+                // Paint a gradient from top to bottom
+                GradientPaint gp = new GradientPaint(
+                    0, 0, color2,
+                    0, h, color1 );
+
+                g2d.setPaint( gp );
+                g2d.fillRect( 0, 0, w, h );
+
+                setOpaque( false );
+                super.paintComponent( g );
+                setOpaque( true );
+            }
+        };
+        textfieldSearchImage = new javax.swing.JTextField();
+        buttonSearchPanelOpenImage = new javax.swing.JButton();
+        progressBarSearchProgress = new javax.swing.JProgressBar();
+        buttonSearchButton = new javax.swing.JButton();
+        labelSearchPanelHintLabel = new javax.swing.JLabel();
+        textfieldSearchText = new javax.swing.JTextField();
+        buttonSearchText = new javax.swing.JButton();
+        labelStructuralSearch = new javax.swing.JLabel();
+        labelTextSearch = new javax.swing.JLabel();
+        buttonOpenTextIndex = new javax.swing.JButton();
+        jTextFieldDescription = new javax.swing.JTextField();
+        jComboBoxSearchMode = new javax.swing.JComboBox(searchModes);
+        jLabelSearchMode = new javax.swing.JLabel();
+        jComboBoxSearchModality = new javax.swing.JComboBox(searchModality);
+        jLabelSearchModality = new javax.swing.JLabel();
+        BrowsePanel = new javax.swing.JPanel();
+        browseContainerPanel = new javax.swing.JPanel();
+        browseControlPanel = new javax.swing.JPanel();
+        spinnerCurrentDoc = new javax.swing.JSpinner();
+        labelBrowseCurrentDivider = new javax.swing.JLabel();
+        labelBrowseCurrentImage = new javax.swing.JLabel();
+        spinnerMaxDoc = new javax.swing.JSpinner();
+        buttonSearchFromBrowse = new javax.swing.JButton();
+        labelBrowsePanelToplabel1 = labelBrowsePanelToplabel1 = new JLabel(){
+
+            protected void paintComponent( Graphics g )
+
+            {
+                if ( !isOpaque( ) )
+                {
+                    super.paintComponent( g );
+                    return;
+                }
+
+                int w = getWidth( );
+                int h = getHeight( );
+
+                Color color1 = getBackground( );
+                Color color2 = color1.darker( );
+                Graphics2D g2d = (Graphics2D)g;
+                // Paint a gradient from top to bottom
+                GradientPaint gp = new GradientPaint(
+                    0, 0, color2,
+                    0, h, color1 );
+
+                g2d.setPaint( gp );
+                g2d.fillRect( 0, 0, w, h );
+
+                setOpaque( false );
+                super.paintComponent( g );
+                setOpaque( true );
+            }
+        };
+        annotatePanel = new javax.swing.JPanel();
+        labelAnnotatePanelToplabel = labelAnnotatePanelToplabel = new JLabel(){
+
+            protected void paintComponent( Graphics g )
+
+            {
+                if ( !isOpaque( ) )
+                {
+                    super.paintComponent( g );
+                    return;
+                }
+
+                int w = getWidth( );
+                int h = getHeight( );
+
+                Color color1 = getBackground( );
+                Color color2 = color1.darker( );
+                Graphics2D g2d = (Graphics2D)g;
+                // Paint a gradient from top to bottom
+                GradientPaint gp = new GradientPaint(
+                    0, 0, color2,
+                    0, h, color1 );
+
+                g2d.setPaint( gp );
+                g2d.fillRect( 0, 0, w, h );
+
+                setOpaque( false );
+                super.paintComponent( g );
+                setOpaque( true );
+            }
+        };
+        panelAnnotateImage = new javax.swing.JPanel();
+        imageLabelAnnotate = new javax.swing.JLabel();
+        spinnerAnnotateCurrentDoc = new javax.swing.JSpinner();
+        labelAnnotateSpinner = new javax.swing.JLabel();
+        buttonAnnotateOpenImage = new javax.swing.JButton();
+        panelAnnotateKeywords = new javax.swing.JPanel();
+        labelAnnotateName = new javax.swing.JLabel();
+        textfieldAnnotateName = new javax.swing.JTextField();
+        jlabelAnnotateCreator = new javax.swing.JLabel();
+        textfieldAnnotateCreator = new javax.swing.JTextField();
+        labelAnnotatePeriod = new javax.swing.JLabel();
+        textfieldAnnotatePeriod = new javax.swing.JTextField();
+        lableAnnotateTechnique = new javax.swing.JLabel();
+        textfieldAnnotateTechnique = new javax.swing.JTextField();
+        lablelAnnotateMaterials = new javax.swing.JLabel();
+        textfieldAnnotateMaterials = new javax.swing.JTextField();
+        lablelAnnotateHeight = new javax.swing.JLabel();
+        textfieldAnnotateHeight = new javax.swing.JTextField();
+        lablelAnnotateDate = new javax.swing.JLabel();
+        textfieldAnnotateDate = new javax.swing.JTextField();
+        labelAnnotateWidth = new javax.swing.JLabel();
+        textfieldAnnotateWidth = new javax.swing.JTextField();
+        lableAnnotateLocation = new javax.swing.JLabel();
+        textfieldAnnotateLocation = new javax.swing.JTextField();
+        lablelAnnotateActivity = new javax.swing.JLabel();
+        textfieldAnnotateActivity = new javax.swing.JTextField();
+        labelAnnotateTheme = new javax.swing.JLabel();
+        textfieldAnnotateTheme = new javax.swing.JTextField();
+        labelAnnotateConcept = new javax.swing.JLabel();
+        textFieldAnnotateConcept = new javax.swing.JTextField();
+        labelFreeTextAnnotation = new javax.swing.JLabel();
+        jScrollPaneFreeTextAnnotation = new javax.swing.JScrollPane();
+        textAreaAnnotateFreetext = new javax.swing.JTextArea();
+        buttonAnnotateSavebutton = new javax.swing.JButton();
+        buttonAnnotateUpdatebutton = new javax.swing.JButton();
+        labelAnnotateActor = new javax.swing.JLabel();
+        textfieldAnnotateActor = new javax.swing.JTextField();
+        buttonClearTextFields = new javax.swing.JButton();
+        semanticGraphPanel = new javax.swing.JPanel();
+        labelGraphPanelToplabel = labelGraphPanelToplabel = new JLabel(){
+
+            protected void paintComponent( Graphics g )
+
+            {
+                if ( !isOpaque( ) )
+                {
+                    super.paintComponent( g );
+                    return;
+                }
+
+                int w = getWidth( );
+                int h = getHeight( );
+
+                Color color1 = getBackground( );
+                Color color2 = color1.darker( );
+                Graphics2D g2d = (Graphics2D)g;
+                // Paint a gradient from top to bottom
+                GradientPaint gp = new GradientPaint(
+                    0, 0, color2,
+                    0, h, color1 );
+
+                g2d.setPaint( gp );
+                g2d.fillRect( 0, 0, w, h );
+
+                setOpaque( false );
+                super.paintComponent( g );
+                setOpaque( true );
+            }
+        };
+        panelAnnotateImage1 = new javax.swing.JPanel();
+        imageLabelAnnotateGraph = new javax.swing.JLabel();
+        spinnerGraphCurrentDoc = new javax.swing.JSpinner();
+        labelAnnotateGraphSpinner = new javax.swing.JLabel();
+        buttonAnnotateOpenImage1 = new javax.swing.JButton();
+        semanticPanel = new javax.swing.JPanel();
+        graphicalAnnotation1 = new uib.annotation.panels.GraphicalAnnotation();
+        optionsPanel = new javax.swing.JPanel();
+        optionsPanelTopLabel = optionsPanelTopLabel = new JLabel(){
+
+            protected void paintComponent( Graphics g )
+
+            {
+                if ( !isOpaque( ) )
+                {
+                    super.paintComponent( g );
+                    return;
+                }
+
+                int w = getWidth( );
+                int h = getHeight( );
+
+                Color color1 = getBackground( );
+                Color color2 = color1.darker( );
+                Graphics2D g2d = (Graphics2D)g;
+                // Paint a gradient from top to bottom
+                GradientPaint gp = new GradientPaint(
+                    0, 0, color2,
+                    0, h, color1 );
+
+                g2d.setPaint( gp );
+                g2d.fillRect( 0, 0, w, h );
+
+                setOpaque( false );
+                super.paintComponent( g );
+                setOpaque( true );
+            }
+        };
+        indexTypeLabel = new javax.swing.JLabel();
+        indexDirectoryLabel = new javax.swing.JLabel();
+        numberOfResultsLabel = new javax.swing.JLabel();
+        maxDowloadsFromFLickerLabel = new javax.swing.JLabel();
+        selectboxDocumentBuilder = new javax.swing.JComboBox();
+        textfieldIndexDirectory = new javax.swing.JTextField();
+        textfieldNumberOfResults = new javax.swing.JTextField();
+        maxDownloadsFromFlickerTextfield = new javax.swing.JTextField();
+        checkboxAdvancedOptions = new javax.swing.JCheckBox();
+        panelAdvancedOptions = new javax.swing.JPanel();
+        panelAdvancedOptionsHidden = new javax.swing.JPanel();
+        panelAdvancedOptionsShown = new javax.swing.JPanel();
+        jsliderScalableColor = new javax.swing.JSlider();
+        jsliderEdgeHistogram = new javax.swing.JSlider();
+        jsliderColorLayout = new javax.swing.JSlider();
+        labelAdvancedOptionsMPEG7Weight = new javax.swing.JLabel();
+        labelSliderScalableColor = new javax.swing.JLabel();
+        labelSliderEdgeHistogram = new javax.swing.JLabel();
+        labelSliderColorLayout = new javax.swing.JLabel();
+        labelAdvancedOptionStructuralSemanticWeight = new javax.swing.JLabel();
+        jSliderAdjustFeatureWeighting = new javax.swing.JSlider();
+        labelSliderFeatureWeight = new javax.swing.JLabel();
+        labelSliderAdjustFeatureWeight2 = new javax.swing.JLabel();
+        labelShowDescriptions = new javax.swing.JLabel();
+        checkboxShowDescriptions = new javax.swing.JCheckBox();
+        buttonOpenIndexButton = new javax.swing.JButton();
+        checkboxRamIndex = new javax.swing.JCheckBox();
+        precisionRecallPanel = new javax.swing.JPanel();
+        controlPanelCreateGraphPanel = new javax.swing.JPanel();
+        buttonChartOpenQrels = new javax.swing.JButton();
+        buttonOpenTopicsFile = new javax.swing.JButton();
+        buttonCreatePRGraph = new javax.swing.JButton();
+        buttonExportGraphImage = new javax.swing.JButton();
+        jLabelChart = new javax.swing.JLabel();
+        presicionRecallPanelTopLabel = presicionRecallPanelTopLabel = new JLabel(){
+
+            protected void paintComponent( Graphics g )
+
+            {
+                if ( !isOpaque( ) )
+                {
+                    super.paintComponent( g );
+                    return;
+                }
+
+                int w = getWidth( );
+                int h = getHeight( );
+
+                Color color1 = getBackground( );
+                Color color2 = color1.darker( );
+                Graphics2D g2d = (Graphics2D)g;
+                // Paint a gradient from top to bottom
+                GradientPaint gp = new GradientPaint(
+                    0, 0, color2,
+                    0, h, color1 );
+
+                g2d.setPaint( gp );
+                g2d.fillRect( 0, 0, w, h );
+
+                setOpaque( false );
+                super.paintComponent( g );
+                setOpaque( true );
+            }
+        };
+        resultsPane = new javax.swing.JPanel();
+        jScrollPanelResults = new javax.swing.JScrollPane();
+        resultsTable = new javax.swing.JTable();
+        searchResultsControlPanel = new javax.swing.JPanel(){
+
+            protected void paintComponent( Graphics g )
+
+            {
+                if ( !isOpaque( ) )
+                {
+                    super.paintComponent( g );
+                    return;
+                }
+
+                int w = getWidth( );
+                int h = getHeight( );
+
+                Color color1 = getBackground( );
+                Color color2 = color1.darker( );
+                Graphics2D g2d = (Graphics2D)g;
+                // Paint a gradient from top to bottom
+                GradientPaint gp = new GradientPaint(
+                    0, 0, color2,
+                    0, h, color1 );
+
+                g2d.setPaint( gp );
+                g2d.fillRect( 0, 0, w, h );
+
+                setOpaque( false );
+                super.paintComponent( g );
+                setOpaque( true );
+            }
+        };
+        buttonBackToMainMenu = new javax.swing.JButton();
+        buttonSaveQrelsFile = new javax.swing.JButton();
+        statusPanel = statusPanel = new JPanel(){
+
+            protected void paintComponent( Graphics g )
+
+            {
+                if ( !isOpaque( ) )
+                {
+                    super.paintComponent( g );
+                    return;
+                }
+
+                int w = getWidth( );
+                int h = getHeight( );
+
+                Color color1 = getBackground( );
+                Color color2 = color1.darker( );
+                Graphics2D g2d = (Graphics2D)g;
+                // Paint a gradient from top to bottom
+                GradientPaint gp = new GradientPaint(
+                    0, 0, color1,
+                    0, h, color2 );
+
+                g2d.setPaint( gp );
+                g2d.fillRect( 0, 0, w, h );
+
+                setOpaque( false );
+                super.paintComponent( g );
+                setOpaque( true );
+            }
+        };
+        status = new javax.swing.JLabel();
+        jProgressBarMemory = new javax.swing.JProgressBar();
+        menuBar = new javax.swing.JMenuBar();
+        fileMenu = new javax.swing.JMenu();
+        Open = new javax.swing.JMenuItem();
+        Exit = new javax.swing.JMenuItem();
+        SavelAllDocuments = new javax.swing.JMenuItem();
+        actionMenu = new javax.swing.JMenu();
+        Search = new javax.swing.JMenuItem();
+        Index = new javax.swing.JMenuItem();
+        Annotate = new javax.swing.JMenuItem();
+        Graph = new javax.swing.JMenuItem();
+        Preview = new javax.swing.JMenuItem();
+        optionsMenu = new javax.swing.JMenu();
+        Options = new javax.swing.JMenuItem();
+        helpMenu = new javax.swing.JMenu();
+        About = new javax.swing.JMenuItem();
+
+        jPopupMenuSemantic.setVerifyInputWhenFocusTarget(false);
+
+        removeObject.setText("Remove object");
+        removeObject.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeObject(evt);
+            }
+        });
+        jPopupMenuSemantic.add(removeObject);
+
+        selectAll.setText("jMenuItem1");
+        jPopupMenuSemantic.add(selectAll);
+
+        browseimagePanel.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
+
+        javax.swing.GroupLayout browseimagePanelLayout = new javax.swing.GroupLayout(browseimagePanel);
+        browseimagePanel.setLayout(browseimagePanelLayout);
+        browseimagePanelLayout.setHorizontalGroup(
+            browseimagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 806, Short.MAX_VALUE)
+        );
+        browseimagePanelLayout.setVerticalGroup(
+            browseimagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 532, Short.MAX_VALUE)
+        );
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle(TITLE_BAR);
+        setName("Aardvark"); // NOI18N
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                formWindowGainedFocus(evt);
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
+
+        topPanel.setLayout(new java.awt.CardLayout());
+
+        controlButtonsPane.setBackground(new java.awt.Color(214, 217, 223));
+        controlButtonsPane.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(240, 240, 240)));
+
+        switchButtonSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/search.png"))); // NOI18N
+        switchButtonSearch.setText("Search");
+        switchButtonSearch.setToolTipText("Search for images");
+        switchButtonSearch.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        switchButtonSearch.setOpaque(false);
+        switchButtonSearch.setPreferredSize(new java.awt.Dimension(75, 59));
+        switchButtonSearch.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        switchButtonSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                switchButtonSearchActionPerformed(evt);
+            }
+        });
+
+        switchButtonIndex.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/process.png"))); // NOI18N
+        switchButtonIndex.setText("Indexing");
+        switchButtonIndex.setToolTipText("Infomation about the application");
+        switchButtonIndex.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        switchButtonIndex.setOpaque(false);
+        switchButtonIndex.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        switchButtonIndex.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                switchButtonIndexActionPerformed(evt);
+            }
+        });
+
+        switchButtonOptions.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/tools.png"))); // NOI18N
+        switchButtonOptions.setText("Options");
+        switchButtonOptions.setToolTipText("Infomation about the application");
+        switchButtonOptions.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        switchButtonOptions.setOpaque(false);
+        switchButtonOptions.setPreferredSize(new java.awt.Dimension(75, 59));
+        switchButtonOptions.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        switchButtonOptions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                switchButtonOptionsActionPerformed(evt);
+            }
+        });
+
+        switchButtonBrowse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/search_page.png"))); // NOI18N
+        switchButtonBrowse.setText("Browse");
+        switchButtonBrowse.setToolTipText("Browse images the current searchindex");
+        switchButtonBrowse.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        switchButtonBrowse.setOpaque(false);
+        switchButtonBrowse.setPreferredSize(new java.awt.Dimension(75, 59));
+        switchButtonBrowse.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        switchButtonBrowse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                switchButtonBrowseActionPerformed(evt);
+            }
+        });
+
+        switchButtonAnnotate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/folder_accept.png"))); // NOI18N
+        switchButtonAnnotate.setText("Annotate");
+        switchButtonAnnotate.setToolTipText("Annotate images with semantic metadata");
+        switchButtonAnnotate.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        switchButtonAnnotate.setOpaque(false);
+        switchButtonAnnotate.setPreferredSize(new java.awt.Dimension(75, 59));
+        switchButtonAnnotate.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        switchButtonAnnotate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                switchButtonAnnotateActionPerformed(evt);
+            }
+        });
+
+        switchButtonExperiment.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/user_32.png"))); // NOI18N
+        switchButtonExperiment.setText("Start");
+        switchButtonExperiment.setToolTipText("Sets up the experiment and guides the user through the queries");
+        switchButtonExperiment.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        switchButtonExperiment.setOpaque(false);
+        switchButtonExperiment.setPreferredSize(new java.awt.Dimension(75, 59));
+        switchButtonExperiment.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        switchButtonExperiment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                switchButtonExperimentActionPerformed(evt);
+            }
+        });
+
+        switchButtonGraph.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/chart.png"))); // NOI18N
+        switchButtonGraph.setText("Semantic");
+        switchButtonGraph.setToolTipText("Interface for creating a semnatic graph");
+        switchButtonGraph.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        switchButtonGraph.setOpaque(false);
+        switchButtonGraph.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        switchButtonGraph.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                switchButtonGraphActionPerformed(evt);
+            }
+        });
+
+        buttonCreatePrecisionRecall.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/chart_pie.png"))); // NOI18N
+        buttonCreatePrecisionRecall.setText("PR Chart");
+        buttonCreatePrecisionRecall.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonCreatePrecisionRecall.setOpaque(false);
+        buttonCreatePrecisionRecall.setPreferredSize(new java.awt.Dimension(75, 59));
+        buttonCreatePrecisionRecall.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        buttonCreatePrecisionRecall.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonCreatePrecisionRecallActionPerformed(evt);
+            }
+        });
+
+        switchButtonAbout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/info.png"))); // NOI18N
+        switchButtonAbout.setText("About");
+        switchButtonAbout.setToolTipText("Infomation about the application");
+        switchButtonAbout.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        switchButtonAbout.setOpaque(false);
+        switchButtonAbout.setPreferredSize(new java.awt.Dimension(75, 59));
+        switchButtonAbout.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        switchButtonAbout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                switchButtonAboutActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout controlButtonsPaneLayout = new javax.swing.GroupLayout(controlButtonsPane);
+        controlButtonsPane.setLayout(controlButtonsPaneLayout);
+        controlButtonsPaneLayout.setHorizontalGroup(
+            controlButtonsPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(controlButtonsPaneLayout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addComponent(switchButtonExperiment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(switchButtonIndex)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(switchButtonSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(switchButtonBrowse, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(switchButtonAnnotate, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addComponent(switchButtonGraph)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(switchButtonOptions, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buttonCreatePrecisionRecall, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(switchButtonAbout, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        controlButtonsPaneLayout.setVerticalGroup(
+            controlButtonsPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, controlButtonsPaneLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(controlButtonsPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(switchButtonExperiment, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
+                    .addComponent(buttonCreatePrecisionRecall, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(switchButtonGraph, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(switchButtonOptions, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(switchButtonAnnotate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(switchButtonIndex, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(switchButtonSearch, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(switchButtonBrowse, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(switchButtonAbout, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        cardPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(240, 240, 240)));
+        cardPanel.setLayout(new java.awt.CardLayout());
+
+        labelExperimentPanelToplabel.setBackground(new java.awt.Color(214, 217, 223));
+        labelExperimentPanelToplabel.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
+        labelExperimentPanelToplabel.setText("  Setup experiment: ");
+        labelExperimentPanelToplabel.setMaximumSize(new java.awt.Dimension(126, 30));
+        labelExperimentPanelToplabel.setMinimumSize(new java.awt.Dimension(126, 30));
+        labelExperimentPanelToplabel.setOpaque(true);
+        labelExperimentPanelToplabel.setPreferredSize(new java.awt.Dimension(126, 30));
+
+        jLabelExperimentHints.setText("<html><b>Instructions:</b><ul><li><b>In order to perform this experiment you need to be connected to the internet!</b></i>\n<li><i><b>Step 1</i></b>: Press to download button. This will download the image collection and create an index. This takes from 1 to 3 minutes \ndepending on your internet connection and hardware. When the progressbar is finished, you're ready for the nest step</li>\n<li><i><b>Step 2</i></b>: press the experiment button. This action will open the experiment wizard that will guide you trough the experiment</li></ul>");
+
+        progressBarDownloadImages.setStringPainted(true);
+
+        jButtonDownloadImages.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/process_16.png"))); // NOI18N
+        jButtonDownloadImages.setText("Download");
+        jButtonDownloadImages.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        jButtonDownloadImages.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDownloadImagesbuttonStartDownloadPerformed(evt);
+            }
+        });
+
+        jLabelDownloadImages.setText("Download Image Collection");
+
+        jButtonStartExperiment.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/play16.png"))); // NOI18N
+        jButtonStartExperiment.setText("Start experiment");
+        jButtonStartExperiment.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        jButtonStartExperiment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonStartExperimentActionPerformed(evt);
+            }
+        });
+
+        jLabelStartExperiment.setText("Open experiment wizard");
+
+        javax.swing.GroupLayout experimentPanelLayout = new javax.swing.GroupLayout(experimentPanel);
+        experimentPanel.setLayout(experimentPanelLayout);
+        experimentPanelLayout.setHorizontalGroup(
+            experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(labelExperimentPanelToplabel, javax.swing.GroupLayout.DEFAULT_SIZE, 1132, Short.MAX_VALUE)
+            .addGroup(experimentPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(progressBarDownloadImages, javax.swing.GroupLayout.DEFAULT_SIZE, 1112, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(experimentPanelLayout.createSequentialGroup()
+                .addGroup(experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelExperimentHints, javax.swing.GroupLayout.PREFERRED_SIZE, 982, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(experimentPanelLayout.createSequentialGroup()
+                        .addGap(276, 276, 276)
+                        .addGroup(experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonDownloadImages, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelDownloadImages))
+                        .addGap(277, 277, 277)
+                        .addGroup(experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButtonStartExperiment, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabelStartExperiment, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        experimentPanelLayout.setVerticalGroup(
+            experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(experimentPanelLayout.createSequentialGroup()
+                .addComponent(labelExperimentPanelToplabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(84, 84, 84)
+                .addComponent(progressBarDownloadImages, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addGroup(experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelDownloadImages)
+                    .addComponent(jLabelStartExperiment))
+                .addGap(32, 32, 32)
+                .addGroup(experimentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonDownloadImages)
+                    .addComponent(jButtonStartExperiment))
+                .addGap(84, 84, 84)
+                .addComponent(jLabelExperimentHints, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(198, 198, 198))
+        );
+
+        cardPanel.add(experimentPanel, "card9");
+
+        IndexingPanel.setPreferredSize(new java.awt.Dimension(1087, 495));
+
+        labelIndexingPanelToplabel.setBackground(new java.awt.Color(214, 217, 223));
+        labelIndexingPanelToplabel.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
+        labelIndexingPanelToplabel.setText("  Image Indexing: ");
+        labelIndexingPanelToplabel.setMaximumSize(new java.awt.Dimension(126, 30));
+        labelIndexingPanelToplabel.setMinimumSize(new java.awt.Dimension(126, 30));
+        labelIndexingPanelToplabel.setOpaque(true);
+        labelIndexingPanelToplabel.setPreferredSize(new java.awt.Dimension(126, 30));
+
+        buttonOpenDir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/folder_16.png"))); // NOI18N
+        buttonOpenDir.setText("Open Dir..");
+        buttonOpenDir.setActionCommand("Start");
+        buttonOpenDir.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        buttonOpenDir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonOpenDirActionPerformed(evt);
+            }
+        });
+
+        progressBarIndexing.setStringPainted(true);
+
+        checkBoxAddToExistingIndex.setText("Add to existing Index");
+        checkBoxAddToExistingIndex.setToolTipText("Check this box if you want to add more documents to the existing index");
+
+        buttonStartIndexing.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/process_16.png"))); // NOI18N
+        buttonStartIndexing.setText("Start");
+        buttonStartIndexing.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        buttonStartIndexing.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonStartIndexingActionPerformed(evt);
+            }
+        });
+
+        labelIndexHint.setText("<html><b>Hints:</b><ul><li>Not only images in the selected directory but also all <i>subdirectories</i> will be indexed.<li> If you don't specify a directory images are downloaded from <i>Flickr</i>. Configure in options panel the actual number</ul>");
+
+        jButtonLuceneIndex.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/process_16.png"))); // NOI18N
+        jButtonLuceneIndex.setText("Lucene");
+        jButtonLuceneIndex.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        jButtonLuceneIndex.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLuceneIndexActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout IndexingPanelLayout = new javax.swing.GroupLayout(IndexingPanel);
+        IndexingPanel.setLayout(IndexingPanelLayout);
+        IndexingPanelLayout.setHorizontalGroup(
+            IndexingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(labelIndexingPanelToplabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1132, Short.MAX_VALUE)
+            .addGroup(IndexingPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(IndexingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(progressBarIndexing, javax.swing.GroupLayout.DEFAULT_SIZE, 1112, Short.MAX_VALUE)
+                    .addGroup(IndexingPanelLayout.createSequentialGroup()
+                        .addComponent(labelIndexHint, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 524, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, IndexingPanelLayout.createSequentialGroup()
+                        .addComponent(textfieldIndexDir, javax.swing.GroupLayout.DEFAULT_SIZE, 977, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonOpenDir, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, IndexingPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(checkBoxAddToExistingIndex)
+                        .addGap(18, 18, 18)
+                        .addGroup(IndexingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(buttonStartIndexing, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+                            .addComponent(jButtonLuceneIndex, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
+        );
+        IndexingPanelLayout.setVerticalGroup(
+            IndexingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(IndexingPanelLayout.createSequentialGroup()
+                .addComponent(labelIndexingPanelToplabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addGroup(IndexingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textfieldIndexDir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonOpenDir))
+                .addGap(18, 18, 18)
+                .addComponent(progressBarIndexing, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(IndexingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(IndexingPanelLayout.createSequentialGroup()
+                        .addGap(24, 330, Short.MAX_VALUE)
+                        .addComponent(labelIndexHint, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(100, 100, 100))
+                    .addGroup(IndexingPanelLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(IndexingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(buttonStartIndexing)
+                            .addComponent(checkBoxAddToExistingIndex))
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonLuceneIndex)
+                        .addContainerGap())))
+        );
+
+        cardPanel.add(IndexingPanel, "card1");
+
+        searchPanel.setPreferredSize(new java.awt.Dimension(1087, 495));
+
+        labelSearchPanelToplabel.setBackground(new java.awt.Color(204, 204, 204));
+        labelSearchPanelToplabel.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
+        labelSearchPanelToplabel.setText("  Search: ");
+        labelSearchPanelToplabel.setOpaque(true);
+
+        buttonSearchPanelOpenImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/folder_16.png"))); // NOI18N
+        buttonSearchPanelOpenImage.setText("Open Image");
+        buttonSearchPanelOpenImage.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        buttonSearchPanelOpenImage.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        buttonSearchPanelOpenImage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonSearchPanelOpenImageActionPerformed(evt);
+            }
+        });
+
+        progressBarSearchProgress.setFocusable(false);
+        progressBarSearchProgress.setString("Search state");
+        progressBarSearchProgress.setStringPainted(true);
+
+        buttonSearchButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/process_16.png"))); // NOI18N
+        buttonSearchButton.setText("Search");
+        buttonSearchButton.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        buttonSearchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonSearchButtonActionPerformed(evt);
+            }
+        });
+
+        labelSearchPanelHintLabel.setText("<html> <b>Hints:</b> <ul> <li> Note that a double click on a row within the search results starts a new search for the clicked image. <li>Use Drag'n'Drop to select query image from file explorer </ul> </html>");
+
+        buttonSearchText.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/process_16.png"))); // NOI18N
+        buttonSearchText.setText("Search");
+        buttonSearchText.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        buttonSearchText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonSearchTextActionPerformed(evt);
+            }
+        });
+
+        labelStructuralSearch.setText("Structural Search");
+
+        labelTextSearch.setText("Textual Search");
+
+        buttonOpenTextIndex.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/folder_16.png"))); // NOI18N
+        buttonOpenTextIndex.setText("Open Index");
+        buttonOpenTextIndex.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        buttonOpenTextIndex.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonOpenTextIndexActionPerformed(evt);
+            }
+        });
+
+        jLabelSearchMode.setText("Search mode");
+
+        jLabelSearchModality.setText("Search modality");
+
+        javax.swing.GroupLayout searchPanelLayout = new javax.swing.GroupLayout(searchPanel);
+        searchPanel.setLayout(searchPanelLayout);
+        searchPanelLayout.setHorizontalGroup(
+            searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(labelSearchPanelToplabel, javax.swing.GroupLayout.DEFAULT_SIZE, 1132, Short.MAX_VALUE)
+            .addGroup(searchPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, searchPanelLayout.createSequentialGroup()
+                        .addComponent(textfieldSearchImage, javax.swing.GroupLayout.DEFAULT_SIZE, 977, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonSearchPanelOpenImage, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(progressBarSearchProgress, javax.swing.GroupLayout.DEFAULT_SIZE, 1112, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, searchPanelLayout.createSequentialGroup()
+                        .addGap(0, 995, Short.MAX_VALUE)
+                        .addComponent(buttonSearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, searchPanelLayout.createSequentialGroup()
+                        .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(textfieldSearchText, javax.swing.GroupLayout.DEFAULT_SIZE, 979, Short.MAX_VALUE)
+                            .addComponent(jTextFieldDescription))
+                        .addGap(18, 18, 18)
+                        .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(buttonSearchText, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+                            .addComponent(buttonOpenTextIndex, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, searchPanelLayout.createSequentialGroup()
+                        .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jComboBoxSearchModality, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBoxSearchMode, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, searchPanelLayout.createSequentialGroup()
+                                .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(labelSearchPanelHintLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelStructuralSearch, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelTextSearch, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelSearchMode, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelSearchModality))))
+                .addContainerGap())
+        );
+        searchPanelLayout.setVerticalGroup(
+            searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(searchPanelLayout.createSequentialGroup()
+                .addComponent(labelSearchPanelToplabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15)
+                .addComponent(labelStructuralSearch)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textfieldSearchImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonSearchPanelOpenImage))
+                .addGap(18, 18, 18)
+                .addComponent(progressBarSearchProgress, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(buttonSearchButton)
+                .addGap(54, 54, 54)
+                .addComponent(labelTextSearch)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textfieldSearchText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonSearchText))
+                .addGap(18, 18, 18)
+                .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buttonOpenTextIndex)
+                    .addComponent(jTextFieldDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBoxSearchMode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelSearchMode))
+                .addGap(18, 18, 18)
+                .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBoxSearchModality, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelSearchModality))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                .addComponent(labelSearchPanelHintLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(98, 98, 98))
+        );
+
+        cardPanel.add(searchPanel, "card2");
+
+        BrowsePanel.setLayout(new java.awt.BorderLayout());
+
+        browseContainerPanel.setLayout(new java.awt.BorderLayout());
+        BrowsePanel.add(browseContainerPanel, java.awt.BorderLayout.CENTER);
+
+        spinnerCurrentDoc.putClientProperty("JComponent.sizeVariant", "large");
+        spinnerCurrentDoc.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        spinnerCurrentDoc.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                spinnerCurrentDocMouseWheelMoved(evt);
+            }
+        });
+        spinnerCurrentDoc.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                browseControlPanelSpinnerStateChanged(evt);
+            }
+        });
+
+        labelBrowseCurrentDivider.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        labelBrowseCurrentDivider.setText("/");
+
+        labelBrowseCurrentImage.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        labelBrowseCurrentImage.setText("Current Image ");
+
+        spinnerMaxDoc.putClientProperty("JComponent.sizeVariant", "large");
+
+        buttonSearchFromBrowse.putClientProperty("JComponent.sizeVariant", "large");
+        buttonSearchFromBrowse.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/process_16.png"))); // NOI18N
+        buttonSearchFromBrowse.setText("Search");
+        buttonSearchFromBrowse.setToolTipText("Searches for the current image");
+        buttonSearchFromBrowse.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        buttonSearchFromBrowse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonSearchFromBrowseActionPerformed(evt);
+            }
+        });
+
+        labelBrowsePanelToplabel1.setBackground(new java.awt.Color(204, 204, 204));
+        labelBrowsePanelToplabel1.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
+        labelBrowsePanelToplabel1.setText("  Browse: ");
+        labelBrowsePanelToplabel1.setOpaque(true);
+
+        javax.swing.GroupLayout browseControlPanelLayout = new javax.swing.GroupLayout(browseControlPanel);
+        browseControlPanel.setLayout(browseControlPanelLayout);
+        browseControlPanelLayout.setHorizontalGroup(
+            browseControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(browseControlPanelLayout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(labelBrowseCurrentImage)
+                .addGap(18, 18, 18)
+                .addComponent(spinnerCurrentDoc, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(labelBrowseCurrentDivider)
+                .addGap(18, 18, 18)
+                .addComponent(spinnerMaxDoc, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(buttonSearchFromBrowse, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addComponent(labelBrowsePanelToplabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1132, Short.MAX_VALUE)
+        );
+        browseControlPanelLayout.setVerticalGroup(
+            browseControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(browseControlPanelLayout.createSequentialGroup()
+                .addComponent(labelBrowsePanelToplabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(browseControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(spinnerCurrentDoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelBrowseCurrentDivider)
+                    .addComponent(spinnerMaxDoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonSearchFromBrowse)
+                    .addComponent(labelBrowseCurrentImage))
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
+        BrowsePanel.add(browseControlPanel, java.awt.BorderLayout.PAGE_START);
+
+        cardPanel.add(BrowsePanel, "card3");
+
+        annotatePanel.setPreferredSize(new java.awt.Dimension(1087, 495));
+
+        labelAnnotatePanelToplabel.setBackground(new java.awt.Color(204, 204, 204));
+        labelAnnotatePanelToplabel.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
+        labelAnnotatePanelToplabel.setText("  Annotate: ");
+        labelAnnotatePanelToplabel.setOpaque(true);
+
+        panelAnnotateImage.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        imageLabelAnnotate.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        spinnerAnnotateCurrentDoc.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        spinnerAnnotateCurrentDoc.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spinnerAnnotateCurrentDocStateChanged(evt);
+            }
+        });
+
+        labelAnnotateSpinner.setText("Current document");
+
+        buttonAnnotateOpenImage.setText("Open");
+
+        javax.swing.GroupLayout panelAnnotateImageLayout = new javax.swing.GroupLayout(panelAnnotateImage);
+        panelAnnotateImage.setLayout(panelAnnotateImageLayout);
+        panelAnnotateImageLayout.setHorizontalGroup(
+            panelAnnotateImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelAnnotateImageLayout.createSequentialGroup()
+                .addGroup(panelAnnotateImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelAnnotateImageLayout.createSequentialGroup()
+                        .addGap(106, 106, 106)
+                        .addComponent(buttonAnnotateOpenImage))
+                    .addGroup(panelAnnotateImageLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(panelAnnotateImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(imageLabelAnnotate, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panelAnnotateImageLayout.createSequentialGroup()
+                                .addComponent(labelAnnotateSpinner)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
+                                .addComponent(spinnerAnnotateCurrentDoc, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap())
+        );
+        panelAnnotateImageLayout.setVerticalGroup(
+            panelAnnotateImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelAnnotateImageLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(imageLabelAnnotate, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(49, 49, 49)
+                .addGroup(panelAnnotateImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelAnnotateSpinner)
+                    .addComponent(spinnerAnnotateCurrentDoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(67, 67, 67)
+                .addComponent(buttonAnnotateOpenImage)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        panelAnnotateKeywords.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        labelAnnotateName.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelAnnotateName.setText("Name");
+
+        annotationFields.add(textfieldAnnotateName);
+        textfieldAnnotateName.setComponentPopupMenu(jPopupMenuSemantic);
+
+        jlabelAnnotateCreator.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jlabelAnnotateCreator.setText("Creator");
+
+        annotationFields.add(textfieldAnnotateCreator);
+        textfieldAnnotateCreator.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textfieldAnnotateCreatorActionPerformed(evt);
+            }
+        });
+
+        labelAnnotatePeriod.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelAnnotatePeriod.setText("Period");
+
+        annotationFields.add(textfieldAnnotatePeriod);
+
+        lableAnnotateTechnique.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lableAnnotateTechnique.setText("Technique");
+
+        annotationFields.add(textfieldAnnotateTechnique);
+
+        lablelAnnotateMaterials.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lablelAnnotateMaterials.setText("Materials");
+
+        annotationFields.add(textfieldAnnotateMaterials);
+
+        lablelAnnotateHeight.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lablelAnnotateHeight.setText("Height");
+
+        annotationFields.add(textfieldAnnotateHeight);
+
+        lablelAnnotateDate.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lablelAnnotateDate.setText("Date");
+
+        annotationFields.add(textfieldAnnotateDate);
+
+        labelAnnotateWidth.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelAnnotateWidth.setText("Width");
+        labelAnnotateWidth.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+
+        annotationFields.add(textfieldAnnotateWidth);
+        textfieldAnnotateWidth.setComponentPopupMenu(jPopupMenuSemantic);
+
+        lableAnnotateLocation.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lableAnnotateLocation.setText("Location");
+
+        annotationFields.add(textfieldAnnotateLocation);
+
+        lablelAnnotateActivity.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lablelAnnotateActivity.setText("Activity");
+
+        annotationFields.add(textfieldAnnotateActivity);
+
+        labelAnnotateTheme.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelAnnotateTheme.setText("Theme");
+
+        annotationFields.add(textfieldAnnotateTheme);
+
+        labelAnnotateConcept.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelAnnotateConcept.setText("Concept");
+
+        annotationFields.add(textFieldAnnotateConcept);
+
+        labelFreeTextAnnotation.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelFreeTextAnnotation.setLabelFor(textAreaAnnotateFreetext);
+        labelFreeTextAnnotation.setText("Free text");
+
+        jScrollPaneFreeTextAnnotation.setHorizontalScrollBar(null);
+
+        textAreaAnnotateFreetext.setColumns(40);
+        textAreaAnnotateFreetext.setFont(new Font("monospaced", Font.PLAIN, 12));
+        textAreaAnnotateFreetext.setLineWrap(true);
+        textAreaAnnotateFreetext.setRows(20);
+        textAreaAnnotateFreetext.setTabSize(1);
+        textAreaAnnotateFreetext.setWrapStyleWord(true);
+        textAreaAnnotateFreetext.setAutoscrolls(false);
+        jScrollPaneFreeTextAnnotation.setViewportView(textAreaAnnotateFreetext);
+
+        buttonAnnotateSavebutton.setText("Save");
+        buttonAnnotateSavebutton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAnnotateSavebuttonActionPerformed(evt);
+            }
+        });
+
+        buttonAnnotateUpdatebutton.setText("Update");
+        buttonAnnotateUpdatebutton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAnnotateUpdatebuttonActionPerformed(evt);
+            }
+        });
+
+        labelAnnotateActor.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        labelAnnotateActor.setText("Actor");
+
+        annotationFields.add(textfieldAnnotateActor);
+
+        buttonClearTextFields.setText("Clear");
+        buttonClearTextFields.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonClearTextFieldsActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelAnnotateKeywordsLayout = new javax.swing.GroupLayout(panelAnnotateKeywords);
+        panelAnnotateKeywords.setLayout(panelAnnotateKeywordsLayout);
+        panelAnnotateKeywordsLayout.setHorizontalGroup(
+            panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelAnnotateKeywordsLayout.createSequentialGroup()
+                .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelAnnotateKeywordsLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelAnnotateKeywordsLayout.createSequentialGroup()
+                                .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lablelAnnotateDate)
+                                    .addComponent(labelAnnotateActor))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(panelAnnotateKeywordsLayout.createSequentialGroup()
+                                .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lablelAnnotateMaterials)
+                                    .addComponent(lablelAnnotateHeight)
+                                    .addComponent(labelAnnotatePeriod)
+                                    .addComponent(lableAnnotateTechnique)
+                                    .addComponent(labelAnnotateName)
+                                    .addComponent(jlabelAnnotateCreator))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(textfieldAnnotateActor, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                                    .addComponent(textfieldAnnotateDate, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(textfieldAnnotateHeight, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(textfieldAnnotateMaterials)
+                                    .addComponent(textfieldAnnotateTechnique, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(textfieldAnnotatePeriod, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(textfieldAnnotateCreator, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(textfieldAnnotateName, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(labelAnnotateConcept)
+                                    .addComponent(labelFreeTextAnnotation)
+                                    .addComponent(labelAnnotateTheme)
+                                    .addComponent(lablelAnnotateActivity)
+                                    .addComponent(lableAnnotateLocation)
+                                    .addComponent(labelAnnotateWidth))
+                                .addGap(18, 18, 18))))
+                    .addGroup(panelAnnotateKeywordsLayout.createSequentialGroup()
+                        .addGap(51, 51, 51)
+                        .addComponent(buttonAnnotateSavebutton, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonAnnotateUpdatebutton, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonClearTextFields, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPaneFreeTextAnnotation, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
+                    .addComponent(textfieldAnnotateLocation)
+                    .addComponent(textfieldAnnotateWidth)
+                    .addComponent(textfieldAnnotateActivity)
+                    .addComponent(textfieldAnnotateTheme)
+                    .addComponent(textFieldAnnotateConcept))
+                .addContainerGap())
+        );
+        panelAnnotateKeywordsLayout.setVerticalGroup(
+            panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelAnnotateKeywordsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(panelAnnotateKeywordsLayout.createSequentialGroup()
+                        .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelAnnotateName)
+                            .addComponent(textfieldAnnotateName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jlabelAnnotateCreator)
+                            .addComponent(textfieldAnnotateCreator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelAnnotatePeriod)
+                            .addComponent(textfieldAnnotatePeriod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lableAnnotateTechnique)
+                            .addComponent(textfieldAnnotateTechnique, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lablelAnnotateMaterials)
+                            .addComponent(textfieldAnnotateMaterials, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(panelAnnotateKeywordsLayout.createSequentialGroup()
+                        .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(textfieldAnnotateWidth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelAnnotateWidth))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(textfieldAnnotateLocation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lableAnnotateLocation))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(textfieldAnnotateActivity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lablelAnnotateActivity))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(textfieldAnnotateTheme, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelAnnotateTheme))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(textFieldAnnotateConcept, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelAnnotateConcept))))
+                .addGap(18, 18, 18)
+                .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(panelAnnotateKeywordsLayout.createSequentialGroup()
+                        .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelFreeTextAnnotation)
+                            .addComponent(jScrollPaneFreeTextAnnotation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())
+                    .addGroup(panelAnnotateKeywordsLayout.createSequentialGroup()
+                        .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lablelAnnotateHeight)
+                            .addComponent(textfieldAnnotateHeight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lablelAnnotateDate)
+                            .addComponent(textfieldAnnotateDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelAnnotateActor)
+                            .addComponent(textfieldAnnotateActor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(panelAnnotateKeywordsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(buttonAnnotateSavebutton)
+                            .addComponent(buttonAnnotateUpdatebutton)
+                            .addComponent(buttonClearTextFields))
+                        .addGap(95, 95, 95))))
+        );
+
+        javax.swing.GroupLayout annotatePanelLayout = new javax.swing.GroupLayout(annotatePanel);
+        annotatePanel.setLayout(annotatePanelLayout);
+        annotatePanelLayout.setHorizontalGroup(
+            annotatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(annotatePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelAnnotateImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(panelAnnotateKeywords, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(labelAnnotatePanelToplabel, javax.swing.GroupLayout.DEFAULT_SIZE, 1132, Short.MAX_VALUE)
+        );
+        annotatePanelLayout.setVerticalGroup(
+            annotatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(annotatePanelLayout.createSequentialGroup()
+                .addComponent(labelAnnotatePanelToplabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(annotatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelAnnotateKeywords, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelAnnotateImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        cardPanel.add(annotatePanel, "card4");
+
+        semanticGraphPanel.setPreferredSize(new java.awt.Dimension(1087, 495));
+
+        labelGraphPanelToplabel.setBackground(new java.awt.Color(204, 204, 204));
+        labelGraphPanelToplabel.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
+        labelGraphPanelToplabel.setText("  Semantic Graph: ");
+        labelGraphPanelToplabel.setMaximumSize(new java.awt.Dimension(126, 30));
+        labelGraphPanelToplabel.setMinimumSize(new java.awt.Dimension(126, 30));
+        labelGraphPanelToplabel.setOpaque(true);
+        labelGraphPanelToplabel.setPreferredSize(new java.awt.Dimension(126, 30));
+
+        panelAnnotateImage1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        imageLabelAnnotateGraph.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        imageLabelAnnotateGraph.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        imageLabelAnnotateGraph.setIconTextGap(0);
+
+        spinnerGraphCurrentDoc.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        spinnerGraphCurrentDoc.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spinnerGraphCurrentDocStateChanged(evt);
+            }
+        });
+
+        labelAnnotateGraphSpinner.setText("Current document");
+
+        buttonAnnotateOpenImage1.setText("Open");
+
+        javax.swing.GroupLayout panelAnnotateImage1Layout = new javax.swing.GroupLayout(panelAnnotateImage1);
+        panelAnnotateImage1.setLayout(panelAnnotateImage1Layout);
+        panelAnnotateImage1Layout.setHorizontalGroup(
+            panelAnnotateImage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelAnnotateImage1Layout.createSequentialGroup()
+                .addGroup(panelAnnotateImage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelAnnotateImage1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(labelAnnotateGraphSpinner)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
+                        .addComponent(spinnerGraphCurrentDoc, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelAnnotateImage1Layout.createSequentialGroup()
+                        .addGap(106, 106, 106)
+                        .addComponent(buttonAnnotateOpenImage1))
+                    .addGroup(panelAnnotateImage1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(imageLabelAnnotateGraph, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        panelAnnotateImage1Layout.setVerticalGroup(
+            panelAnnotateImage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelAnnotateImage1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(imageLabelAnnotateGraph, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(49, 49, 49)
+                .addGroup(panelAnnotateImage1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelAnnotateGraphSpinner)
+                    .addComponent(spinnerGraphCurrentDoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(67, 67, 67)
+                .addComponent(buttonAnnotateOpenImage1)
+                .addContainerGap(189, Short.MAX_VALUE))
+        );
+
+        semanticPanel.setPreferredSize(new java.awt.Dimension(866, 494));
+
+        javax.swing.GroupLayout semanticPanelLayout = new javax.swing.GroupLayout(semanticPanel);
+        semanticPanel.setLayout(semanticPanelLayout);
+        semanticPanelLayout.setHorizontalGroup(
+            semanticPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 822, Short.MAX_VALUE)
+            .addGroup(semanticPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(graphicalAnnotation1, javax.swing.GroupLayout.DEFAULT_SIZE, 799, Short.MAX_VALUE))
+        );
+        semanticPanelLayout.setVerticalGroup(
+            semanticPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 582, Short.MAX_VALUE)
+            .addGroup(semanticPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(graphicalAnnotation1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 535, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout semanticGraphPanelLayout = new javax.swing.GroupLayout(semanticGraphPanel);
+        semanticGraphPanel.setLayout(semanticGraphPanelLayout);
+        semanticGraphPanelLayout.setHorizontalGroup(
+            semanticGraphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(labelGraphPanelToplabel, javax.swing.GroupLayout.DEFAULT_SIZE, 1132, Short.MAX_VALUE)
+            .addGroup(semanticGraphPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelAnnotateImage1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(semanticPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 822, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        semanticGraphPanelLayout.setVerticalGroup(
+            semanticGraphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(semanticGraphPanelLayout.createSequentialGroup()
+                .addComponent(labelGraphPanelToplabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(semanticGraphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(panelAnnotateImage1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(semanticPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        cardPanel.add(semanticGraphPanel, "card7");
+
+        optionsPanel.setPreferredSize(new java.awt.Dimension(1087, 495));
+        optionsPanel.setRequestFocusEnabled(false);
+
+        optionsPanelTopLabel.setBackground(new java.awt.Color(204, 204, 204));
+        optionsPanelTopLabel.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
+        optionsPanelTopLabel.setText("  Options: ");
+        optionsPanelTopLabel.setOpaque(true);
+
+        indexTypeLabel.setText("Type of search indexer");
+
+        indexDirectoryLabel.setText("Use index directory");
+
+        numberOfResultsLabel.setText("Max numbers of results");
+
+        maxDowloadsFromFLickerLabel.setText("Max downloads from flicker");
+
+        selectboxDocumentBuilder.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All MPEG-7 descriptors", "Scalable Color (MPEG-7)", "Edge Histrogram (MEPG-7)", "Colour Layout (MPEG-7)", "Auto Color Correlogram", "CEDD", "FCTH", "RGB Color Histogram", "Tamura", "Gabor", "Metric Spaces (approximate CEDD)" }));
+        selectboxDocumentBuilder.setToolTipText("Select the descriptor(s) you want to use for searching the database");
+        selectboxDocumentBuilder.setDoubleBuffered(true);
+        selectboxDocumentBuilder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectboxDocumentBuilderActionPerformed(evt);
+            }
+        });
+
+        textfieldIndexDirectory.setText("Index");
+        textfieldIndexDirectory.setDoubleBuffered(true);
+
+        textfieldNumberOfResults.setText("25");
+
+        maxDownloadsFromFlickerTextfield.setText("25");
+
+        checkboxAdvancedOptions.setText("Advanced Options");
+        checkboxAdvancedOptions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkboxAdvancedOptionsActionPerformed(evt);
+            }
+        });
+
+        panelAdvancedOptions.setLayout(new java.awt.CardLayout());
+
+        javax.swing.GroupLayout panelAdvancedOptionsHiddenLayout = new javax.swing.GroupLayout(panelAdvancedOptionsHidden);
+        panelAdvancedOptionsHidden.setLayout(panelAdvancedOptionsHiddenLayout);
+        panelAdvancedOptionsHiddenLayout.setHorizontalGroup(
+            panelAdvancedOptionsHiddenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1087, Short.MAX_VALUE)
+        );
+        panelAdvancedOptionsHiddenLayout.setVerticalGroup(
+            panelAdvancedOptionsHiddenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 398, Short.MAX_VALUE)
+        );
+
+        panelAdvancedOptions.add(panelAdvancedOptionsHidden, "card2");
+
+        panelAdvancedOptionsShown.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelAdvancedOptionsShown.setPreferredSize(new java.awt.Dimension(1087, 257));
+
+        jsliderScalableColor.setMajorTickSpacing(10);
+        jsliderScalableColor.setPaintLabels(true);
+        jsliderScalableColor.setPaintTicks(true);
+        jsliderScalableColor.setSnapToTicks(true);
+        jsliderScalableColor.setToolTipText("The Scalable Color Descriptor is a Color Histogram in HSV Color Space, which is encoded by a Haar transform");
+        jsliderScalableColor.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jsliderEdgeHistogram.setMajorTickSpacing(10);
+        jsliderEdgeHistogram.setPaintLabels(true);
+        jsliderEdgeHistogram.setPaintTicks(true);
+        jsliderEdgeHistogram.setSnapToTicks(true);
+        jsliderEdgeHistogram.setToolTipText("The edge histogram descriptor represents the spatial distribution of five types of edges, namely four directional edges and one non-directional edge");
+        jsliderEdgeHistogram.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jsliderColorLayout.setMajorTickSpacing(10);
+        jsliderColorLayout.setPaintLabels(true);
+        jsliderColorLayout.setPaintTicks(true);
+        jsliderColorLayout.setSnapToTicks(true);
+        jsliderColorLayout.setToolTipText("This descriptor effectively represents the spatial distribution of color of visual signals in a very compact form");
+        jsliderColorLayout.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        labelAdvancedOptionsMPEG7Weight.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        labelAdvancedOptionsMPEG7Weight.setText("Adjust weighting of MPEG-7 descriptors");
+
+        labelSliderScalableColor.setText("Scalable clolor");
+
+        labelSliderEdgeHistogram.setText("Edge historgram");
+
+        labelSliderColorLayout.setText("Color layout");
+
+        labelAdvancedOptionStructuralSemanticWeight.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        labelAdvancedOptionStructuralSemanticWeight.setText("Adjust weighting of features");
+
+        jSliderAdjustFeatureWeighting.setMajorTickSpacing(10);
+        jSliderAdjustFeatureWeighting.setMinorTickSpacing(10);
+        jSliderAdjustFeatureWeighting.setPaintLabels(true);
+        jSliderAdjustFeatureWeighting.setPaintTicks(true);
+        jSliderAdjustFeatureWeighting.setSnapToTicks(true);
+        jSliderAdjustFeatureWeighting.setToolTipText("Adjust the weighting of structural vs. semantic metadata used for retrieval");
+        jSliderAdjustFeatureWeighting.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        labelSliderFeatureWeight.setText("Structural");
+
+        labelSliderAdjustFeatureWeight2.setText("Semantic");
+
+        labelShowDescriptions.setText("Show descriptions");
+
+        checkboxShowDescriptions.setText("On/Off");
+        checkboxShowDescriptions.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkboxShowDescriptionsActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelAdvancedOptionsShownLayout = new javax.swing.GroupLayout(panelAdvancedOptionsShown);
+        panelAdvancedOptionsShown.setLayout(panelAdvancedOptionsShownLayout);
+        panelAdvancedOptionsShownLayout.setHorizontalGroup(
+            panelAdvancedOptionsShownLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelAdvancedOptionsShownLayout.createSequentialGroup()
+                .addGroup(panelAdvancedOptionsShownLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelAdvancedOptionsShownLayout.createSequentialGroup()
+                        .addGap(153, 153, 153)
+                        .addComponent(labelAdvancedOptionsMPEG7Weight))
+                    .addGroup(panelAdvancedOptionsShownLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(panelAdvancedOptionsShownLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelSliderColorLayout)
+                            .addComponent(labelSliderEdgeHistogram)
+                            .addComponent(labelSliderScalableColor))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(panelAdvancedOptionsShownLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jsliderEdgeHistogram, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jsliderColorLayout, javax.swing.GroupLayout.PREFERRED_SIZE, 393, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jsliderScalableColor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
+                .addGroup(panelAdvancedOptionsShownLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAdvancedOptionsShownLayout.createSequentialGroup()
+                        .addComponent(labelAdvancedOptionStructuralSemanticWeight)
+                        .addGap(174, 174, 174))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAdvancedOptionsShownLayout.createSequentialGroup()
+                        .addGroup(panelAdvancedOptionsShownLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelSliderFeatureWeight)
+                            .addComponent(labelShowDescriptions))
+                        .addGap(28, 28, 28)
+                        .addGroup(panelAdvancedOptionsShownLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelAdvancedOptionsShownLayout.createSequentialGroup()
+                                .addComponent(jSliderAdjustFeatureWeighting, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(labelSliderAdjustFeatureWeight2))
+                            .addComponent(checkboxShowDescriptions))
+                        .addGap(87, 87, 87))))
+        );
+        panelAdvancedOptionsShownLayout.setVerticalGroup(
+            panelAdvancedOptionsShownLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelAdvancedOptionsShownLayout.createSequentialGroup()
+                .addGroup(panelAdvancedOptionsShownLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelAdvancedOptionsShownLayout.createSequentialGroup()
+                        .addGroup(panelAdvancedOptionsShownLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelAdvancedOptionsShownLayout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addComponent(labelAdvancedOptionsMPEG7Weight))
+                            .addGroup(panelAdvancedOptionsShownLayout.createSequentialGroup()
+                                .addGap(36, 36, 36)
+                                .addComponent(labelAdvancedOptionStructuralSemanticWeight)))
+                        .addGap(51, 51, 51)
+                        .addGroup(panelAdvancedOptionsShownLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelAdvancedOptionsShownLayout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addComponent(labelSliderScalableColor)
+                                .addGap(33, 33, 33)
+                                .addComponent(labelSliderEdgeHistogram)
+                                .addGap(31, 31, 31)
+                                .addComponent(labelSliderColorLayout))
+                            .addGroup(panelAdvancedOptionsShownLayout.createSequentialGroup()
+                                .addGroup(panelAdvancedOptionsShownLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(panelAdvancedOptionsShownLayout.createSequentialGroup()
+                                        .addGroup(panelAdvancedOptionsShownLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jsliderScalableColor, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jSliderAdjustFeatureWeighting, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                    .addGroup(panelAdvancedOptionsShownLayout.createSequentialGroup()
+                                        .addComponent(labelSliderFeatureWeight)
+                                        .addGap(18, 18, 18)))
+                                .addGroup(panelAdvancedOptionsShownLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jsliderEdgeHistogram, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelShowDescriptions)
+                                    .addComponent(checkboxShowDescriptions))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jsliderColorLayout, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(panelAdvancedOptionsShownLayout.createSequentialGroup()
+                        .addGap(117, 117, 117)
+                        .addComponent(labelSliderAdjustFeatureWeight2)))
+                .addContainerGap(156, Short.MAX_VALUE))
+        );
+
+        panelAdvancedOptions.add(panelAdvancedOptionsShown, "card3");
+
+        buttonOpenIndexButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/folder_16.png"))); // NOI18N
+        buttonOpenIndexButton.setText("Open Index..");
+        buttonOpenIndexButton.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        buttonOpenIndexButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonOpenIndexButtonActionPerformed(evt);
+            }
+        });
+
+        checkboxRamIndex.setText("Use RAM index");
+
+        javax.swing.GroupLayout optionsPanelLayout = new javax.swing.GroupLayout(optionsPanel);
+        optionsPanel.setLayout(optionsPanelLayout);
+        optionsPanelLayout.setHorizontalGroup(
+            optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(optionsPanelTopLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(optionsPanelLayout.createSequentialGroup()
+                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, optionsPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(panelAdvancedOptions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, optionsPanelLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(indexTypeLabel)
+                                .addComponent(indexDirectoryLabel)
+                                .addComponent(numberOfResultsLabel)
+                                .addComponent(maxDowloadsFromFLickerLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(checkboxAdvancedOptions))
+                        .addGap(31, 31, 31)
+                        .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(optionsPanelLayout.createSequentialGroup()
+                                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(selectboxDocumentBuilder, 0, 727, Short.MAX_VALUE)
+                                    .addComponent(textfieldIndexDirectory)
+                                    .addComponent(maxDownloadsFromFlickerTextfield)
+                                    .addComponent(textfieldNumberOfResults))
+                                .addGap(18, 18, 18)
+                                .addComponent(buttonOpenIndexButton))
+                            .addComponent(checkboxRamIndex))))
+                .addContainerGap(35, Short.MAX_VALUE))
+        );
+        optionsPanelLayout.setVerticalGroup(
+            optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(optionsPanelLayout.createSequentialGroup()
+                .addComponent(optionsPanelTopLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(indexTypeLabel)
+                    .addComponent(selectboxDocumentBuilder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(indexDirectoryLabel)
+                    .addComponent(textfieldIndexDirectory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonOpenIndexButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(numberOfResultsLabel)
+                    .addComponent(textfieldNumberOfResults, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(maxDowloadsFromFLickerLabel)
+                    .addComponent(maxDownloadsFromFlickerTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(checkboxAdvancedOptions)
+                    .addComponent(checkboxRamIndex))
+                .addGap(18, 18, 18)
+                .addComponent(panelAdvancedOptions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        cardPanel.add(optionsPanel, "card5");
+
+        precisionRecallPanel.setPreferredSize(new java.awt.Dimension(1087, 495));
+        precisionRecallPanel.setRequestFocusEnabled(false);
+        precisionRecallPanel.setVerifyInputWhenFocusTarget(false);
+
+        controlPanelCreateGraphPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Chart control"));
+
+        buttonChartOpenQrels.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/folder_16.png"))); // NOI18N
+        buttonChartOpenQrels.setText("Open Qrels File..");
+        buttonChartOpenQrels.setToolTipText("Open a qrels file, qrels denotes which documents are relevant for a given search");
+        buttonChartOpenQrels.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        buttonChartOpenQrels.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonChartOpenQrelsActionPerformed(evt);
+            }
+        });
+
+        buttonOpenTopicsFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/folder_16.png"))); // NOI18N
+        buttonOpenTopicsFile.setText("Open Topics File");
+        buttonOpenTopicsFile.setToolTipText("Opens a file for the topics for the search yielding a precision recall chart");
+        buttonOpenTopicsFile.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        buttonOpenTopicsFile.setPreferredSize(new java.awt.Dimension(133, 25));
+        buttonOpenTopicsFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonOpenTopicsFileActionPerformed(evt);
+            }
+        });
+
+        buttonCreatePRGraph.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/process_16.png"))); // NOI18N
+        buttonCreatePRGraph.setText("Generate Graph");
+        buttonCreatePRGraph.setToolTipText("Given that the qrels and topic files are correct, this button creats the precision recall graph");
+        buttonCreatePRGraph.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        buttonCreatePRGraph.setPreferredSize(new java.awt.Dimension(133, 25));
+        buttonCreatePRGraph.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonCreatePRGraphActionPerformed(evt);
+            }
+        });
+
+        buttonExportGraphImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/folder_accept_16.png"))); // NOI18N
+        buttonExportGraphImage.setText("Export Graph");
+        buttonExportGraphImage.setToolTipText("This button exports the grahp as a .gif or .png image");
+        buttonExportGraphImage.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
+        buttonExportGraphImage.setPreferredSize(new java.awt.Dimension(133, 25));
+        buttonExportGraphImage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonExportGraphImageActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout controlPanelCreateGraphPanelLayout = new javax.swing.GroupLayout(controlPanelCreateGraphPanel);
+        controlPanelCreateGraphPanel.setLayout(controlPanelCreateGraphPanelLayout);
+        controlPanelCreateGraphPanelLayout.setHorizontalGroup(
+            controlPanelCreateGraphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(controlPanelCreateGraphPanelLayout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addGroup(controlPanelCreateGraphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(buttonChartOpenQrels, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+                    .addComponent(buttonOpenTopicsFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(buttonCreatePRGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(buttonExportGraphImage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
+        );
+        controlPanelCreateGraphPanelLayout.setVerticalGroup(
+            controlPanelCreateGraphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(controlPanelCreateGraphPanelLayout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addComponent(buttonChartOpenQrels, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(buttonOpenTopicsFile, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(buttonCreatePRGraph, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(buttonExportGraphImage, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(162, 162, 162))
+        );
+
+        jFreeGraphPanel.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                jFreeGraphPanelResized(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jFreeGraphPanelLayout = new javax.swing.GroupLayout(jFreeGraphPanel);
+        jFreeGraphPanel.setLayout(jFreeGraphPanelLayout);
+        jFreeGraphPanelLayout.setHorizontalGroup(
+            jFreeGraphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabelChart, javax.swing.GroupLayout.DEFAULT_SIZE, 895, Short.MAX_VALUE)
+        );
+        jFreeGraphPanelLayout.setVerticalGroup(
+            jFreeGraphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabelChart, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
+        );
+
+        presicionRecallPanelTopLabel.setBackground(new java.awt.Color(204, 204, 204));
+        presicionRecallPanelTopLabel.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
+        presicionRecallPanelTopLabel.setText("  Precision Recall: ");
+        presicionRecallPanelTopLabel.setOpaque(true);
+
+        javax.swing.GroupLayout precisionRecallPanelLayout = new javax.swing.GroupLayout(precisionRecallPanel);
+        precisionRecallPanel.setLayout(precisionRecallPanelLayout);
+        precisionRecallPanelLayout.setHorizontalGroup(
+            precisionRecallPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(precisionRecallPanelLayout.createSequentialGroup()
+                .addComponent(controlPanelCreateGraphPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jFreeGraphPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(presicionRecallPanelTopLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 1132, Short.MAX_VALUE)
+        );
+        precisionRecallPanelLayout.setVerticalGroup(
+            precisionRecallPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, precisionRecallPanelLayout.createSequentialGroup()
+                .addComponent(presicionRecallPanelTopLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(precisionRecallPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jFreeGraphPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(controlPanelCreateGraphPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        cardPanel.add(precisionRecallPanel, "card8");
+
+        javax.swing.GroupLayout controlPaneLayout = new javax.swing.GroupLayout(controlPane);
+        controlPane.setLayout(controlPaneLayout);
+        controlPaneLayout.setHorizontalGroup(
+            controlPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(controlButtonsPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(cardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        controlPaneLayout.setVerticalGroup(
+            controlPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(controlPaneLayout.createSequentialGroup()
+                .addComponent(controlButtonsPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        topPanel.add(controlPane, "card1");
+
+        resultsPane.setLayout(new java.awt.BorderLayout());
+
+        resultsTable.setModel(tableModel);
+        resultsTable.setToolTipText("<html>Double click on row searches for similar images<br>Right click on image opens it in external viewer</html>");
+        resultsTable.setGridColor(new java.awt.Color(0, 0, 0));
+        resultsTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                resultsTableMouseClicked(evt);
+            }
+        });
+        jScrollPanelResults.setViewportView(resultsTable);
+
+        resultsPane.add(jScrollPanelResults, java.awt.BorderLayout.CENTER);
+
+        searchResultsControlPanel.setBorder(new javax.swing.border.MatteBorder(null));
+
+        buttonBackToMainMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/back.png"))); // NOI18N
+        buttonBackToMainMenu.setText("Back");
+        buttonBackToMainMenu.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonBackToMainMenu.setOpaque(false);
+        buttonBackToMainMenu.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        buttonBackToMainMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonBackToMainMenuActionPerformed(evt);
+            }
+        });
+
+        buttonSaveQrelsFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/download.png"))); // NOI18N
+        buttonSaveQrelsFile.setText("Save Qrels");
+        buttonSaveQrelsFile.setToolTipText("Save the relevant results");
+        buttonSaveQrelsFile.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonSaveQrelsFile.setOpaque(false);
+        buttonSaveQrelsFile.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        buttonSaveQrelsFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonSaveQrelsFileActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout searchResultsControlPanelLayout = new javax.swing.GroupLayout(searchResultsControlPanel);
+        searchResultsControlPanel.setLayout(searchResultsControlPanelLayout);
+        searchResultsControlPanelLayout.setHorizontalGroup(
+            searchResultsControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(searchResultsControlPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(buttonBackToMainMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(buttonSaveQrelsFile)
+                .addContainerGap(942, Short.MAX_VALUE))
+        );
+        searchResultsControlPanelLayout.setVerticalGroup(
+            searchResultsControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, searchResultsControlPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(searchResultsControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(buttonSaveQrelsFile, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
+                    .addComponent(buttonBackToMainMenu, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        resultsPane.add(searchResultsControlPanel, java.awt.BorderLayout.PAGE_START);
+
+        topPanel.add(resultsPane, "card2");
+
+        getContentPane().add(topPanel, java.awt.BorderLayout.CENTER);
+
+        statusPanel.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(240, 240, 240)));
+
+        jProgressBarMemory.setString("");
+        jProgressBarMemory.setStringPainted(true);
+
+        javax.swing.GroupLayout statusPanelLayout = new javax.swing.GroupLayout(statusPanel);
+        statusPanel.setLayout(statusPanelLayout);
+        statusPanelLayout.setHorizontalGroup(
+            statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1132, Short.MAX_VALUE)
+            .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(statusPanelLayout.createSequentialGroup()
+                    .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, 835, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 297, Short.MAX_VALUE)))
+            .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(statusPanelLayout.createSequentialGroup()
+                    .addContainerGap(943, Short.MAX_VALUE)
+                    .addComponent(jProgressBarMemory, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)))
+        );
+        statusPanelLayout.setVerticalGroup(
+            statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 34, Short.MAX_VALUE)
+            .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(status, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE))
+            .addGroup(statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jProgressBarMemory, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(statusPanel, java.awt.BorderLayout.SOUTH);
+
+        fileMenu.setText("File");
+        fileMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fileMenuActionPerformed(evt);
+            }
+        });
+
+        Open.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        Open.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/folder_16.png"))); // NOI18N
+        Open.setText("Open\n");
+        Open.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OpenActionPerformed(evt);
+            }
+        });
+        fileMenu.add(Open);
+
+        Exit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+        Exit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/cancel16.png"))); // NOI18N
+        Exit.setText("Exit");
+        Exit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExitActionPerformed(evt);
+            }
+        });
+        fileMenu.add(Exit);
+
+        SavelAllDocuments.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        SavelAllDocuments.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/refresh_16.png"))); // NOI18N
+        SavelAllDocuments.setText("Save all ");
+        fileMenu.add(SavelAllDocuments);
+
+        menuBar.add(fileMenu);
+
+        actionMenu.setText("Actions");
+
+        Search.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
+        Search.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/search_16.png"))); // NOI18N
+        Search.setText("Search");
+        Search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchActionPerformed(evt);
+            }
+        });
+        actionMenu.add(Search);
+
+        Index.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
+        Index.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/process_16.png"))); // NOI18N
+        Index.setText("Index");
+        Index.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                IndexActionPerformed(evt);
+            }
+        });
+        actionMenu.add(Index);
+
+        Annotate.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        Annotate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/folder_accept_16.png"))); // NOI18N
+        Annotate.setText("Annotate");
+        Annotate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AnnotateActionPerformed(evt);
+            }
+        });
+        actionMenu.add(Annotate);
+
+        Graph.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
+        Graph.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/chart_16.png"))); // NOI18N
+        Graph.setText("Semantic Graph");
+        Graph.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActionSemanticGraph(evt);
+            }
+        });
+        actionMenu.add(Graph);
+
+        Preview.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        Preview.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/refresh_16.png"))); // NOI18N
+        Preview.setText("Preview");
+        Preview.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ActionViewXML(evt);
+            }
+        });
+        actionMenu.add(Preview);
+
+        menuBar.add(actionMenu);
+
+        optionsMenu.setText("Options");
+
+        Options.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
+        Options.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/tools-16x16.png"))); // NOI18N
+        Options.setText("Options");
+        Options.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OptionsActionPerformed(evt);
+            }
+        });
+        optionsMenu.add(Options);
+
+        menuBar.add(optionsMenu);
+
+        helpMenu.setText("Help");
+        helpMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                helpMenuActionPerformed(evt);
+            }
+        });
+
+        About.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        About.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uib/resource/info_16.png"))); // NOI18N
+        About.setText("About");
+        About.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AboutActionPerformed(evt);
+            }
+        });
+        helpMenu.add(About);
+
+        menuBar.add(helpMenu);
+
+        setJMenuBar(menuBar);
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void OpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenActionPerformed
+    }//GEN-LAST:event_OpenActionPerformed
+
+    private void fileMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileMenuActionPerformed
+        exitApplication();
+}//GEN-LAST:event_fileMenuActionPerformed
+
+    private void AboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AboutActionPerformed
+        JOptionPane.showMessageDialog(this, "<html><center><b>Simple application for Image Retrieval using CIDOC CRM/MPEG-7.</b><br>"
+                + "<br>Visit http://www.feita.net for more information.<br>"
+                + "<br>&copy; 2010-2012 by Olav Løne<br>"
+                + "olav.lone@student.uib.no<br></center></html>",
+                "About AARDVARK", JOptionPane.PLAIN_MESSAGE);
+}//GEN-LAST:event_AboutActionPerformed
+
+    private void helpMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpMenuActionPerformed
+        // TODO add your handling code here:
+}//GEN-LAST:event_helpMenuActionPerformed
+
+    private void removeObject(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeObject
+        //remObject(clickedAt);
+    }//GEN-LAST:event_removeObject
+
+    private void SearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchActionPerformed
+        CardLayout cl = (CardLayout) cardPanel.getLayout();
+        cl.show(cardPanel, "card2");
+    }//GEN-LAST:event_SearchActionPerformed
+
+    private void AnnotateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnnotateActionPerformed
+        CardLayout cl = (CardLayout) cardPanel.getLayout();
+        cl.show(cardPanel, "card4");
+    }//GEN-LAST:event_AnnotateActionPerformed
+
+    private void switchButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchButtonSearchActionPerformed
+        CardLayout cl = (CardLayout) cardPanel.getLayout();
+        cl.show(cardPanel, "card2");
+    }//GEN-LAST:event_switchButtonSearchActionPerformed
+
+    private void switchButtonIndexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchButtonIndexActionPerformed
+        CardLayout cl = (CardLayout) cardPanel.getLayout();
+        cl.show(cardPanel, "card1");
+    }//GEN-LAST:event_switchButtonIndexActionPerformed
+
+    private void switchButtonOptionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchButtonOptionsActionPerformed
+        CardLayout cl = (CardLayout) cardPanel.getLayout();
+        cl.show(cardPanel, "card5");
+}//GEN-LAST:event_switchButtonOptionsActionPerformed
+
+    private void switchButtonBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchButtonBrowseActionPerformed
+        CardLayout cl = (CardLayout) cardPanel.getLayout();
+        cl.show(cardPanel, "card3");
+        try {
+            guiUtil.initReaderImagePanel(spinnerMaxDoc, spinnerCurrentDoc);
+        } catch (IOException ex) {
+            Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        spinnerCurrentDoc.setValue(currentDocument);
+}//GEN-LAST:event_switchButtonBrowseActionPerformed
+
+    private void switchButtonAnnotateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchButtonAnnotateActionPerformed
+        CardLayout cl = (CardLayout) cardPanel.getLayout();
+        cl.show(cardPanel, "card4");
+        try {
+            if (reader == null) {
+
+                guiUtil.initReader(spinnerMaxDoc, spinnerAnnotateCurrentDoc, imageLabelAnnotate);
+            } else {
+                guiUtil.setDocumentIcon(currentDocument, imageLabelAnnotate);
+            }
+            spinnerAnnotateCurrentDoc.setValue(currentDocument);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+}//GEN-LAST:event_switchButtonAnnotateActionPerformed
+
+    private void switchButtonExperimentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchButtonExperimentActionPerformed
+        CardLayout cl = (CardLayout) cardPanel.getLayout();
+        cl.show(cardPanel, "card9");
+}//GEN-LAST:event_switchButtonExperimentActionPerformed
+
+    private void switchButtonGraphActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchButtonGraphActionPerformed
+        CardLayout cl = (CardLayout) cardPanel.getLayout();
+        cl.show(cardPanel, "card7");
+        if (reader == null) {
+            try {
+                guiUtil.initReader(spinnerMaxDoc, spinnerGraphCurrentDoc, imageLabelAnnotateGraph);
+            } catch (IOException ex) {
+                Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            guiUtil.setDocumentIcon(currentDocument, imageLabelAnnotateGraph);
+        }
+        spinnerGraphCurrentDoc.setValue(currentDocument);
+}//GEN-LAST:event_switchButtonGraphActionPerformed
+
+    private void buttonCreatePrecisionRecallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCreatePrecisionRecallActionPerformed
+        CardLayout cl = (CardLayout) cardPanel.getLayout();
+        cl.show(cardPanel, "card8");
+}//GEN-LAST:event_buttonCreatePrecisionRecallActionPerformed
+
+    private void buttonOpenDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOpenDirActionPerformed
+        JFileChooser jfc = new JFileChooser(".");
+        jfc.setDialogTitle("Select directory to index ...");
+        jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        if (jfc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            try {
+                textfieldIndexDir.setText(jfc.getSelectedFile().getCanonicalPath());
+                uib.retrieval.util.FileOperations.getAllDescriptions(jfc.getSelectedFile(), true);
+            } catch (IOException ex) {
+                Logger.getLogger("global").log(Level.SEVERE, null, ex);
+            }
+        }
+}//GEN-LAST:event_buttonOpenDirActionPerformed
+
+    private void buttonStartIndexingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonStartIndexingActionPerformed
+        if (textfieldIndexDir.getText().length() > 1) {
+            IndexingThread t = new IndexingThread(this);
+            t.start();
+        } else {
+            int result = JOptionPane.showConfirmDialog(actionMenu, "You did not "
+                    + "specify images to index.\n"
+                    + "Should Aardvark download random Flickr images for indexing?.\n"
+                    + "Note that this is rather slow an consumes a lot of bandwidth.");
+            if (result == JOptionPane.OK_OPTION) {
+                FlickrIndexingThread flickerTread = new FlickrIndexingThread(this,
+                        Integer.parseInt(maxDownloadsFromFlickerTextfield.getText()));
+                flickerTread.start();
+            }
+            System.gc();
+        }
+}//GEN-LAST:event_buttonStartIndexingActionPerformed
+
+    private void buttonSearchPanelOpenImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSearchPanelOpenImageActionPerformed
+        JFileChooser jfc = new JFileChooser(".");
+        jfc.setDialogTitle("Select file to search for...");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "JPG, PNG & GIF Images", "jpg", "gif", "png");
+        jfc.setFileFilter(filter);
+        jfc.setAccessory(new ImagePreview(jfc));
+        if (jfc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            try {
+                currentFile = jfc.getSelectedFile();
+                //guiUtil.setCurrentFile(currentFile);
+                textfieldSearchImage.setText(jfc.getSelectedFile().getCanonicalPath());
+            } catch (IOException ex) {
+                Logger.getLogger("global").log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_buttonSearchPanelOpenImageActionPerformed
+
+    private void buttonSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSearchButtonActionPerformed
+        if (textfieldSearchImage.getText().length() > 4) {
+            try {
+                SearchForImage searchImage = new SearchForImage(this, textfieldSearchImage.getText());
+                buttonSearchButton.setEnabled(false);
+                searchImage.start();
+                System.gc();
+            } catch (FileNotFoundException ex) {
+            } catch (IOException ex) {
+                Logger.getLogger("global").log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a query image first.\n"
+                    + "Use the \"Open image ...\" button to do this.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+}//GEN-LAST:event_buttonSearchButtonActionPerformed
+
+    private void spinnerAnnotateCurrentDocStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerAnnotateCurrentDocStateChanged
+        guiUtil.setDocumentImageIcon(((Integer) spinnerAnnotateCurrentDoc.getValue()).intValue(), imageLabelAnnotate);
+        try {
+            guiUtil.setExifFields(((Integer) spinnerAnnotateCurrentDoc.getValue()).intValue());
+            guiUtil.setCurrentFile(guiUtil.getCurrentDocumentFile(((Integer) spinnerAnnotateCurrentDoc.getValue()).intValue()));
+            currentDocument = (((Integer) spinnerAnnotateCurrentDoc.getValue()).intValue());
+            currentFile = guiUtil.getCurrentDocumentFile(((Integer) spinnerAnnotateCurrentDoc.getValue()).intValue());
+        } catch (CorruptIndexException ex) {
+            Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+}//GEN-LAST:event_spinnerAnnotateCurrentDocStateChanged
+
+    private void buttonAnnotateSavebuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAnnotateSavebuttonActionPerformed
+        //System.out.println(((Integer)spinnerAnnotateCurrentDoc.getValue()).intValue());
+        //try{
+        //guiUtil.writeLuceneAnnotation(((Integer) spinnerAnnotateCurrentDoc.getValue()).intValue());
+        if (currentFile != null) {
+            try {
+                guiUtil.saveFile();
+            } catch (IOException e) {
+            }
+        }
+        //}
+        
+}//GEN-LAST:event_buttonAnnotateSavebuttonActionPerformed
+
+    private void spinnerGraphCurrentDocStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerGraphCurrentDocStateChanged
+        guiUtil.setDocumentImageIcon(((Integer) spinnerGraphCurrentDoc.getValue()).intValue(), imageLabelAnnotateGraph);
+        try {
+
+            guiUtil.setCurrentFile(guiUtil.getCurrentDocumentFile(((Integer) spinnerGraphCurrentDoc.getValue()).intValue()));
+            currentDocument = (((Integer) spinnerGraphCurrentDoc.getValue()).intValue());
+            currentFile = guiUtil.getCurrentDocumentFile(((Integer) spinnerGraphCurrentDoc.getValue()).intValue());
+        } catch (IOException ex) {
+            Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+}//GEN-LAST:event_spinnerGraphCurrentDocStateChanged
+
+    private void selectboxDocumentBuilderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectboxDocumentBuilderActionPerformed
+        if (selectboxDocumentBuilder.getSelectedIndex() == 0) {
+            jsliderScalableColor.setValue(100);
+            jsliderEdgeHistogram.setValue(100);
+            jsliderColorLayout.setValue(100);
+        } else if (selectboxDocumentBuilder.getSelectedIndex() == 1) {
+            jsliderScalableColor.setValue(100);
+            jsliderEdgeHistogram.setValue(0);
+            jsliderColorLayout.setValue(0);
+        } else if (selectboxDocumentBuilder.getSelectedIndex() == 2) {
+            jsliderScalableColor.setValue(0);
+            jsliderEdgeHistogram.setValue(100);
+            jsliderColorLayout.setValue(0);
+        } else if (selectboxDocumentBuilder.getSelectedIndex() == 3) {
+            jsliderScalableColor.setValue(0);
+            jsliderEdgeHistogram.setValue(0);
+            jsliderColorLayout.setValue(100);
+        }
+}//GEN-LAST:event_selectboxDocumentBuilderActionPerformed
+
+    private void checkboxAdvancedOptionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkboxAdvancedOptionsActionPerformed
+
+        CardLayout cl = (CardLayout) panelAdvancedOptions.getLayout();
+        if (checkboxAdvancedOptions.isSelected()) {
+            cl.last(panelAdvancedOptions);
+        } else {
+            cl.first(panelAdvancedOptions);
+        }
+}//GEN-LAST:event_checkboxAdvancedOptionsActionPerformed
+
+    private void buttonChartOpenQrelsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonChartOpenQrelsActionPerformed
+        JFileChooser jfc = new JFileChooser();
+        jfc.setDialogTitle("Select qrels file...");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "textfiles", "txt");
+        jfc.setFileFilter(filter);
+        jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+        if (jfc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            try {
+                qrelsFile = (jfc.getSelectedFile().getCanonicalPath());
+            } catch (IOException ex) {
+                Logger.getLogger("global").log(Level.SEVERE, null, ex);
+            }
+        }
+}//GEN-LAST:event_buttonChartOpenQrelsActionPerformed
+
+    private void buttonOpenTopicsFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOpenTopicsFileActionPerformed
+        JFileChooser jfc = new JFileChooser();
+        jfc.setDialogTitle("Select qrels file...");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "textfiles", "txt");
+        jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        jfc.setFileFilter(filter);
+
+        if (jfc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            try {
+                topicsFile = (jfc.getSelectedFile().getCanonicalPath());
+            } catch (IOException ex) {
+                Logger.getLogger("global").log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_buttonOpenTopicsFileActionPerformed
+
+    private void buttonCreatePRGraphActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCreatePRGraphActionPerformed
+        prChart.createChart(jLabelChart.getWidth(), jLabelChart.getHeight(), jLabelChart);
+    }//GEN-LAST:event_buttonCreatePRGraphActionPerformed
+
+    private void buttonExportGraphImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExportGraphImageActionPerformed
+        JFileChooser jfc = new JFileChooser();
+        jfc.setDialogTitle("Save the chart image as a .jpg file");
+        jfc.showSaveDialog(this);
+        String fileName;
+        try {
+            fileName = jfc.getSelectedFile().getCanonicalPath();
+            prChart.saveChart(fileName);
+        } catch (IOException ex) {
+            Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_buttonExportGraphImageActionPerformed
+
+    private void resultsTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultsTableMouseClicked
+        if (evt.getButton() == MouseEvent.BUTTON3) {
+            int imageID = resultsTable.rowAtPoint(evt.getPoint());
+            if (imageID >= 0 && imageID < tableModel.getHits().length()) {
+                String file = tableModel.getHits().doc(imageID).getFieldable(DocumentBuilder.FIELD_NAME_IDENTIFIER).stringValue();
+
+                try {
+                    Desktop.getDesktop().open(new File(file));
+                } catch (IOException ex) {
+                    Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+
+        if (evt.getClickCount() == 2) {
+            int row = resultsTable.getSelectedRow();
+            Document d = tableModel.getHits().doc(row);
+            try {
+                SearchForDocument searchDoc1 = new SearchForDocument(this, d);
+                searchDoc1.start();
+            } catch (Exception e) {
+                System.err.println(e);
+            }
+
+        } else if (evt.getClickCount() == 1 && resultsTable.getSelectedColumn() == 2) {
+            final int row = resultsTable.getSelectedRow();
+            final int column = resultsTable.getSelectedColumn();
+            SwingUtilities.invokeLater(
+                    new Runnable() {
+
+                        boolean checked = (Boolean) resultsTable.getValueAt(row, column);
+
+                        @Override
+                        public void run() {
+                            if (checked == false) {
+                                SetData(true, row, column);
+                            } else {
+                                SetData(false, row, column);
+                            }
+                        }
+                    });
+
+        }
+    }//GEN-LAST:event_resultsTableMouseClicked
+
+    private void buttonBackToMainMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBackToMainMenuActionPerformed
+        CardLayout cl = (CardLayout) topPanel.getLayout();
+        cl.show(topPanel, "card1");
+        CardLayout cls = (CardLayout)cardPanel.getLayout();
+        cls.show(cardPanel, "card3");
+        buttonSearchButton.setEnabled(true);
+}//GEN-LAST:event_buttonBackToMainMenuActionPerformed
+
+    private void buttonSaveQrelsFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveQrelsFileActionPerformed
+        String qrelsDirectory = "/qrels/";
+        try {
+            String installPath = new File(".").getCanonicalPath();
+            File cacheDir = new File(installPath + qrelsDirectory);
+            if (!cacheDir.exists()) {
+                cacheDir.mkdir();
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        JFileChooser jfc = new JFileChooser("./qrels/");
+        jfc.setDialogTitle("Save the relevant images for the query");
+        int returnVal = jfc.showSaveDialog(this);
+        
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            String  fileName = jfc.getSelectedFile() + ".txt";
+            guiUtil.writeQrels(fileName);
+            try {
+                guiUtil.uploadQrels(fileName);
+            } catch (Exception ex) {
+                Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            status.setText("Action cancelled by user");
+        }
+}//GEN-LAST:event_buttonSaveQrelsFileActionPerformed
+
+    private void buttonOpenIndexButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOpenIndexButtonActionPerformed
+        JFileChooser jfc = new JFileChooser(".");
+        jfc.setDialogTitle("Select index directory...");
+        jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        if (jfc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            try {
+                textfieldIndexDirectory.setText(jfc.getSelectedFile().getCanonicalPath());
+            } catch (IOException ex) {
+                Logger.getLogger("global").log(Level.SEVERE, null, ex);
+            }
+        }
+        currentDocument = 0;
+    }//GEN-LAST:event_buttonOpenIndexButtonActionPerformed
+
+    private void IndexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IndexActionPerformed
+        CardLayout cl = (CardLayout) cardPanel.getLayout();
+        cl.show(cardPanel, "card1");
+    }//GEN-LAST:event_IndexActionPerformed
+
+    private void ActionSemanticGraph(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActionSemanticGraph
+        CardLayout cl = (CardLayout) cardPanel.getLayout();
+        cl.show(cardPanel, "card7");
+    }//GEN-LAST:event_ActionSemanticGraph
+
+    private void OptionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OptionsActionPerformed
+        CardLayout cl = (CardLayout) cardPanel.getLayout();
+        cl.show(cardPanel, "card5");
+    }//GEN-LAST:event_OptionsActionPerformed
+
+    private void ActionViewXML(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ActionViewXML
+        TextPreviewDialog preview = new TextPreviewDialog(this, guiUtil.createDocument());
+        preview.setSize(500, 900);
+        Dimension ss = Toolkit.getDefaultToolkit().getScreenSize();
+        preview.setLocation((ss.width - preview.getWidth()) / 2, (ss.height - preview.getHeight()) / 2);
+        preview.setVisible(true);
+
+        if (currentFile != null) {
+            try {
+                guiUtil.saveFile();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "No image selected!");
+        }
+    }//GEN-LAST:event_ActionViewXML
+
+    private void buttonAnnotateUpdatebuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAnnotateUpdatebuttonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonAnnotateUpdatebuttonActionPerformed
+
+    private void browseControlPanelSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_browseControlPanelSpinnerStateChanged
+        if (currentDocument < 0) {
+            JOptionPane.showMessageDialog(this, "An error occurred:\n"
+                    + " ");
+            return;
+        }
+        if (currentDocument > reader.maxDoc()) {
+            return;
+        }
+        guiUtil.setImagePanel(((Integer) spinnerCurrentDoc.getValue()).intValue());
+        try {
+            //BufferedImage img = null;
+            guiUtil.setCurrentFile(guiUtil.getCurrentDocumentFile(((Integer) spinnerCurrentDoc.getValue()).intValue()));
+            currentDocument = (((Integer) spinnerCurrentDoc.getValue()).intValue());
+            currentFile = guiUtil.getCurrentDocumentFile(((Integer) spinnerCurrentDoc.getValue()).intValue());
+        } catch (IOException ex) {
+            Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+    }//GEN-LAST:event_browseControlPanelSpinnerStateChanged
+
+    private void spinnerCurrentDocMouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_spinnerCurrentDocMouseWheelMoved
+        spinnerCurrentDoc.setValue(new Integer(((Integer) spinnerCurrentDoc.getValue()).intValue()
+                - evt.getWheelRotation()));
+        //int increment = evt.getWheelRotation();
+        //  guiUtil.setDocumentImageIcon(((Integer) jSpinner1.getValue()).intValue(), imageLabel);
+    }//GEN-LAST:event_spinnerCurrentDocMouseWheelMoved
+
+    private void buttonSearchFromBrowseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSearchFromBrowseActionPerformed
+        int docID = ((Integer) spinnerCurrentDoc.getValue()).intValue();
+        if (docID < 0 || docID > reader.maxDoc());
+        try {
+            //avatarChooser1.startSearch(this, avatarChooser1.getImage()); //Binding in beans WTF??  
+            SearchForDocument searchDoc = new SearchForDocument(this, reader.document(docID));
+            searchDoc.start();
+            System.gc();
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }//GEN-LAST:event_buttonSearchFromBrowseActionPerformed
+
+    private void jFreeGraphPanelResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jFreeGraphPanelResized
+        if (PRChartCreation.isCreated != false) {
+            prChart.createChart(jLabelChart.getWidth(), jLabelChart.getHeight(), jLabelChart);
+        }
+    }//GEN-LAST:event_jFreeGraphPanelResized
+
+    private void buttonOpenTextIndexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOpenTextIndexActionPerformed
+        JFileChooser jfc = new JFileChooser(".");
+        jfc.setMultiSelectionEnabled(false);
+
+        jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+        jfc.setFileFilter(new FileFilter() {
+
+            @Override
+            public boolean accept(File f) {
+                if (f.isDirectory()) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            @Override
+            public String getDescription() {
+                return "Directories";
+            }
+        });
+        if (jfc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            try {
+                jTextFieldDescription.setText(jfc.getSelectedFile().getCanonicalPath());
+                BASE_DIRECTORY = jfc.getSelectedFile().getCanonicalPath();
+            } catch (IOException e) {
+                System.err.println("Error reading directory: IOException - " + e.getMessage());
+            }
+        }
+    }//GEN-LAST:event_buttonOpenTextIndexActionPerformed
+
+    private void textfieldAnnotateCreatorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textfieldAnnotateCreatorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textfieldAnnotateCreatorActionPerformed
+
+    private void checkboxShowDescriptionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkboxShowDescriptionsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkboxShowDescriptionsActionPerformed
+
+    private void switchButtonAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchButtonAboutActionPerformed
+        showAbout();
+    }//GEN-LAST:event_switchButtonAboutActionPerformed
+
+    private void jButtonDownloadImagesbuttonStartDownloadPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDownloadImagesbuttonStartDownloadPerformed
+        int result = JOptionPane.showConfirmDialog(actionMenu, "You need to "
+                + "download the images in order to index them.\n"
+                + "Should Aardvark download the images for indexing?.\n"
+                + "Note that could take a couple of minutes depending\n"
+                + "on bandwidth and processing power.");
+        if (result == JOptionPane.OK_OPTION) {
+            ImageIndexingThread t = new ImageIndexingThread(this);
+            t.start();
+        }
+        System.gc();
+    }//GEN-LAST:event_jButtonDownloadImagesbuttonStartDownloadPerformed
+
+    private void jButtonStartExperimentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStartExperimentActionPerformed
+        InitializeWizard dialog = new InitializeWizard();
+        dialog.InittializeWizard(this, "Test Dialog");        
+    }//GEN-LAST:event_jButtonStartExperimentActionPerformed
+
+    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
+        final Component c = evt.getComponent();
+        c.requestFocus();
+    }//GEN-LAST:event_formWindowGainedFocus
+
+    private void buttonClearTextFieldsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonClearTextFieldsActionPerformed
+        guiUtil.resetTextFields();
+    }//GEN-LAST:event_buttonClearTextFieldsActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent event) {
+                super.windowClosing(event);
+                exitApplication();
+            }
+        });
+    }//GEN-LAST:event_formWindowClosed
+
+    private void ExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExitActionPerformed
+        exitApplication();
+    }//GEN-LAST:event_ExitActionPerformed
+
+    private void jButtonLuceneIndexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLuceneIndexActionPerformed
+        int answer = JOptionPane.showConfirmDialog(this, "Do you really want to create an index?");
+        if (answer == JOptionPane.OK_OPTION) {
+            Thread indexer = new Thread(new IndexerThread(this, "./artimages/descriptions/"));
+            indexer.start();
+        }
+    }//GEN-LAST:event_jButtonLuceneIndexActionPerformed
+
+    private void buttonSearchTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSearchTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonSearchTextActionPerformed
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                JFrame frame = new AardvarkGui();
+
+                try {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
+
+                } catch (Exception e) {
+                    Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE, null, e);
+
+                }
+                SwingUtilities.updateComponentTreeUI(frame);
+                //SwingUtilities.updateComponentTreeUI(frame);
+                /*
+                 * try { for (LookAndFeelInfo info :
+                 * UIManager.getInstalledLookAndFeels()) { if
+                 * ("Nimbus".equals(info.getName())) {
+                 * UIManager.setLookAndFeel(info.getClassName()); break; } else
+                 * {
+                 * UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                 * } }
+                 *
+                 * } catch (Exception e) {
+                 * Logger.getLogger(AardvarkGui.class.getName()).log(Level.SEVERE,
+                 * null, e);
+                 *
+                 * }
+                 *
+                 * SwingUtilities.updateComponentTreeUI(frame);
+                 */
+                frame.pack();
+                frame.setVisible(true);
+                //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            }
+        });
+    }
+
+    private void showAbout() {
+        JOptionPane.showMessageDialog(this, "<html><center><b>Simple application for Image Retrieval using CIDOC CRM/MPEG-7.</b><br>"
+                + "<br>Visit http://www.feita.net for more information.<br>"
+                + "<br>&copy; 2010 - 2012 by Olav Løne<br>"
+                + "olav.lone@student.uib.no<br></center></html>",
+                "About AARDVARK", JOptionPane.PLAIN_MESSAGE);
+
+    }
+
+    public void SetData(Object obj, int row_index, int col_index) {
+        resultsTable.getModel().setValueAt(obj, row_index, col_index);
+    }
+
+    public static void setDirty(boolean isDirty) {
+        DIRTY = isDirty;
+    }
+    public void setStatus(String text){
+        status.setText(text);
+    }
+
+    public void setCurrentDocument(int currentDocument) {
+        this.currentDocument = currentDocument;
+    }
+
+    public int getCurrentDocument() {
+        return currentDocument;
+    }
+
+    public void startSearch(int docId) throws FileNotFoundException, IOException {
+        Document d = reader.document(docId);
+        SearchForDocument searchDoc = new SearchForDocument(this, d);
+        searchDoc.start();
+    }
+    private void exitApplication(){
+        
+        graphicalAnnotation1.saveCatalog();
+        
+        if (DIRTY) {
+            if (guiUtil.askIfSave()) {
+                if (systemExitOnWindowClosing) {
+                    System.exit(0);
+                } else {
+                    setVisible(false);
+                }
+            }
+        } else {
+            if (systemExitOnWindowClosing) {
+                System.exit(0);
+            } else {
+                setVisible(false);
+            }
+        }
+    }
+
+    public File getCurrentFile() {
+        return currentFile;
+    }
+    //TODO: fix nice browserpanel
+    /*
+     * private void startAnimation() { javax.swing.Timer timer = new
+     * javax.swing.Timer(50, new ActionListener() {
+     *
+     * public void actionPerformed(ActionEvent e) { curvesPanel1.animate();
+     * curvesPanel1.repaint(); } }); timer.start(); }
+     */
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem About;
+    private javax.swing.JMenuItem Annotate;
+    private javax.swing.JPanel BrowsePanel;
+    private javax.swing.JMenuItem Exit;
+    private javax.swing.JMenuItem Graph;
+    private javax.swing.JMenuItem Index;
+    private javax.swing.JPanel IndexingPanel;
+    private javax.swing.JMenuItem Open;
+    private javax.swing.JMenuItem Options;
+    private javax.swing.JMenuItem Preview;
+    private javax.swing.JMenuItem SavelAllDocuments;
+    private javax.swing.JMenuItem Search;
+    public javax.swing.JMenu actionMenu;
+    protected javax.swing.JPanel annotatePanel;
+    private javax.swing.JPanel browseContainerPanel;
+    protected javax.swing.JPanel browseControlPanel;
+    protected uib.gui.ImagePanel browseimagePanel;
+    private javax.swing.JButton buttonAnnotateOpenImage;
+    private javax.swing.JButton buttonAnnotateOpenImage1;
+    private javax.swing.JButton buttonAnnotateSavebutton;
+    private javax.swing.JButton buttonAnnotateUpdatebutton;
+    private javax.swing.JButton buttonBackToMainMenu;
+    private javax.swing.JButton buttonChartOpenQrels;
+    private javax.swing.JButton buttonClearTextFields;
+    private javax.swing.JButton buttonCreatePRGraph;
+    private javax.swing.JButton buttonCreatePrecisionRecall;
+    private javax.swing.JButton buttonExportGraphImage;
+    public javax.swing.JButton buttonOpenDir;
+    private javax.swing.JButton buttonOpenIndexButton;
+    private javax.swing.JButton buttonOpenTextIndex;
+    private javax.swing.JButton buttonOpenTopicsFile;
+    private javax.swing.JButton buttonSaveQrelsFile;
+    private javax.swing.JButton buttonSearchButton;
+    private javax.swing.JButton buttonSearchFromBrowse;
+    private javax.swing.JButton buttonSearchPanelOpenImage;
+    private javax.swing.JButton buttonSearchText;
+    public javax.swing.JButton buttonStartIndexing;
+    protected javax.swing.JPanel cardPanel;
+    public javax.swing.JCheckBox checkBoxAddToExistingIndex;
+    private javax.swing.JCheckBox checkboxAdvancedOptions;
+    protected javax.swing.JCheckBox checkboxRamIndex;
+    public javax.swing.JCheckBox checkboxShowDescriptions;
+    private javax.swing.JPanel controlButtonsPane;
+    private javax.swing.JPanel controlPane;
+    private javax.swing.JPanel controlPanelCreateGraphPanel;
+    private javax.swing.JPanel experimentPanel;
+    private javax.swing.JMenu fileMenu;
+    public uib.annotation.panels.GraphicalAnnotation graphicalAnnotation1;
+    private javax.swing.JMenu helpMenu;
+    protected javax.swing.JLabel imageLabelAnnotate;
+    protected javax.swing.JLabel imageLabelAnnotateGraph;
+    private javax.swing.JLabel indexDirectoryLabel;
+    private javax.swing.JLabel indexTypeLabel;
+    private javax.swing.JButton jButtonDownloadImages;
+    private javax.swing.JButton jButtonLuceneIndex;
+    private javax.swing.JButton jButtonStartExperiment;
+    public javax.swing.JComboBox jComboBoxSearchModality;
+    public javax.swing.JComboBox jComboBoxSearchMode;
+    protected final javax.swing.JPanel jFreeGraphPanel = new javax.swing.JPanel();
+    private javax.swing.JLabel jLabelChart;
+    private javax.swing.JLabel jLabelDownloadImages;
+    private javax.swing.JLabel jLabelExperimentHints;
+    private javax.swing.JLabel jLabelSearchModality;
+    private javax.swing.JLabel jLabelSearchMode;
+    private javax.swing.JLabel jLabelStartExperiment;
+    public javax.swing.JPopupMenu jPopupMenuSemantic;
+    protected javax.swing.JProgressBar jProgressBarMemory;
+    private javax.swing.JScrollPane jScrollPaneFreeTextAnnotation;
+    protected javax.swing.JScrollPane jScrollPanelResults;
+    private javax.swing.JSlider jSliderAdjustFeatureWeighting;
+    public javax.swing.JTextField jTextFieldDescription;
+    private javax.swing.JLabel jlabelAnnotateCreator;
+    public javax.swing.JSlider jsliderColorLayout;
+    public javax.swing.JSlider jsliderEdgeHistogram;
+    public javax.swing.JSlider jsliderScalableColor;
+    private javax.swing.JLabel labelAdvancedOptionStructuralSemanticWeight;
+    private javax.swing.JLabel labelAdvancedOptionsMPEG7Weight;
+    private javax.swing.JLabel labelAnnotateActor;
+    private javax.swing.JLabel labelAnnotateConcept;
+    private javax.swing.JLabel labelAnnotateGraphSpinner;
+    private javax.swing.JLabel labelAnnotateName;
+    private javax.swing.JLabel labelAnnotatePanelToplabel;
+    private javax.swing.JLabel labelAnnotatePeriod;
+    private javax.swing.JLabel labelAnnotateSpinner;
+    private javax.swing.JLabel labelAnnotateTheme;
+    private javax.swing.JLabel labelAnnotateWidth;
+    private javax.swing.JLabel labelBrowseCurrentDivider;
+    private javax.swing.JLabel labelBrowseCurrentImage;
+    private javax.swing.JLabel labelBrowsePanelToplabel1;
+    private javax.swing.JLabel labelExperimentPanelToplabel;
+    private javax.swing.JLabel labelFreeTextAnnotation;
+    private javax.swing.JLabel labelGraphPanelToplabel;
+    private javax.swing.JLabel labelIndexHint;
+    private javax.swing.JLabel labelIndexingPanelToplabel;
+    private javax.swing.JLabel labelSearchPanelHintLabel;
+    private javax.swing.JLabel labelSearchPanelToplabel;
+    private javax.swing.JLabel labelShowDescriptions;
+    private javax.swing.JLabel labelSliderAdjustFeatureWeight2;
+    private javax.swing.JLabel labelSliderColorLayout;
+    private javax.swing.JLabel labelSliderEdgeHistogram;
+    private javax.swing.JLabel labelSliderFeatureWeight;
+    private javax.swing.JLabel labelSliderScalableColor;
+    private javax.swing.JLabel labelStructuralSearch;
+    private javax.swing.JLabel labelTextSearch;
+    private javax.swing.JLabel lableAnnotateLocation;
+    private javax.swing.JLabel lableAnnotateTechnique;
+    private javax.swing.JLabel lablelAnnotateActivity;
+    private javax.swing.JLabel lablelAnnotateDate;
+    private javax.swing.JLabel lablelAnnotateHeight;
+    private javax.swing.JLabel lablelAnnotateMaterials;
+    private javax.swing.JLabel maxDowloadsFromFLickerLabel;
+    private javax.swing.JTextField maxDownloadsFromFlickerTextfield;
+    private javax.swing.JMenuBar menuBar;
+    private javax.swing.JLabel numberOfResultsLabel;
+    private javax.swing.JMenu optionsMenu;
+    private javax.swing.JPanel optionsPanel;
+    private javax.swing.JLabel optionsPanelTopLabel;
+    private javax.swing.JPanel panelAdvancedOptions;
+    private javax.swing.JPanel panelAdvancedOptionsHidden;
+    public javax.swing.JPanel panelAdvancedOptionsShown;
+    private javax.swing.JPanel panelAnnotateImage;
+    private javax.swing.JPanel panelAnnotateImage1;
+    protected javax.swing.JPanel panelAnnotateKeywords;
+    private javax.swing.JPanel precisionRecallPanel;
+    private javax.swing.JLabel presicionRecallPanelTopLabel;
+    public javax.swing.JProgressBar progressBarDownloadImages;
+    public javax.swing.JProgressBar progressBarIndexing;
+    protected javax.swing.JProgressBar progressBarSearchProgress;
+    private javax.swing.JMenuItem removeObject;
+    protected javax.swing.JPanel resultsPane;
+    protected javax.swing.JTable resultsTable;
+    public javax.swing.JPanel searchPanel;
+    private javax.swing.JPanel searchResultsControlPanel;
+    private javax.swing.JMenuItem selectAll;
+    public javax.swing.JComboBox selectboxDocumentBuilder;
+    private javax.swing.JPanel semanticGraphPanel;
+    private javax.swing.JPanel semanticPanel;
+    private javax.swing.JSpinner spinnerAnnotateCurrentDoc;
+    private javax.swing.JSpinner spinnerCurrentDoc;
+    private javax.swing.JSpinner spinnerGraphCurrentDoc;
+    private javax.swing.JSpinner spinnerMaxDoc;
+    public javax.swing.JLabel status;
+    private javax.swing.JPanel statusPanel;
+    public javax.swing.JButton switchButtonAbout;
+    public javax.swing.JButton switchButtonAnnotate;
+    public javax.swing.JButton switchButtonBrowse;
+    public javax.swing.JButton switchButtonExperiment;
+    private javax.swing.JButton switchButtonGraph;
+    public javax.swing.JButton switchButtonIndex;
+    public javax.swing.JButton switchButtonOptions;
+    private javax.swing.JButton switchButtonSearch;
+    public javax.swing.JTextArea textAreaAnnotateFreetext;
+    public javax.swing.JTextField textFieldAnnotateConcept;
+    public javax.swing.JTextField textfieldAnnotateActivity;
+    public javax.swing.JTextField textfieldAnnotateActor;
+    public javax.swing.JTextField textfieldAnnotateCreator;
+    protected javax.swing.JTextField textfieldAnnotateDate;
+    public javax.swing.JTextField textfieldAnnotateHeight;
+    public javax.swing.JTextField textfieldAnnotateLocation;
+    public javax.swing.JTextField textfieldAnnotateMaterials;
+    public javax.swing.JTextField textfieldAnnotateName;
+    protected javax.swing.JTextField textfieldAnnotatePeriod;
+    public javax.swing.JTextField textfieldAnnotateTechnique;
+    public javax.swing.JTextField textfieldAnnotateTheme;
+    public javax.swing.JTextField textfieldAnnotateWidth;
+    public javax.swing.JTextField textfieldIndexDir;
+    public javax.swing.JTextField textfieldIndexDirectory;
+    protected javax.swing.JTextField textfieldNumberOfResults;
+    private javax.swing.JTextField textfieldSearchImage;
+    public javax.swing.JTextField textfieldSearchText;
+    public javax.swing.JPanel topPanel;
+    // End of variables declaration//GEN-END:variables
+}

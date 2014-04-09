@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by Mathias Lux (.) -->
+<Mpeg7 xmlns="urn:mpeg:mpeg7:schema:2001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Description xsi:type="SemanticDescriptionType">
+    <Semantics>
+      <Label>
+        <Name>Semantic Folder</Name>
+      </Label>
+      <SemanticBase xsi:type="AgentObjectType" id="id_1">
+        <Label>
+          <Name />
+        </Label>
+        <Agent xsi:type="PersonType">
+          <Name>
+            <GivenName>Paul</GivenName>
+            <FamilyName>Gauguin</FamilyName>
+          </Name>
+        </Agent>
+      </SemanticBase>
+      <SemanticBase xsi:type="AgentObjectType" id="id_1">
+        <Label>
+          <Name>John Doe</Name>
+        </Label>
+        <Agent xsi:type="PersonType">
+          <Name>
+            <GivenName>Alfred</GivenName>
+            <FamilyName>Wahlberg</FamilyName>
+          </Name>
+        </Agent>
+      </SemanticBase>
+      <SemanticBase xsi:type="AgentObjectType" id="id_1">
+        <Label>
+          <Name>None</Name>
+        </Label>
+        <Agent xsi:type="PersonType">
+          <Name>
+            <GivenName>Carl Gustav</GivenName>
+            <FamilyName>Carus</FamilyName>
+          </Name>
+        </Agent>
+      </SemanticBase>
+      <SemanticBase xsi:type="AgentObjectType">
+        <Label>
+          <Name>Olav Løne</Name>
+        </Label>
+        <Agent xsi:type="PersonType">
+          <Name>
+            <GivenName>Olav</GivenName>
+            <FamilyName>Løne</FamilyName>
+          </Name>
+        </Agent>
+      </SemanticBase>
+      <SemanticBase xsi:type="AgentObjectType">
+        <Label>
+          <Name>Salvador Dali</Name>
+        </Label>
+        <Agent xsi:type="PersonType">
+          <Name>
+            <GivenName>Salvador</GivenName>
+            <FamilyName>Dali</FamilyName>
+          </Name>
+        </Agent>
+      </SemanticBase>
+      <SemanticBase xsi:type="AgentObjectType">
+        <Label>
+          <Name>Vincent Van Gogh</Name>
+        </Label>
+        <Agent xsi:type="PersonType">
+          <Name>
+            <GivenName>Vincent</GivenName>
+            <FamilyName>Van Gogh</FamilyName>
+          </Name>
+          <Affiliation>
+            <Organization>
+              <Name>Know-Center</Name>
+            </Organization>
+          </Affiliation>
+          <Address>
+            <PostalAddress>
+              <AddressLine>Inffeldgasse 21a</AddressLine>
+              <AddressLine>8010 Graz</AddressLine>
+              <AddressLine>AUSTRIA</AddressLine>
+            </PostalAddress>
+          </Address>
+          <ElectronicAddress>
+            <Telephone>+43 (316) 873 9274</Telephone>
+            <Email>mlux@know-center.at</Email>
+            <Url>http://www.know-center.at</Url>
+          </ElectronicAddress>
+        </Agent>
+      </SemanticBase>
+      <SemanticBase xsi:type="SemanticTimeType" id="id_2">
+        <Label>
+          <Name>1647</Name>
+        </Label>
+        <Definition>
+          <FreeTextAnnotation>This semantic time defines the period of 1635</FreeTextAnnotation>
+        </Definition>
+        <Time>
+          <TimePoint>1635-07-01T12:00</TimePoint>
+        </Time>
+      </SemanticBase>
+      <SemanticBase xsi:type="SemanticTimeType" id="id_2">
+        <Label>
+          <Name>1796</Name>
+        </Label>
+        <Definition>
+          <FreeTextAnnotation>This semantic time defines the year of 1796</FreeTextAnnotation>
+        </Definition>
+        <Time>
+          <TimePoint>2004-07-01T12:00</TimePoint>
+        </Time>
+      </SemanticBase>
+      <SemanticBase xsi:type="SemanticTimeType" id="id_2">
+        <Label>
+          <Name>1801</Name>
+        </Label>
+        <Definition>
+          <FreeTextAnnotation>This semantic time defines the period of 1889</FreeTextAnnotation>
+        </Definition>
+        <Time>
+          <TimePoint>2004-07-01T12:00</TimePoint>
+        </Time>
+      </SemanticBase>
+      <SemanticBase xsi:type="SemanticTimeType" id="id_2">
+        <Label>
+          <Name>1813</Name>
+        </Label>
+        <Definition>
+          <FreeTextAnnotation>This semantic time defines the period of 1813</FreeTextAnnotation>
+        </Definition>
+        <Time>
+          <TimePoint>1813-07-01T12:00</TimePoint>
+        </Time>
+      </SemanticBase>
+      <SemanticBase xsi:type="SemanticTimeType" id="id_2">
+        <Label>
+          <Name>1829</Name>
+        </Label>
+        <Definition>
+          <FreeTextAnnotation>This semantic time defines the year of 1829</FreeTextAnnotation>
+        </Definition>
+        <Time>
+          <TimePoint>2004-07-01T12:00</TimePoint>
+        </Time>
+      </SemanticBase>
+      <SemanticBase xsi:type="SemanticTimeType" id="id_2">
+        <Label>
+          <Name>1851</Name>
+        </Label>
+        <Definition>
+          <FreeTextAnnotation>This semantic time defines the period of 1851</FreeTextAnnotation>
+        </Definition>
+        <Time>
+          <TimePoint>2004-07-01T12:00</TimePoint>
+        </Time>
+      </SemanticBase>
+      <SemanticBase xsi:type="SemanticTimeType" id="id_2">
+        <Label>
+          <Name>1858</Name>
+        </Label>
+        <Definition>
+          <FreeTextAnnotation>This semantic time defines october in the year of 1858</FreeTextAnnotation>
+        </Definition>
+        <Time>
+          <TimePoint>2004-07-01T12:00</TimePoint>
+        </Time>
+      </SemanticBase>
+      <SemanticBase xsi:type="SemanticTimeType" id="id_2">
+        <Label>
+          <Name>1884</Name>
+        </Label>
+        <Definition>
+          <FreeTextAnnotation>This semantic time defines the year of 1873</FreeTextAnnotation>
+        </Definition>
+        <Time>
+          <TimePoint>2004-07-01T12:00</TimePoint>
+        </Time>
+      </SemanticBase>
+      <SemanticBase xsi:type="SemanticTimeType" id="id_2">
+        <Label>
+          <Name>1885</Name>
+        </Label>
+        <Definition>
+          <FreeTextAnnotation>This semantic time defines the year of 1839</FreeTextAnnotation>
+        </Definition>
+        <Time>
+          <TimePoint>2004-07-01T12:00</TimePoint>
+        </Time>
+      </SemanticBase>
+      <SemanticBase xsi:type="SemanticTimeType">
+        <Label>
+          <Name>1899</Name>
+        </Label>
+        <Definition>
+          <FreeTextAnnotation>This semantic time defines the summer in the year 2004</FreeTextAnnotation>
+        </Definition>
+        <Time>
+          <TimePoint>2004-07-01T12:00</TimePoint>
+        </Time>
+      </SemanticBase>
+      <SemanticBase xsi:type="SemanticTimeType">
+        <Label>
+          <Name>Almond Tree</Name>
+        </Label>
+        <Definition>
+          <FreeTextAnnotation>This semantic time defines the summer in the year 2004</FreeTextAnnotation>
+        </Definition>
+        <Time>
+          <TimePoint>2004-07-01T12:00</TimePoint>
+        </Time>
+      </SemanticBase>
+      <SemanticBase xsi:type="ObjectType">
+        <Label>
+          <Name>Dusk</Name>
+        </Label>
+        <Definition>
+          <FreeTextAnnotation>Dusk at the river</FreeTextAnnotation>
+        </Definition>
+      </SemanticBase>
+      <SemanticBase xsi:type="SemanticTimeType" id="id_2">
+        <Label>
+          <Name>Summer 1870</Name>
+        </Label>
+        <Definition>
+          <FreeTextAnnotation>This semantic time defines the summer in the year 1870</FreeTextAnnotation>
+        </Definition>
+        <Time>
+          <TimePoint>2004-07-01T12:00</TimePoint>
+        </Time>
+      </SemanticBase>
+      <SemanticBase xsi:type="SemanticTimeType" id="id_2">
+        <Label>
+          <Name>Summer 1889</Name>
+        </Label>
+        <Definition>
+          <FreeTextAnnotation>This semantic time defines the summer in the year 1889</FreeTextAnnotation>
+        </Definition>
+        <Time>
+          <TimePoint>2004-07-01T12:00</TimePoint>
+        </Time>
+      </SemanticBase>
+      <SemanticBase xsi:type="SemanticTimeType">
+        <Label>
+          <Name>The Hague</Name>
+        </Label>
+        <Definition>
+          <FreeTextAnnotation>This semantic time defines the summer in the year 2004</FreeTextAnnotation>
+        </Definition>
+        <Time>
+          <TimePoint>2004-07-01T12:00</TimePoint>
+        </Time>
+      </SemanticBase>
+    </Semantics>
+  </Description>
+</Mpeg7>
+

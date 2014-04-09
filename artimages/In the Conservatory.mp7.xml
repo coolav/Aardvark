@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Mpeg7 xmlns="urn:mpeg:mpeg7:schema:2001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <DescriptionMetadata>
+        <Version>5.0</Version>
+        <Comment>
+            <FreeTextAnnotation />
+        </Comment>
+        <Creator>
+            <Role href="creatorCS">
+                <Name>Creator</Name>
+            </Role>
+            <Agent xsi:type="PersonType">
+                <Name>
+                    <FamilyName>Olav</FamilyName>
+                    <GivenName>Løne</GivenName> 
+                </Name>
+            </Agent>
+        </Creator>
+        <CreationTime>2012-04-19T17:13</CreationTime>
+        <Instrument>
+            <Tool>
+                <Name>Aardvark v0.56</Name>
+            </Tool>
+        </Instrument>
+    </DescriptionMetadata>
+    <Description xsi:type="ContentEntityType">
+        <MultimediaContent xsi:type="ImageType">
+            <Image>
+                <MediaInformation>
+                    <MediaProfile master="true">
+                        <MediaFormat>
+                            <Content href="image" />
+                            <FileFormat href="urn:mpeg:MPEG7FileFormatCS:1">
+                                <Name>JPEG</Name>
+                            </FileFormat>
+                            <VisualCoding>
+                                <Format href="urn:mpeg:MPEG7FileFormatCS:1" colorDomain="color">
+                                    <Name>JPEG</Name>
+                                </Format>
+                                <Pixel bitsPer="24" />
+                                <Frame width="2592" height="1944" />
+                            </VisualCoding>
+                        </MediaFormat>
+                        <MediaInstance>
+                            <InstanceIdentifier />
+                            <MediaLocator>
+                                <MediaUri>C:\Users\Olav\Documents\Oppgaave\Bilete\In the Conservatory.jpg</MediaUri>
+                            </MediaLocator>
+                        </MediaInstance>
+                    </MediaProfile>
+                    <MediaProfile>
+                        <MediaFormat>
+                            <Content href="image" />
+                            <FileFormat href="urn:mpeg:MPEG7FileFormatCS:1">
+                                <Name>JPEG</Name>
+                            </FileFormat>
+                            <VisualCoding>
+                                <Format href="urn:mpeg:MPEG7FileFormatCS:1" colorDomain="color">
+                                    <Name>JPEG</Name>
+                                </Format>
+                                <Pixel bitsPer="24" />
+                                <Frame width="120" height="120" />
+                            </VisualCoding>
+                        </MediaFormat>
+                        <MediaInstance>
+                            <InstanceIdentifier />
+                            <MediaLocator>
+                                <MediaUri>C:\Users\Olav\Documents\Oppgaave\Bilete\In the Conservatory.jpg</MediaUri>
+                            </MediaLocator>
+                        </MediaInstance>
+                    </MediaProfile>
+                </MediaInformation>
+                <CreationInformation>
+                    <Creation>
+                        <Title>Creation information</Title>
+                        <Creator>
+                            <Role href="creatorCS">
+                                <Name>Creator</Name>
+                            </Role>
+                            <Agent xsi:type="PersonType">
+                                <Name>
+                                    <FamilyName>Manet</FamilyName>
+                                    <GivenName>Edouard</GivenName>
+                                </Name>
+                            </Agent>
+                        </Creator>
+                        <CreationCoordinates>
+                            <Date>
+                                <TimePoint>2008-05-28T22:02:13</TimePoint>
+                            </Date>
+                        </CreationCoordinates>
+                        </Creation>
+                    </CreationInformation>  
+                    <TextAnnotation>
+                        <FreeTextAnnotation>
+                            Manet preferred compositions with two figures as opposed to the straightforward portrait 
+                            form because it opened up the possibility of interesting dialogue situations. The double 
+                            portrait of Jules Guillemet and his wife, painted in the conservatory of the painter 
+                            Johann Georges Otto Rosen, is one of the most important of these works because of the 
+                            sensitivity with which it uses the most delicate nuances of colours and contrasts to 
+                            describe and re-connect the psychologically tense, only outwardly detached, relationship 
+                            of the two figures. The theme of the picture is the interplay between the elegant lady — 
+                            the owner of a fashion shop in Paris — and the gentlemen turned in her direction. 
+                            He seems rather small due to the way he is bending over and brushes against the upper 
+                            edge of the picture, while the feminine beauty with the effortless noblesse of her extended 
+                            posture occupies a large part of the picture space. Despite their being separated by the 
+                            back of the seat — with its own graphic appeal by virtue of its transparency — the understated 
+                            focal point of this rich conservatory scene with all its plant forms and subtle colours is the 
+                            hands approaching each other. Manet’s paintings are fascinating for a variety of reasons: 
+                            a palette of colours that is subtle yet not without the tension of contrast, plus subject 
+                            matter that is free from literary or symbolic content. This is painting at its highest level, 
+                            drawing on an uncommonly fertile imagination, on the constant awareness of visual phenomena, 
+                            and on a gift for laconic observation that translates every sight into a subtly mediated 
+                            experience for the eyes. Particularly in the compositions with two or more figures, there are 
+                            also extremely skilfully dramatized scenes with psychologically intriguing configurations of
+                            actors or often of silent players, wordless and motionless like the different elements in a still life.
+                        </FreeTextAnnotation>
+                        <StructuredAnnotation>
+                            <Name>	
+                                <Name>In the Conservatory</Name>
+                            </Name>
+                            <Creator>
+                                <Name>Edouard Manet</Name>	
+                            </Creator>
+                            <Period>
+                                <Name>Impressionism</Name>          						
+                            </Period>
+                            <Technique>
+                                <Name>Oil painting</Name>
+                            </Technique>
+                            <Materials>
+                                <Name>Oil on canvas</Name>
+                            </Materials>
+                            <Height>
+                                <Name></Name>
+                            </Height>
+                            <Width>
+                                <Name></Name>
+                            </Width>
+                            <Date>
+                                <Name>
+                                    1879
+                                </Name>
+                            </Date>
+                            <Actor>
+                                <Name>Jules Guillemet, M-me Jules Guillemet, Johann Georges Otto Rosen</Name>          
+                            </Actor>
+                            <Location>
+                                <Name>Stockholm, Sweden</Name> 
+                            </Location>
+                            <Activity>
+                                <Name>Couple in conservatory</Name>
+                            </Activity>
+                            <Theme>
+                                <Name>Impressionism, Conservatory, Relationships, Color, Plants</Name>
+                            </Theme>
+                            <Concept>
+                                <Name>Man, Woman, Bench, Urn, Flowersm Plants, Conservatory, Dress, Suit, Umbrella</Name>
+                            </Concept>															            
+                        </StructuredAnnotation>
+                    </TextAnnotation>
+                    <Semantic>
+                        <Label>
+                            <Name />
+                        </Label>
+                        <SemanticBase xsi:type="AgentObjectType" id="id_1">
+                            <Label>
+                                <Name></Name>
+                            </Label>
+                            <Agent xsi:type="PersonType">
+                                <Name>
+                                    <GivenName>Edouard</GivenName>
+                                    <FamilyName>Manet</FamilyName>
+                                </Name>
+                            </Agent>
+                        </SemanticBase>
+                        <SemanticBase xsi:type="SemanticTimeType" id="id_2">
+                            <Label>
+                                <Name>1879</Name>
+                            </Label>
+                            <Definition>
+                                <FreeTextAnnotation>This semantic time defines the period of 1879</FreeTextAnnotation>
+                            </Definition>
+                            <Time>
+                                <TimePoint>2004-07-01T12:00</TimePoint>
+                            </Time>
+                        </SemanticBase>
+                        <SemanticBase xsi:type="EventType" id="id_3">
+                            <Label>
+                                <Name>A scene depicting a couple in a conservatory</Name>
+                            </Label>
+                            <Definition>
+                                <FreeTextAnnotation></FreeTextAnnotation>
+                            </Definition>
+                            <Event>
+                                <Label>
+                                    <Name>Portrait</Name>
+                                </Label>
+                                <SemanticPlace>
+                                    <Label>
+                                        <Name>
+                                           Sweden
+                                        </Name>
+                                    </Label>
+                                </SemanticPlace>
+                                <SemanticTime>
+                                    <Label>
+                                        <Name>Time of the event</Name>
+                                    </Label>
+                                    <Time>
+                                        <TimePoint>1879-10-08T10:50</TimePoint>
+                                    </Time>
+                                </SemanticTime>
+                            </Event>
+                        </SemanticBase>
+                        <SemanticBase xsi:type="EventType" id="id_4">
+                            <Label>
+                                <Name>Composition scene</Name>
+                            </Label>
+                            <Definition>
+                                <FreeTextAnnotation>Édouard Manet was one of the most important and controversial 
+                                French painters of the 19th century, whose works sometimes scandalized Parisian 
+                                society and became a great inspiration for the Impressionists. In 1845 he took part 
+                                in a special course of drawing and met Antonin Proust who later became the Minister 
+                                of Fine Arts. From 1850–56 Manet was an apprentice under the history painter Thomas 
+                                Couture and copied the old masters in the Louvre. In 1853 he travelled to Germany, 
+                                Italy and the Netherlands where he was influenced by Dutch artists such as Frans Hals 
+                                as well as by Spanish painters like Diego Velázquez and Francisco Josè de Goya. 
+                                In 1856 he opened his own studio. During his early years his style was characterized 
+                                by simplified details and the realism of his day. His main subjects were people, for 
+                                example in cafés or ballet scenes, humble persons such as beggars or gypsies and scenes 
+                                of daily life. Rather less frequently, he also painted religious, mythological or historical 
+                                themes. His friends included several Impressionist painters such as Claude Monet, 
+                                Pierre-Auguste Renoir or Paul Cézanne. Manet became famous for artworks like 'Le déjeuner 
+                                sur l’herbe' (1862), 'Olympia' (1863) 'A Bar at the Folies-Bergère' (1882) and 'The Café Concert' (1878).
+                                </FreeTextAnnotation>
+                            </Definition>
+                            </SemanticBase>
+                            <SemanticBase xsi:type="ConceptType" id="id_6">
+                                <Label>
+                                    <Name>Relationships, Tense, Couples, Conservatory</Name>
+                                </Label>
+                                <Agent xsi:type="AbstractType">
+                                    <Name>
+                                        <GivenName>Edouard</GivenName>
+                                        <FamilyName>Manet</FamilyName>
+                                    </Name>
+                                </Agent>
+                            </SemanticBase>
+                            <Graph>
+                                <Relation type="urn:mpeg:mpeg7:cs:SemanticRelationCS:2001:exemplifies" source="#id_3" target="#id_2" />
+                                <Relation type="urn:mpeg:mpeg7:cs:SemanticRelationCS:2001:appearsIn" source="#id_2" target="#id_1" />
+                            </Graph>
+                        </Semantic>        
+                    </Image>
+                </MultimediaContent>
+            </Description>
+        </Mpeg7>
+

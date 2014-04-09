@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Mpeg7 xmlns="urn:mpeg:mpeg7:schema:2001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <DescriptionMetadata>
+        <Version>5.0</Version>
+        <Comment>
+            <FreeTextAnnotation />
+        </Comment>
+        <Creator>
+            <Role href="creatorCS">
+                <Name>Creator</Name>
+            </Role>
+            <Agent xsi:type="PersonType">
+                <Name>
+                    <FamilyName>Olav</FamilyName>
+                    <GivenName>Løne</GivenName> 
+                </Name>
+            </Agent>
+        </Creator>
+        <CreationTime>2012-04-19T17:13</CreationTime>
+        <Instrument>
+            <Tool>
+                <Name>Aardvark v0.56</Name>
+            </Tool>
+        </Instrument>
+    </DescriptionMetadata>
+    <Description xsi:type="ContentEntityType">
+        <MultimediaContent xsi:type="ImageType">
+            <Image>
+                <MediaInformation>
+                    <MediaProfile master="true">
+                        <MediaFormat>
+                            <Content href="image" />
+                            <FileFormat href="urn:mpeg:MPEG7FileFormatCS:1">
+                                <Name>JPEG</Name>
+                            </FileFormat>
+                            <VisualCoding>
+                                <Format href="urn:mpeg:MPEG7FileFormatCS:1" colorDomain="color">
+                                    <Name>JPEG</Name>
+                                </Format>
+                                <Pixel bitsPer="24" />
+                                <Frame width="2592" height="1944" />
+                            </VisualCoding>
+                        </MediaFormat>
+                        <MediaInstance>
+                            <InstanceIdentifier />
+                            <MediaLocator>
+                                <MediaUri>C:\Users\Olav\Documents\Oppgaave\Bilete\Moonrise over the Sea.jpg</MediaUri>
+                            </MediaLocator>
+                        </MediaInstance>
+                    </MediaProfile>
+                    <MediaProfile>
+                        <MediaFormat>
+                            <Content href="image" />
+                            <FileFormat href="urn:mpeg:MPEG7FileFormatCS:1">
+                                <Name>JPEG</Name>
+                            </FileFormat>
+                            <VisualCoding>
+                                <Format href="urn:mpeg:MPEG7FileFormatCS:1" colorDomain="color">
+                                    <Name>JPEG</Name>
+                                </Format>
+                                <Pixel bitsPer="24" />
+                                <Frame width="120" height="120" />
+                            </VisualCoding>
+                        </MediaFormat>
+                        <MediaInstance>
+                            <InstanceIdentifier />
+                            <MediaLocator>
+                                <MediaUri>C:\Users\Olav\Documents\Oppgaave\Bilete\Moonrise over the Sea.jpg</MediaUri>
+                            </MediaLocator>
+                        </MediaInstance>
+                    </MediaProfile>
+                </MediaInformation>
+                <CreationInformation>
+                    <Creation>
+                        <Title>Creation information</Title>
+                        <Creator>
+                            <Role href="creatorCS">
+                                <Name>Creator</Name>
+                            </Role>
+                            <Agent xsi:type="PersonType">
+                                <Name>
+                                    <FamilyName>Friedrich</FamilyName>
+                                    <GivenName>Caspar David</GivenName>
+                                </Name>
+                            </Agent>
+                        </Creator>
+                        <CreationCoordinates>
+                            <Date>
+                                <TimePoint>2008-05-28T22:02:13</TimePoint>
+                            </Date>
+                        </CreationCoordinates>
+                        </Creation>
+                    </CreationInformation>  
+                    <TextAnnotation>
+                        <FreeTextAnnotation>
+                           Like its companion piece, the evening picture of the diptych was painted in 1822. 
+                           In Moonrise on the Seashore Friedrich took up one of his favorite themes. In the 
+                           reflected light of the night sky, it is as though the surface of the water begins 
+                           to glow all of its own accord, taking up the light of heaven, as it were. Clouds 
+                           have come up and the round shape of the full moon is half hidden behind the banks 
+                           of cloud at the horizon. This means that the moonlight does not fall evenly but 
+                           seems to be breaking out of a gateway in the clouds, creating a magical play of 
+                           light. Complementary colours, ranging from golden to whitish yellow, violet and blue, 
+                           define the contrasts of light and shade. There is a sense of the magnitude and unity 
+                           of the universe. Moved by this wonder of nature, three people sit on rounded rocks 
+                           near the shore, and their dark silhouettes heighten the effect of the gleaming light 
+                           of the sky and the sea. Two sailing ships pursue a ghostly course across the water. 
+                           The sublime drama with the moon as the symbol of hope is imbued with a quality of 
+                           unearthly beauty.
+                         </FreeTextAnnotation>
+                        <StructuredAnnotation>
+                            <Name>	
+                                <Name>Moonrise over the Sea</Name>
+                            </Name>
+                            <Creator>
+                                <Name>Caspar David Friedrich</Name>	
+                            </Creator>
+                            <Period>
+                                <Name>Romanticisism</Name>          						
+                            </Period>
+                            <Technique>
+                                <Name>Oil painting</Name>
+                            </Technique>
+                            <Materials>
+                                <Name>Oil on canvas</Name>
+                            </Materials>
+                            <Height>
+                                <Name></Name>
+                            </Height>
+                            <Width>
+                                <Name></Name>
+                            </Width>
+                            <Date>
+                                <Name>
+                                    1822
+                                </Name>
+                            </Date>
+                            <Actor>
+                                <Name>A familiy</Name>          
+                            </Actor>
+                            <Location>
+                                    <Name>Unknown</Name> 
+                            </Location>
+                            <Activity>
+                                <Name>Watching the moonrise</Name>
+                            </Activity>
+                            <Theme>
+                                <Name>Romatisicm, Early 19th century, Germany, Hope, Beauty, Rebirth, Moonlight, Dusk, Night, Sea, Nautic, Clouds, Ghostly</Name>
+                            </Theme>
+                            <Concept>
+                                <Name>Boats, Ships, Women, Men, Clouds, Moon, Beach, Sea, Rocks</Name>
+                            </Concept>															            
+                        </StructuredAnnotation>
+                    </TextAnnotation>
+                    <Semantic>
+                        <Label>
+                            <Name />
+                        </Label>
+                        <SemanticBase xsi:type="AgentObjectType" id="id_1">
+                            <Label>
+                                <Name></Name>
+                            </Label>
+                            <Agent xsi:type="PersonType">
+                                <Name>
+                                    <GivenName>Caspar David</GivenName>
+                                    <FamilyName>Friedrich</FamilyName>
+                                </Name>
+                            </Agent>
+                        </SemanticBase>
+                        <SemanticBase xsi:type="SemanticTimeType" id="id_2">
+                            <Label>
+                                <Name>1822</Name>
+                            </Label>
+                            <Definition>
+                                <FreeTextAnnotation>This semantic time defines the period of 1822</FreeTextAnnotation>
+                            </Definition>
+                            <Time>
+                                <TimePoint>1822-07-01T12:00</TimePoint>
+                            </Time>
+                        </SemanticBase>
+                        <SemanticBase xsi:type="EventType" id="id_3">
+                            <Label>
+                                <Name>A landscape scene depicting a family looking at the moonrise by the sea at dusk</Name>
+                            </Label>
+                            <Definition>
+                                <FreeTextAnnotation></FreeTextAnnotation>
+                            </Definition>
+                            <Event>
+                                <Label>
+                                    <Name>Landscape scene</Name>
+                                </Label>
+                                <SemanticPlace>
+                                    <Label>
+                                        <Name>
+                                            Germany
+                                        </Name>
+                                    </Label>
+                                </SemanticPlace>
+                                <SemanticTime>
+                                    <Label>
+                                        <Name>Time of the event</Name>
+                                    </Label>
+                                    <Time>
+                                        <TimePoint>11822-10-08T10:50</TimePoint>
+                                    </Time>
+                                </SemanticTime>
+                            </Event>
+                        </SemanticBase>
+                        <SemanticBase xsi:type="EventType" id="id_4">
+                            <Label>
+                                <Name>Outdoor Scene</Name>
+                            </Label>
+                            <Definition>
+                                <FreeTextAnnotation>
+                                    Caspar David Friedrich was the most important German painter and draughtsman of 
+                                    the early Romantic period. He started his artistic training in 1790 when he became 
+                                    a private student of Johann Gottfried Quistorp in Greifswald. In 1794 he entered 
+                                    the Academy of Copenhagen where he formed his style copying antique sculptures. 
+                                    During this period he served as an apprentice under Christian August Lorentzen and 
+                                    Jens Juel. These artists were exponents of the Sturm und Drang movement which was 
+                                    characterized by individual subjectivity and heightened emotionality. Friedrich 
+                                    settled in Dresden, where he worked in printmaking with etchings and layouts for 
+                                    woodcuts, later turning to watercolours, ink and sepias. From 1801 he made frequent
+                                    trips to the Baltic coast and various German mountains, drawing inspiration for a 
+                                    number of landscape paintings which soon became his favourite subject. Friedrich won 
+                                    a competition, set up by Johann Wolfgang von Goethe in Weimar in 1805, with his 
+                                    sepia drawings 'Procession at Dawn' and 'Fisher-Folk by the Sea'. He also gained 
+                                    recognition for being the first artist to depict a landscape in an altarpiece, with 
+                                    'The Cross in the Mountains' (1807) becoming one of his most important artworks. 
+                                    In 1810 he was appointed a member of the Berlin Academy. He was held in high esteem 
+                                    even as far away as Russia, by the Grand Duke Nikolai Pavlovich and the tutor to 
+                                    Alexander II, Vasily Zhukovsky, who supported him by purchasing works himself and 
+                                    recommending him to other nobles. Friedrich’s prestige decreased over the last years 
+                                    of his life when he lived in relative poverty, making him dependent on the charity 
+                                    of friends. Among them were a number of important artists such as Philipp Otto Runge, 
+                                    Georg Friedrich Kersting and Christian Dahl. Friedrich’s compositions are characterized 
+                                    by metaphysical transcendence. His main subjects were landscapes and he forged a new 
+                                    way of depicting nature: often using a ‘back figure’, whereby a figure contemplating 
+                                    the view is seen from behind. His landscapes widely present religious topics, while 
+                                    his winter landscapes show a raw and powerful side to nature of a kind never depicted 
+                                    before. It is purely thanks to Friedrich and other Romantic painters that the genre of 
+                                    landscape painting holds such an important status within Western art as a whole. Among 
+                                    his most famous works are 'The Wanderer above the Mists' (1818), 'Chalk Cliffs on Rügen' 
+                                    (1818), 'The Abbey in the Oakwood' (1808–10) and 'Man and Woman Contemplating the Moon' 
+                                    (1830–35).
+                                </FreeTextAnnotation>
+                            </Definition>
+                            </SemanticBase>
+                            <SemanticBase xsi:type="ConceptType" id="id_6">
+                                <Label>
+                                    <Name>Hope, Beauty, Calm, Moonlight</Name>
+                                </Label>
+                                <Agent xsi:type="AbstractType">
+                                    <Name>
+                                        <GivenName>Caspar David</GivenName>
+                                        <FamilyName>Friedrich</FamilyName>
+                                    </Name>
+                                </Agent>
+                            </SemanticBase>
+                            <Graph>
+                                <Relation type="urn:mpeg:mpeg7:cs:SemanticRelationCS:2001:exemplifies" source="#id_3" target="#id_2" />
+                                <Relation type="urn:mpeg:mpeg7:cs:SemanticRelationCS:2001:appearsIn" source="#id_2" target="#id_1" />
+                            </Graph>
+                        </Semantic>        
+                    </Image>
+                </MultimediaContent>
+            </Description>
+        </Mpeg7>
+
